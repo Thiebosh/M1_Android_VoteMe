@@ -1,0 +1,53 @@
+package com.lesbougs.androidprojectm1;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class ListFormActivity extends AppCompatActivity {
+
+    private boolean mFlagChangeActivity = false;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_list_form);
+    }
+
+    @Override
+    public void onRestart() {//retour à l'écran principal avant déconnexion
+        super.onRestart();
+
+        //deconnexion
+
+        if (!mFlagChangeActivity) {
+            startActivity((new Intent(ListFormActivity.this, LoginActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        }
+        else mFlagChangeActivity = false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.admin, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.menu_admin_logout:
+
+                //deconnexion
+
+                startActivity((new Intent(ListFormActivity.this, LoginActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+}
