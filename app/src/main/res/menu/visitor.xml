@@ -5,7 +5,7 @@
     <item
         android:id="@+id/menu_visitor_backward"
         android:icon="@drawable/ic_launcher_foreground"
-        app:showAsAction="ifRoom"
-        android:title="Retour à l'accueil"/>
+        app:showAsAction="ifRoom|withText"
+        android:title="Accueil"/>
 
 </menu>

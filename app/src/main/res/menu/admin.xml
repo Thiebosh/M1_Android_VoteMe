@@ -5,7 +5,7 @@
     <item
         android:id="@+id/menu_admin_logout"
         android:icon="@drawable/ic_launcher_foreground"
-        app:showAsAction="ifRoom"
-        android:title="Déconnexion"/>
+        app:showAsAction="ifRoom|withText"
+        android:title="Retour"/>
 
 </menu>

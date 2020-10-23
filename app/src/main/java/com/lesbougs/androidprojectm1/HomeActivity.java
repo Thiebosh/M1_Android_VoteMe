@@ -17,7 +17,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        ((Button) findViewById(R.id.formButton)).setOnClickListener(v -> {
+        ((Button) findViewById(R.id.act_hom_formButton)).setOnClickListener(v -> {
             startActivity((new Intent(HomeActivity.this, VisitorActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         });
     }

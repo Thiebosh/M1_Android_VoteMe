@@ -18,12 +18,13 @@ public class FormListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_form_list, container, false);
+        //Toast.makeText(getActivity().getApplicationContext(),"coucou !", Toast.LENGTH_SHORT).show();
 
-        ((Button) view.findViewById(R.id.resultButton)).setOnClickListener(v -> {
+        ((Button) view.findViewById(R.id.fra_for_lis_resultButton)).setOnClickListener(v -> {
             ((NavigationHost) getActivity()).navigateTo(new FormResultFragment(), true); // Navigate to the next Fragment
         });
 
-        ((Button) view.findViewById(R.id.editButton)).setOnClickListener(v -> {
+        ((Button) view.findViewById(R.id.fra_for_lis_editButton)).setOnClickListener(v -> {
             ((NavigationHost) getActivity()).navigateTo(new FormEditFragment(), true); // Navigate to the next Fragment
         });
 
