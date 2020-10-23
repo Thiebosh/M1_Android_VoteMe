@@ -11,17 +11,14 @@ import android.widget.Button;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private Button mLoginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //methode 1, 2 dans LoginActivity
-        mLoginButton = (Button) findViewById(R.id.formButton);
-        mLoginButton.setOnClickListener(v -> {
-            startActivity((new Intent(HomeActivity.this, FormActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        ((Button) findViewById(R.id.formButton)).setOnClickListener(v -> {
+            startActivity((new Intent(HomeActivity.this, VisitorActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         });
     }
 
@@ -37,7 +34,7 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.menu_home_login:
-                startActivity((new Intent(HomeActivity.this, LoginActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity((new Intent(HomeActivity.this, AdminActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

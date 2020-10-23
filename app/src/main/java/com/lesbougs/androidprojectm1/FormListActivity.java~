@@ -7,8 +7,10 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
-public class ListFormActivity extends AppCompatActivity {
+public class FormListActivity extends AppCompatActivity implements NavigationHost {
 
     private boolean mFlagChangeActivity = false;
 
@@ -16,6 +18,27 @@ public class ListFormActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_form);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, new ListFormResultFragment())
+                    .commit();
+        }
+    }
+
+    @Override
+    public void navigateTo(Fragment fragment, boolean addToBackstack) { //tous les fragments de cette activité en hériteront
+        FragmentTransaction transaction =
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, fragment);
+
+        if (addToBackstack) {
+            transaction.addToBackStack(null);
+        }
+
+        transaction.commit();
     }
 
     @Override
@@ -25,7 +48,7 @@ public class ListFormActivity extends AppCompatActivity {
         //deconnexion
 
         if (!mFlagChangeActivity) {
-            startActivity((new Intent(ListFormActivity.this, LoginActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            startActivity((new Intent(FormListActivity.this, LoginActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         }
         else mFlagChangeActivity = false;
     }
@@ -44,10 +67,11 @@ public class ListFormActivity extends AppCompatActivity {
 
                 //deconnexion
 
-                startActivity((new Intent(ListFormActivity.this, LoginActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity((new Intent(FormListActivity.this, LoginActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

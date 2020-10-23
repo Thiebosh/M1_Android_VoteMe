@@ -1,0 +1,6 @@
+package com.lesbougs.androidprojectm1.fragments;
+
+import androidx.fragment.app.Fragment;
+
+public class ResultFormFragment extends Fragment {
+}

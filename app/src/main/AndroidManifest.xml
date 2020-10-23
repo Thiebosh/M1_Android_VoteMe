@@ -19,13 +19,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".FormActivity"
+        <activity android:name=".VisitorActivity"
             android:launchMode="singleTop" />
 
-        <activity android:name=".LoginActivity"
+        <activity android:name=".AdminActivity"
             android:launchMode="singleTop" />
 
-        <activity android:name=".ListFormActivity"
+        <activity android:name=".admin.FormActivity"
             android:launchMode="singleTop" />
 
     </application>

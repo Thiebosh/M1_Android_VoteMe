@@ -8,20 +8,20 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class FormActivity extends AppCompatActivity {
+public class VisitorActivity extends AppCompatActivity {
 
-    //terminal donc pas besoin de flag
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_form);
+        setContentView(R.layout.activity_visitor);
     }
 
     @Override
     public void onRestart() {//facultatif : retour à l'écran principal
         super.onRestart();
-        startActivity((new Intent(FormActivity.this, HomeActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        //terminal donc pas besoin de flag
+        startActivity((new Intent(VisitorActivity.this, HomeActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
     @Override
@@ -35,7 +35,7 @@ public class FormActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.menu_visitor_backward:
-                startActivity((new Intent(FormActivity.this, HomeActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity((new Intent(VisitorActivity.this, HomeActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
