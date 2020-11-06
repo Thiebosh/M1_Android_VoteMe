@@ -18,7 +18,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         ((Button) findViewById(R.id.act_hom_formButton)).setOnClickListener(v -> {
-            startActivity((new Intent(HomeActivity.this, VisitorActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            startActivity((new Intent(HomeActivity.this, VisitorActivity.class))
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         });
     }
 
@@ -34,7 +35,8 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.menu_home_login:
-                startActivity((new Intent(HomeActivity.this, AdminActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity((new Intent(HomeActivity.this, AdminActivity.class))
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

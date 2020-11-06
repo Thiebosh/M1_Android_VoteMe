@@ -18,7 +18,8 @@ public class VisitorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_visitor);
 
         ((Button) findViewById(R.id.act_vis_confirmButton)).setOnClickListener(v -> {
-            startActivity((new Intent(VisitorActivity.this, HomeActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            startActivity((new Intent(VisitorActivity.this, HomeActivity.class))
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         });
     }
 
@@ -26,7 +27,8 @@ public class VisitorActivity extends AppCompatActivity {
     public void onRestart() {//facultatif : retour à l'écran principal
         super.onRestart();
         //terminal donc pas besoin de flag
-        startActivity((new Intent(VisitorActivity.this, HomeActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        startActivity((new Intent(VisitorActivity.this, HomeActivity.class))
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
     @Override
@@ -40,7 +42,8 @@ public class VisitorActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.menu_visitor_backward:
-                startActivity((new Intent(VisitorActivity.this, HomeActivity.class)).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity((new Intent(VisitorActivity.this, HomeActivity.class))
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
