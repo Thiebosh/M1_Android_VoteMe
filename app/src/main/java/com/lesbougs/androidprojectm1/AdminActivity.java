@@ -14,11 +14,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.fragments.LoginFragment;
+import com.lesbougs.androidprojectm1.fragments.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.model.FAPIData;
 import com.lesbougs.androidprojectm1.model.User;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Stack;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -27,7 +28,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class AdminActivity extends AppCompatActivity implements NavigationHost {
+public class AdminActivity extends AppCompatActivity implements FragmentSwitcher {
 
     private FormApiService fapiService;
     private Executor backgroundExecutor = Executors.newSingleThreadExecutor(); //pas de pb de concurrence
@@ -86,18 +87,37 @@ public class AdminActivity extends AppCompatActivity implements NavigationHost {
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
+    /*
+     * Section FragmentSwitcher
+     */
+
     @Override
-    public void navigateTo(Fragment fragment, boolean addToBackstack) {
-        FragmentTransaction transaction =
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.act_adm_fragmentContainer, fragment);
-
-        if (addToBackstack) {
-            transaction.addToBackStack(null);
+    public void loadFragment(Fragment fragment, boolean addToBackstack) {//pas encore de cas faux
+        String searched = fragment.getClass().getSimpleName();
+        Stack<Fragment> searcher = (Stack<Fragment>) mFragmentStack.clone();
+        int position = searcher.size() - 1;//size -> index
+        while (!searcher.empty()) {
+            if (searcher.pop().getClass().getSimpleName().equals(searched)) break;
+            --position;
         }
+        if (position != -1) for (int i = mFragmentStack.size(); i > position; --i) mFragmentStack.pop();
 
-        transaction.commit();
+        mFragmentStack.push(fragment);//renouvellement du frament stocké
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.act_adm_fragmentContainer, fragment)
+                .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        mFragmentStack.pop();
+
+        if (mFragmentStack.empty()) {
+            startActivity((new Intent(AdminActivity.this, HomeActivity.class))
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        }
+        else loadFragment(mFragmentStack.peek(), true);//reason why it's not a String stack
     }
 
     @Override

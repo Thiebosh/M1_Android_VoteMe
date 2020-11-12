@@ -11,7 +11,6 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.lesbougs.androidprojectm1.NavigationHost;
 import com.lesbougs.androidprojectm1.R;
 
 public class LoginFragment extends Fragment {
@@ -24,7 +23,7 @@ public class LoginFragment extends Fragment {
         setHasOptionsMenu(true);//active le onPrepareOptionsMenu
 
         ((Button) view.findViewById(R.id.fra_log_loginButton)).setOnClickListener(v -> {
-            ((NavigationHost) getActivity()).navigateTo(new FormListFragment(), false); // Navigate to the next Fragment
+            ((FragmentSwitcher) getActivity()).loadFragment(new FormListFragment(), false); // Navigate to the next Fragment
         });
 
         return view;

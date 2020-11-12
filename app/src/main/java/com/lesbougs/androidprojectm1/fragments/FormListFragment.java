@@ -9,7 +9,6 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.lesbougs.androidprojectm1.NavigationHost;
 import com.lesbougs.androidprojectm1.R;
 
 public class FormListFragment extends Fragment {
@@ -21,11 +20,11 @@ public class FormListFragment extends Fragment {
         //Toast.makeText(getActivity().getApplicationContext(),"coucou !", Toast.LENGTH_SHORT).show();
 
         ((Button) view.findViewById(R.id.fra_for_lis_resultButton)).setOnClickListener(v -> {
-            ((NavigationHost) getActivity()).navigateTo(new FormResultFragment(), true); // Navigate to the next Fragment
+            ((FragmentSwitcher) getActivity()).loadFragment(new FormResultFragment(), true); // Navigate to the next Fragment
         });
 
         ((Button) view.findViewById(R.id.fra_for_lis_editButton)).setOnClickListener(v -> {
-            ((NavigationHost) getActivity()).navigateTo(new FormEditFragment(), true); // Navigate to the next Fragment
+            ((FragmentSwitcher) getActivity()).loadFragment(new FormEditFragment(), true); // Navigate to the next Fragment
         });
 
 
