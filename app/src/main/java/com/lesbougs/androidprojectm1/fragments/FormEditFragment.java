@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 
 import com.lesbougs.androidprojectm1.R;
 
+import java.util.Objects;
+
 public class FormEditFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -18,7 +20,8 @@ public class FormEditFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_form_edit, container, false);
 
         ((Button) view.findViewById(R.id.fra_for_edit_saveButton)).setOnClickListener(v -> {
-            getActivity().getSupportFragmentManager().popBackStack();
+            ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
+                    .loadFragment(new FormListFragment(), true);
         });
 
         return view;

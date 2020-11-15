@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">Android module M1</string>
+
+
+    <!-- Global -->
+    <string name="button_next">Next</string>
+    <string name="button_cancel">Cancel</string>
+
+
+    <!-- Admin -->
+    <string name="admin_button_login">Login</string>
+    <string name="admin_button_sign">Register</string>
+
+    <string name="admin_hint_username">Username</string>
+    <string name="admin_hint_password">Password</string>
+    <string name="admin_hint_confirm_password">Confirm password</string>
+
+    <string name="admin_error_username">Username too short.</string>
+    <string name="admin_error_password">Password too short.</string>
+    <string name="admin_error_confirm_password">Difference between passwords</string>
+
+    <string name="admin_wrong_username">Incorrect username.</string>
+    <string name="admin_wrong_password">Incorrect password.</string>
+
 </resources>

@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 
 import com.lesbougs.androidprojectm1.R;
 
+import java.util.Objects;
+
 public class FormResultFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -18,7 +20,8 @@ public class FormResultFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_form_result, container, false);
 
         ((Button) view.findViewById(R.id.fra_for_res_returnButton)).setOnClickListener(v -> {
-            getActivity().getSupportFragmentManager().popBackStack();
+            ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
+                    .loadFragment(new FormListFragment(), true);
         });
 
         return view;

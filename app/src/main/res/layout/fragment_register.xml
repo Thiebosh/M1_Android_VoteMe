@@ -5,11 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.LoginFragment">
+    tools:context=".fragments.RegisterFragment">
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/frag_log_username_text_input"
+        android:id="@+id/frag_reg_username_text_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.30">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/frag_log_username_edit_text"
+            android:id="@+id/frag_reg_username_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -31,7 +31,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/frag_log_password_text_input"
+        android:id="@+id/frag_reg_password_text_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -41,10 +41,30 @@
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frag_log_username_text_input">
+        app:layout_constraintTop_toBottomOf="@+id/frag_reg_username_text_input">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/frag_log_password_edit_text"
+            android:id="@+id/frag_reg_password_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/frag_reg_confirm_password_text_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/admin_hint_confirm_password"
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frag_reg_password_text_input">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/frag_reg_confirm_password_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword" />
@@ -52,7 +72,7 @@
 
 
     <RelativeLayout
-        android:id="@+id/frag_log_relativeLayout"
+        android:id="@+id/frag_reg_relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -61,34 +81,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frag_log_password_text_input">
+        app:layout_constraintTop_toBottomOf="@+id/frag_reg_confirm_password_text_input">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/frag_log_next_button"
+            android:id="@+id/frag_reg_next_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:text="@string/button_next" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/frag_log_cancel_button"
+            android:id="@+id/frag_reg_cancel_button"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
-            android:layout_toStartOf="@id/frag_log_next_button"
+            android:layout_toStartOf="@id/frag_reg_next_button"
             android:text="@string/button_cancel" />
     </RelativeLayout>
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/frag_log_sign_button"
+        android:id="@+id/frag_reg_login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/admin_button_sign" />
+        android:text="@string/admin_button_login" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
