@@ -6,6 +6,6 @@
         android:id="@+id/menu_visitor_backward"
         android:icon="@drawable/ic_launcher_foreground"
         app:showAsAction="ifRoom|withText"
-        android:title="Accueil"/>
+        android:title="@string/menu_home"/>
 
 </menu>

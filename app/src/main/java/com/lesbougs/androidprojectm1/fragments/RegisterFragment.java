@@ -3,7 +3,6 @@ package com.lesbougs.androidprojectm1.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,15 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.lesbougs.androidprojectm1.HomeActivity;
 import com.lesbougs.androidprojectm1.R;
+import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 
 import java.util.Objects;
 
@@ -37,7 +34,7 @@ public class RegisterFragment extends Fragment {
     }
 
     /*
-     * Section cycle de vie
+     * Section life cycle
      */
 
     @Override
@@ -119,7 +116,7 @@ public class RegisterFragment extends Fragment {
 
             //save on service instance? pass data by intent?
             ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
-                    .loadFragment(new FormListFragment(username), false);
+                    .loadFragment(new FormListFragment(username), true);
         });
 
 
@@ -129,14 +126,17 @@ public class RegisterFragment extends Fragment {
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         });
 
-        view.findViewById(R.id.frag_reg_login_button).setOnClickListener(v -> {
-            ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
-                    .loadFragment(new LoginFragment(), false);
-        });
+        view.findViewById(R.id.frag_reg_login_button).setOnClickListener(v ->
+                ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
+                    .loadFragment(new LoginFragment(), false)
+        );
 
         return view;
     }
 
+    /*
+     * Section private methods
+     */
 
     private boolean isUsernameInvalid(final int usernameLength) {
         return usernameLength < Objects.requireNonNull(getContext()).getResources().getInteger((R.integer.username_min_length));

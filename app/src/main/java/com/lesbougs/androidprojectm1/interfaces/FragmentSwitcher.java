@@ -1,4 +1,4 @@
-package com.lesbougs.androidprojectm1.fragments;
+package com.lesbougs.androidprojectm1.interfaces;
 
 import androidx.fragment.app.Fragment;
 

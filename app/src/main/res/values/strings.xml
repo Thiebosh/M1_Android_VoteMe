@@ -6,6 +6,10 @@
     <string name="button_next">Next</string>
     <string name="button_cancel">Cancel</string>
 
+    <!-- Menu -->
+    <string name="menu_home">Home</string>
+    <string name="menu_connect">Login</string>
+    <string name="menu_disconnect">Logout</string>
 
     <!-- Admin -->
     <string name="admin_button_login">Login</string>

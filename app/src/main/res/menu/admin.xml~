@@ -6,6 +6,6 @@
         android:id="@+id/menu_admin_logout"
         android:icon="@drawable/ic_launcher_foreground"
         app:showAsAction="ifRoom|withText"
-        android:title="@string/menu_disconnect"/>
+        android:title="Retour"/>
 
 </menu>

@@ -6,6 +6,6 @@
         android:id="@+id/menu_home_login"
         android:icon="@drawable/ic_launcher_foreground"
         app:showAsAction="ifRoom"
-        android:title="Connexion"/>
+        android:title="@string/menu_connect"/>
 
 </menu>

@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.fragments.LoginFragment;
-import com.lesbougs.androidprojectm1.fragments.FragmentSwitcher;
+import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.model.FAPIData;
 import com.lesbougs.androidprojectm1.model.User;
 
@@ -45,7 +45,8 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
         }
         if (position != -1) for (int i = mFragmentStack.size(); i > position; --i) mFragmentStack.pop();
 
-        mFragmentStack.push(fragment);//renouvellement du frament stocké
+        if (addToBackstack) mFragmentStack.push(fragment);//renouvellement du frament stocké
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.act_adm_fragmentContainer, fragment)
@@ -54,13 +55,14 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
 
     @Override
     public void onBackPressed() {
-        mFragmentStack.pop();
-
-        if (mFragmentStack.empty()) {
-            startActivity((new Intent(AdminActivity.this, HomeActivity.class))
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        if (mFragmentStack.size() < 2) {//besoin d'écran actuel et précédent
+            mFragmentStack.clear();
+            AdminActivity.this.finish();//revient à l'activité précédente
         }
-        else loadFragment(mFragmentStack.peek(), true);//reason why it's not a String stack
+        else {
+            mFragmentStack.pop();//ecran actuel
+            loadFragment(mFragmentStack.peek(), true);//ecran précédent / can't be a String stack
+        }
     }
 
     /*
@@ -77,22 +79,19 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         //un seul menu pour tous les fragments : définit tous les cas ici et affiche / masque dans les fragments
-        switch(item.getItemId()) {
-            case R.id.menu_admin_logout:
-                startActivity((new Intent(AdminActivity.this, HomeActivity.class))
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.menu_admin_logout) {
+            AdminActivity.this.finish();//revient à l'activité précédente
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     /*
-     * Section cycle de vie
+     * Section life cycle
      */
 
     private FormApiService fApiService;
-    private Executor backgroundExecutor = Executors.newSingleThreadExecutor(); //pas de pb de concurrence
+    private final Executor backgroundExecutor = Executors.newSingleThreadExecutor(); //pas de pb de concurrence
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,10 +104,10 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
     }
 
     @Override
-    public void onRestart() {//retour à l'écran principal
-        super.onRestart();
-        startActivity((new Intent(AdminActivity.this, HomeActivity.class))
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    public void onPause() {//retour à l'écran principal
+        //selon ordre, voit ou non cette activité dans les apps actives
+        super.onPause();
+        AdminActivity.this.finish();//revient à l'activité précédente
     }
 
     @Override
@@ -118,7 +117,7 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
     }
 
     /*
-     * Section autres méthodes
+     * Section private methods
      */
 
     private void retrofitTest() {
@@ -141,15 +140,16 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
 
                     */
 
-                    String content = "";
+                    StringBuilder content = new StringBuilder();
+                    assert response.body() != null;
                     for (User user : response.body().results) {
-                        content += "ID: " + user.getUserName() + "\n";
-                        content += "User ID: " + user.getPassword() + "\n";
+                        content.append("ID: ").append(user.getUserName()).append("\n");
+                        content.append("User ID: ").append(user.getPassword()).append("\n");
                     }
-                    String finalContent = content;
-                    runOnUiThread(()-> {
-                        Toast.makeText(getApplicationContext(), finalContent, Toast.LENGTH_SHORT).show();
-                    });
+                    String finalContent = content.toString();
+                    runOnUiThread(()->
+                            Toast.makeText(getApplicationContext(), finalContent, Toast.LENGTH_SHORT).show()
+                    );
                 }
                 else Log.w("Demo app", "pb avec requête");
             } catch (IOException ignore) {}

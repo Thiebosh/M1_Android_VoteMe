@@ -9,27 +9,13 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
+
 public class VisitorActivity extends AppCompatActivity {
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_visitor);
-
-        ((Button) findViewById(R.id.act_vis_confirmButton)).setOnClickListener(v -> {
-            startActivity((new Intent(VisitorActivity.this, HomeActivity.class))
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        });
-    }
-
-    @Override
-    public void onRestart() {//facultatif : retour à l'écran principal
-        super.onRestart();
-        //terminal donc pas besoin de flag
-        startActivity((new Intent(VisitorActivity.this, HomeActivity.class))
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-    }
+    /*
+     * Section menu
+     */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -40,13 +26,38 @@ public class VisitorActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.menu_visitor_backward:
-                startActivity((new Intent(VisitorActivity.this, HomeActivity.class))
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.menu_visitor_backward) {
+            startActivity((new Intent(VisitorActivity.this, HomeActivity.class))
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            return true;
         }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /*
+     * Section life cycle
+     */
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_visitor);
+
+        String formName = "titre formulaire";
+        Objects.requireNonNull(VisitorActivity.this.getSupportActionBar()).setSubtitle(formName);
+
+        ((Button) findViewById(R.id.act_vis_confirmButton)).setOnClickListener(v -> onBackPressed());
+    }
+
+    @Override
+    public void onPause() {//facultatif : retour à l'écran principal
+        super.onPause();
+        VisitorActivity.this.finish();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Objects.requireNonNull(VisitorActivity.this.getSupportActionBar()).setSubtitle(null);
     }
 }

@@ -9,13 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.lesbougs.androidprojectm1.HomeActivity;
 import com.lesbougs.androidprojectm1.R;
+import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 
 import java.util.Objects;
 
@@ -33,7 +33,7 @@ public class LoginFragment extends Fragment {
     }
 
     /*
-     * Section cycle de vie
+     * Section life cycle
      */
 
     @Override
@@ -97,7 +97,7 @@ public class LoginFragment extends Fragment {
 
             //save on service instance? pass data by intent?
             ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
-                    .loadFragment(new FormListFragment(username), false);
+                    .loadFragment(new FormListFragment(username), true);
         });
 
 
@@ -107,13 +107,17 @@ public class LoginFragment extends Fragment {
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         });
 
-        view.findViewById(R.id.frag_log_sign_button).setOnClickListener(v -> {
-            ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
-                    .loadFragment(new RegisterFragment(), false);
-        });
+        view.findViewById(R.id.frag_log_sign_button).setOnClickListener(v ->
+                ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
+                    .loadFragment(new RegisterFragment(), false)
+        );
 
         return view;
     }
+
+    /*
+     * Section private methods
+     */
 
     private boolean isUsernameInvalid(final int usernameLength) {
         return usernameLength < Objects.requireNonNull(getContext()).getResources().getInteger((R.integer.username_min_length));

@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/fra_for_lis_resultButton"
+        android:id="@+id/frag_form_list_resultButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="55dp"
@@ -27,12 +27,12 @@
         app:layout_constraintTop_toBottomOf="@+id/tmpTextView" />
 
     <Button
-        android:id="@+id/fra_for_lis_editButton"
+        android:id="@+id/frag_form_list_editButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Créer nouveau formulaire"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fra_for_lis_resultButton" />
+        app:layout_constraintTop_toBottomOf="@+id/frag_form_list_resultButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>
