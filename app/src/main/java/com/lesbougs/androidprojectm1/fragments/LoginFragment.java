@@ -132,7 +132,7 @@ public class LoginFragment extends Fragment {
         return true;
     }
 
-    private void getUserData(String username) {
+    private void getUserData(final String username) {
         //api call
         //return data
     }

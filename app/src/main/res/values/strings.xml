@@ -6,10 +6,24 @@
     <string name="button_next">Next</string>
     <string name="button_cancel">Cancel</string>
 
+
     <!-- Menu -->
     <string name="menu_home">Home</string>
     <string name="menu_connect">Login</string>
     <string name="menu_disconnect">Logout</string>
+
+
+    <!-- Home -->
+    <string name="home_hint_form_code">Form code</string>
+    <string name="home_use_form">Reply to form</string>
+
+    <string name="home_error_form_code_short">Code too short.</string>
+    <string name="home_error_form_code_long">Code too long.</string>
+    <string name="home_wrong_form_code">Incorrect code.</string>
+
+
+    <!-- Visitor -->
+
 
     <!-- Admin -->
     <string name="admin_button_login">Login</string>
