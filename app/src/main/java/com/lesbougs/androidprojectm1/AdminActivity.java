@@ -14,15 +14,16 @@ import androidx.fragment.app.Fragment;
 import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.fragments.LoginFragment;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
-import com.lesbougs.androidprojectm1.model.FAPIData;
+import com.lesbougs.androidprojectm1.model.Api;
 import com.lesbougs.androidprojectm1.model.User;
 
-import java.io.IOException;
 import java.util.Objects;
 import java.util.Stack;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -100,7 +101,7 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
 
         if (savedInstanceState == null) loadFragment(new LoginFragment(), false);
 
-        //retrofitTest();
+        retrofitTest();
     }
 
     @Override
@@ -121,38 +122,28 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
      */
 
     private void retrofitTest() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://swapi.dev/api/")
-                .addConverterFactory(GsonConverterFactory.create()) //ajoute parseur json
-                .build();
+        FormApiService apiInterface = Api.getClient().create(FormApiService.class);
 
-        fApiService = retrofit.create(FormApiService.class);
+        Call<User> call = apiInterface.registration("pipi","lol");
 
-        backgroundExecutor.execute(() -> {
-            //recup des perso depuis api
-            try {
-                //Response<List<StarWarsPerson>> response = swapiService.listPerson().execute();
-                Response<FAPIData> response = fApiService.getData().execute();
-                if (response.isSuccessful()) {//sinon, vérifier avec .code()
-                    /*
-                    List<User> persons = response.body().results;
-                    Log.d("demo app", "People:"+persons.size());
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
 
-                    */
+                Log.d("TAG",response.code()+"");
+                Log.d("TAG",response.body().getUserName()+"");
 
-                    StringBuilder content = new StringBuilder();
-                    assert response.body() != null;
-                    for (User user : response.body().results) {
-                        content.append("ID: ").append(user.getUserName()).append("\n");
-                        content.append("User ID: ").append(user.getPassword()).append("\n");
-                    }
-                    String finalContent = content.toString();
-                    runOnUiThread(()->
-                            Toast.makeText(getApplicationContext(), finalContent, Toast.LENGTH_SHORT).show()
-                    );
-                }
-                else Log.w("Demo app", "pb avec requête");
-            } catch (IOException ignore) {}
+                String displayResponse = "";
+
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.d("TAG","fait iech");
+                call.cancel();
+            }
         });
+
     }
 }

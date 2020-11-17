@@ -4,13 +4,13 @@ import java.util.Date;
 import java.util.List;
 
 public class User {
-    public String userName;
+    public String username;
     public String password;
     public Date creationDate;
     public List<Form> forms;
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
     public String getPassword() {
