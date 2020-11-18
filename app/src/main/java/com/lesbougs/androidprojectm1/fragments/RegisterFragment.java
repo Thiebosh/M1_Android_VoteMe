@@ -116,7 +116,7 @@ public class RegisterFragment extends Fragment {
 
             //save on service instance? pass data by intent?
             ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
-                    .loadFragment(new FormListFragment(username,null), true);
+                    .loadFragment(new FormListFragment(), true);
         });
 
 

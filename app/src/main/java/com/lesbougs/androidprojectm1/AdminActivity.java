@@ -1,49 +1,46 @@
 package com.lesbougs.androidprojectm1;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebSettings;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.google.gson.JsonObject;
 import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.fragments.LoginFragment;
+import com.lesbougs.androidprojectm1.interfaces.UserAccess;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
-import com.lesbougs.androidprojectm1.model.Api;
 import com.lesbougs.androidprojectm1.model.User;
 
-import org.json.JSONObject;
-
-import java.io.File;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Stack;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
+public class AdminActivity extends AppCompatActivity implements FragmentSwitcher, UserAccess {
 
-public class AdminActivity extends AppCompatActivity implements FragmentSwitcher {
+    /*
+     * Section UserAccess
+     */
+
+    private User current;
+
+    @Override
+    public User getUser() {
+        return current;
+    }
+
+    @Override
+    public void setUser(User data) {
+        current = data;
+    }
 
     /*
      * Section FragmentSwitcher
      */
-
-
-    User actualUser;
 
     @Override
     public void loadFragment(Fragment fragment, boolean addToBackstack) {//pas encore de cas faux
@@ -101,17 +98,12 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
      * Section life cycle
      */
 
-    private FormApiService fApiService;
-    private final Executor backgroundExecutor = Executors.newSingleThreadExecutor(); //pas de pb de concurrence
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
         if (savedInstanceState == null) loadFragment(new LoginFragment(), false);
-
-        retrofitTest();
     }
 
     @Override
@@ -133,8 +125,4 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
      * Section private methods
      */
 
-    private void retrofitTest() {
-
-
-    }
 }

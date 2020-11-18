@@ -1,6 +1,5 @@
 package com.lesbougs.androidprojectm1.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,10 +16,10 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
-import com.lesbougs.androidprojectm1.NameApp;
 import com.lesbougs.androidprojectm1.HomeActivity;
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.api.FormApiService;
+import com.lesbougs.androidprojectm1.interfaces.UserAccess;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.model.Api;
 import com.lesbougs.androidprojectm1.model.User;
@@ -98,7 +97,6 @@ public class LoginFragment extends Fragment {
             final String username = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
 
-
             FormApiService apiInterface = Api.getClient().create(FormApiService.class);
 
             Call<JsonObject> call = apiInterface.signIn(username, password);
@@ -117,11 +115,12 @@ public class LoginFragment extends Fragment {
                         arrayJSON = arrayJSON.substring(1,arrayJSON.length()-1);
 
                         List<String> items = Arrays.asList(arrayJSON.split("\\s*,\\s*"));
-                        Object actualUser = new User(object.get("_id").toString(), object.get("username").toString(), new Date(object.get("creationDate").toString()),items);
+                        User actualUser = new User(object.get("_id").toString(), object.get("username").toString(), new Date(object.get("creationDate").toString()),items);
 
-                        //save on service instance? pass data by intent?
+                        ((UserAccess) getActivity()).setUser(actualUser);//save on activity
+
                         ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
-                                .loadFragment(new FormListFragment(username,actualUser), true);
+                                .loadFragment(new FormListFragment(), true);
                     } else {
                         view.findViewById(R.id.frag_log_next_button).setEnabled(true);
 

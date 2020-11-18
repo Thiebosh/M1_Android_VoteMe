@@ -12,21 +12,12 @@ import androidx.fragment.app.Fragment;
 
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
+import com.lesbougs.androidprojectm1.interfaces.UserAccess;
+import com.lesbougs.androidprojectm1.model.User;
 
 import java.util.Objects;
 
 public class FormListFragment extends Fragment {
-
-    /*
-     * Section construct
-     */
-
-    private final String mUsername;
-
-    public FormListFragment() { mUsername = null; }
-    public FormListFragment(final String username,final Object actualUser) {
-        mUsername = username;
-    }
 
     /*
      * Section menu
@@ -40,9 +31,10 @@ public class FormListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_form_list, container, false);
-        if (mUsername != null) {
-            Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setSubtitle(mUsername);
-        }
+
+        User current = ((UserAccess) getActivity()).getUser();//get data
+
+        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setSubtitle(current.getUserName());
 
         ((Button) view.findViewById(R.id.frag_form_list_resultButton)).setOnClickListener(v ->
                 ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
