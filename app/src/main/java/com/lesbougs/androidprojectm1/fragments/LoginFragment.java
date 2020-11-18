@@ -1,6 +1,5 @@
 package com.lesbougs.androidprojectm1.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,8 +13,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.lesbougs.androidprojectm1.HomeActivity;
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.interfaces.UserAccess;
@@ -52,13 +51,8 @@ public class LoginFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-
         setHasOptionsMenu(true);//active le onPrepareOptionsMenu
-
-
-        //Toast.makeText(getContext(), AppName.getLogin(), Toast.LENGTH_SHORT).show();
 
         final TextInputLayout usernameTextField = view.findViewById(R.id.frag_log_username_text_input);
         final TextInputEditText usernameEditText = view.findViewById(R.id.frag_log_username_edit_text);
@@ -94,14 +88,14 @@ public class LoginFragment extends Fragment {
             }
             if (!isValid) return;
 
-            final String username = usernameEditText.getText().toString();
-            String password = passwordEditText.getText().toString();
-
             mBackgroundThread.execute(() -> {
+                final String username = usernameEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+
                 FormApiService apiInterface = Api.getClient().create(FormApiService.class);
 
                 Call<JsonObject> call = apiInterface.signIn(username, password);
-                getActivity().runOnUiThread(()-> {
+                Objects.requireNonNull(getActivity()).runOnUiThread(()-> {
                     Toast.makeText(getContext(), R.string.api_call, Toast.LENGTH_SHORT).show();
                     view.findViewById(R.id.frag_log_next_button).setEnabled(false);
                 });
@@ -111,21 +105,19 @@ public class LoginFragment extends Fragment {
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         JsonObject object = response.body();
                         if (response.code() == 200) {
-                            User actualUser = new User(object.get("_id").toString(),
-                                                        object.get("username").toString(),
-                                                        object.get("creationDate").toString(),
-                                                        object.get("forms").toString());
+                            User actualUser = (new Gson()).fromJson(Objects.requireNonNull(object).toString(), User.class);
+                            ((UserAccess) Objects.requireNonNull(getActivity())).setUser(actualUser);//save on activity
 
-                            ((UserAccess) getActivity()).setUser(actualUser);//save on activity
-
-                            getActivity().runOnUiThread(()-> {
+                            getActivity().runOnUiThread(()->
                                 ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
-                                        .loadFragment(new FormListFragment(), true);
-                            });
-                        } else {
-                            getActivity().runOnUiThread(()-> {
+                                        .loadFragment(new FormListFragment(), true)
+                            );
+                        }
+                        else {
+                            Objects.requireNonNull(getActivity()).runOnUiThread(()-> {
                                 view.findViewById(R.id.frag_log_next_button).setEnabled(true);
 
+                                assert object != null;
                                 usernameTextField.setError(object.get("message").toString());
                                 passwordTextField.setError(object.get("message").toString());
                             });
@@ -134,7 +126,6 @@ public class LoginFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<JsonObject> call, Throwable t) {
-                        //Log.d("TAG", "fait iech");
                         call.cancel();
                     }
                 });
@@ -143,11 +134,7 @@ public class LoginFragment extends Fragment {
         });
 
 
-        view.findViewById(R.id.frag_log_cancel_button).setOnClickListener(v -> {
-            //getActivity().onBackPressed();//plus propre mais necessite de ne pas stacker systématiquement
-            startActivity((new Intent(getActivity(), HomeActivity.class))
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        });
+        view.findViewById(R.id.frag_log_cancel_button).setOnClickListener(v -> Objects.requireNonNull(getActivity()).onBackPressed());
 
         /*view.findViewById(R.id.frag_log_sign_button).setOnClickListener(v ->
                 ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
@@ -169,6 +156,4 @@ public class LoginFragment extends Fragment {
     private boolean isPasswordInvalid(final int passwordLength) {
         return passwordLength < Objects.requireNonNull(getContext()).getResources().getInteger((R.integer.password_min_length));
     }
-
-
 }

@@ -57,11 +57,11 @@ public class VisitorActivity extends AppCompatActivity {
                 //toast d'erreur?
                 VisitorActivity.this.finish();
             }
-            mFormData = (new Gson()).fromJson(extras.getString(Constants.EXTRA_VISITOR_FORM), Form.class);
+            mFormData = (new Gson()).fromJson(Objects.requireNonNull(extras).getString(Constants.EXTRA_VISITOR_FORM), Form.class);
         });
 
         setContentView(R.layout.activity_visitor);
-        Objects.requireNonNull(VisitorActivity.this.getSupportActionBar()).setSubtitle(mFormData.getTitle());
+        //Objects.requireNonNull(VisitorActivity.this.getSupportActionBar()).setSubtitle(mFormData.getTitle());
 
         ((Button) findViewById(R.id.act_visit_confirm_button)).setOnClickListener(v -> onBackPressed());
     }

@@ -53,6 +53,9 @@ public class HomeActivity extends AppCompatActivity {
      * Section life cycle
      */
 
+    private TextInputLayout mFormCodeTextField;
+    private TextInputEditText mFormCodeEditText;
+    private Button mFormCodeButton;
     private final Executor mBackgroundThread = Executors.newSingleThreadExecutor();
 
     @Override
@@ -60,20 +63,16 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        String tmp = "2020-11-18T13:08:11.30";
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            LocalDateTime myDateObj = LocalDateTime.parse(tmp);
-        }
+        mFormCodeTextField = findViewById(R.id.act_home_form_code_text_input);
+        mFormCodeEditText = findViewById(R.id.act_home_form_code_edit_text);
+        mFormCodeButton = findViewById(R.id.act_home_form_button);
 
-        final TextInputLayout formCodeTextField = findViewById(R.id.act_home_form_code_text_input);
-        final TextInputEditText formCodeEditText = findViewById(R.id.act_home_form_code_edit_text);
-
-        formCodeEditText.setOnFocusChangeListener((v, focus) -> formCodeTextField.setError(null));
+        mFormCodeEditText.setOnFocusChangeListener((v, focus) -> mFormCodeTextField.setError(null));
 
         ((Button) findViewById(R.id.act_home_form_button)).setOnClickListener(v -> {
-            final String formCode = Objects.requireNonNull(formCodeEditText.getText()).toString();
+            final String formCode = Objects.requireNonNull(mFormCodeEditText.getText()).toString();
 
-            if (isFormCodeInvalid(formCode.length(), formCodeTextField)) return;
+            if (isFormCodeInvalid(formCode.length(), mFormCodeTextField)) return;
 
             mBackgroundThread.execute(() -> {
                 FormApiService apiInterface = Api.getClient().create(FormApiService.class);
@@ -81,7 +80,7 @@ public class HomeActivity extends AppCompatActivity {
                 Call<JsonObject> call = apiInterface.getForm(formCode);
                 runOnUiThread(()-> {
                     Toast.makeText(HomeActivity.this, R.string.api_call, Toast.LENGTH_SHORT).show();
-                    findViewById(R.id.act_home_form_button).setEnabled(false);
+                    mFormCodeButton.setEnabled(false);
                 });
 
                 call.enqueue(new Callback<JsonObject>() {
@@ -89,15 +88,9 @@ public class HomeActivity extends AppCompatActivity {
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         JsonObject object = response.body();
                         if (response.code() == 200) {
-                            //nettoie pour quand reviendra
-                            runOnUiThread(()-> {
-                                formCodeEditText.getText().clear();
-                                formCodeTextField.setError(null);
-                            });
-
                             //prepare nouvelle activity
                             Intent intent = new Intent(HomeActivity.this, VisitorActivity.class);
-                            intent.putExtra(Constants.EXTRA_VISITOR_FORM, object.toString());//new Gson().toJson(formInstance);
+                            intent.putExtra(Constants.EXTRA_VISITOR_FORM, Objects.requireNonNull(object).toString());//new Gson().toJson(formInstance);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                             //lance activity
@@ -105,8 +98,8 @@ public class HomeActivity extends AppCompatActivity {
                         }
                         else {
                             runOnUiThread(()-> {
-                                formCodeTextField.setError(object.get("message").toString());
-                                findViewById(R.id.act_home_form_button).setEnabled(true);
+                                mFormCodeTextField.setError(Objects.requireNonNull(object).get("message").toString());
+                                mFormCodeButton.setEnabled(true);
                             });
                         }
                     }
@@ -118,6 +111,15 @@ public class HomeActivity extends AppCompatActivity {
                 });
             });
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //nettoie pour quand reviendra
+        Objects.requireNonNull(mFormCodeEditText.getText()).clear();
+        mFormCodeTextField.setError(null);
+        mFormCodeButton.setEnabled(true);
     }
 
     /*

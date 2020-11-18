@@ -32,9 +32,9 @@ public class FormListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_form_list, container, false);
 
-        User current = ((UserAccess) getActivity()).getUser();//get data
+        User current = ((UserAccess) Objects.requireNonNull(getActivity())).getUser();//get data
 
-        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setSubtitle(current.getUserName());
+        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setSubtitle(current.getUsername());
 
         ((Button) view.findViewById(R.id.frag_form_list_resultButton)).setOnClickListener(v ->
                 ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
