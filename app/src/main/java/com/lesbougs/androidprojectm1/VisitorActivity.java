@@ -61,7 +61,6 @@ public class VisitorActivity extends AppCompatActivity {
         });
 
         setContentView(R.layout.activity_visitor);
-        //Objects.requireNonNull(VisitorActivity.this.getSupportActionBar()).setSubtitle(mFormData.getTitle());
 
         ((Button) findViewById(R.id.act_visit_confirm_button)).setOnClickListener(v -> onBackPressed());
     }
