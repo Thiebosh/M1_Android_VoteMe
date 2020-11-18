@@ -24,10 +24,13 @@ import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.model.Api;
 import com.lesbougs.androidprojectm1.model.User;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,6 +52,8 @@ public class LoginFragment extends Fragment {
     /*
      * Section life cycle
      */
+
+    private final Executor backgroundThread = Executors.newSingleThreadExecutor();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -97,44 +102,47 @@ public class LoginFragment extends Fragment {
             final String username = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
 
-            FormApiService apiInterface = Api.getClient().create(FormApiService.class);
+            backgroundThread.execute(() -> {
+                FormApiService apiInterface = Api.getClient().create(FormApiService.class);
 
-            Call<JsonObject> call = apiInterface.signIn(username, password);
-            Toast.makeText(getContext(), "Loading...",Toast.LENGTH_SHORT).show();
-            view.findViewById(R.id.frag_log_next_button).setEnabled(false);
-            call.enqueue(new Callback<JsonObject>() {
-                @Override
-                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Call<JsonObject> call = apiInterface.signIn(username, password);
+                getActivity().runOnUiThread(()-> {
+                    Toast.makeText(getContext(), "Loading...", Toast.LENGTH_SHORT).show();
+                    view.findViewById(R.id.frag_log_next_button).setEnabled(false);
+                });
+                call.enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        JsonObject object = response.body();
 
-                    Log.d("TAG", response.code() + "");
+                        if (response.code() == 200) {
+                            User actualUser = new User(object.get("_id").toString(),
+                                                        object.get("username").toString(),
+                                                        object.get("creationDate").toString(),
+                                                        object.get("forms").toString());
 
-                    JsonObject object = response.body();
+                            ((UserAccess) getActivity()).setUser(actualUser);//save on activity
 
-                    if (response.code() == 200) {
-                        String arrayJSON = object.get("forms").toString();
-                        arrayJSON = arrayJSON.substring(1,arrayJSON.length()-1);
+                            getActivity().runOnUiThread(()-> {
+                                ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
+                                        .loadFragment(new FormListFragment(), true);
+                            });
+                        } else {
+                            getActivity().runOnUiThread(()-> {
+                                view.findViewById(R.id.frag_log_next_button).setEnabled(true);
 
-                        List<String> items = Arrays.asList(arrayJSON.split("\\s*,\\s*"));
-                        User actualUser = new User(object.get("_id").toString(), object.get("username").toString(), new Date(object.get("creationDate").toString()),items);
-
-                        ((UserAccess) getActivity()).setUser(actualUser);//save on activity
-
-                        ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
-                                .loadFragment(new FormListFragment(), true);
-                    } else {
-                        view.findViewById(R.id.frag_log_next_button).setEnabled(true);
-
-                        usernameTextField.setError(object.get("message").toString());
-                        passwordTextField.setError(object.get("message").toString());
+                                usernameTextField.setError(object.get("message").toString());
+                                passwordTextField.setError(object.get("message").toString());
+                            });
+                        }
                     }
 
-                }
-
-                @Override
-                public void onFailure(Call<JsonObject> call, Throwable t) {
-                    Log.d("TAG", "fait iech");
-                    call.cancel();
-                }
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        //Log.d("TAG", "fait iech");
+                        call.cancel();
+                    }
+                });
             });
 
         });

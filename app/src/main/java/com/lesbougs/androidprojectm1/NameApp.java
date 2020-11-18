@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 
 public class NameApp extends Application {
 
+    //public static
+
     @SuppressLint("StaticFieldLeak")
     private static Context sContext;
 
