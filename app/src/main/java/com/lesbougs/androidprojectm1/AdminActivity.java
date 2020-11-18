@@ -1,22 +1,30 @@
 package com.lesbougs.androidprojectm1;
 
-import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.webkit.WebSettings;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.JsonObject;
 import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.fragments.LoginFragment;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.model.Api;
 import com.lesbougs.androidprojectm1.model.User;
 
+import org.json.JSONObject;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Stack;
 import java.util.concurrent.Executor;
@@ -25,8 +33,6 @@ import java.util.concurrent.Executors;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class AdminActivity extends AppCompatActivity implements FragmentSwitcher {
@@ -117,6 +123,8 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
         Objects.requireNonNull(AdminActivity.this.getSupportActionBar()).setSubtitle(null);
     }
 
+
+
     /*
      * Section private methods
      */
@@ -124,14 +132,29 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
     private void retrofitTest() {
         FormApiService apiInterface = Api.getClient().create(FormApiService.class);
 
-        Call<User> call = apiInterface.registration("pipi","lol");
+        Call<JsonObject> call = apiInterface.signIn("pipi","lol");
 
-        call.enqueue(new Callback<User>() {
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
                 Log.d("TAG",response.code()+"");
-                Log.d("TAG",response.body().getUserName()+"");
+
+                JsonObject object = response.body();
+
+//                Log.d("TAG", response.headers().toString());
+//                Log.d("TAG", response.headers().get("Set-Cookie").split(";")[0].toString());
+
+
+
+                if (response.code() == 200) {
+                    Log.d("TAG", "y est bon chacal");
+//                    Log.d("TAG", response.headers().get("signature"));
+//                    Log.d("TAG", response.headers().get("headerPayload"));
+                }
+                else {
+                    Log.d("TAG", object.get("message")+"");
+                }
 
                 String displayResponse = "";
 
@@ -139,7 +162,7 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.d("TAG","fait iech");
                 call.cancel();
             }
