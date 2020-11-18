@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.lesbougs.androidprojectm1.NameApp;
 import com.lesbougs.androidprojectm1.HomeActivity;
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
@@ -43,6 +44,8 @@ public class LoginFragment extends Fragment {
 
         setHasOptionsMenu(true);//active le onPrepareOptionsMenu
 
+
+        //Toast.makeText(getContext(), AppName.getLogin(), Toast.LENGTH_SHORT).show();
 
         final TextInputLayout usernameTextField = view.findViewById(R.id.frag_log_username_text_input);
         final TextInputEditText usernameEditText = view.findViewById(R.id.frag_log_username_edit_text);
@@ -85,6 +88,8 @@ public class LoginFragment extends Fragment {
                 usernameTextField.setError(getString(R.string.admin_wrong_username));
                 return;
             }
+
+            NameApp.setLogin(username);
 
             /*Data data = */getUserData(usernameEditText.getText().toString());
 
