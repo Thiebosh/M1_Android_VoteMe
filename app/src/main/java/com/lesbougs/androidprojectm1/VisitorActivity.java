@@ -10,15 +10,18 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.lesbougs.androidprojectm1.adapters.WidgetAdapter;
+import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.interfaces.Constants;
+import com.lesbougs.androidprojectm1.model.Api;
 import com.lesbougs.androidprojectm1.model.Form;
+import com.lesbougs.androidprojectm1.model.FormAnswer;
 import com.lesbougs.androidprojectm1.model.Widget;
+import com.lesbougs.androidprojectm1.model.WidgetAnswer;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -75,17 +78,29 @@ public class VisitorActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.act_visit_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(VisitorActivity.this));
-        ArrayList<Widget> widgetArrayList = new ArrayList<>();
+        ArrayList<Widget> widgetArrayList = new ArrayList<>(mFormData.getContent());
         WidgetAdapter adapter = new WidgetAdapter(VisitorActivity.this, widgetArrayList);
-        recyclerView.addItemDecoration(new DividerItemDecoration(VisitorActivity.this, LinearLayoutManager.VERTICAL));//séparateur
         recyclerView.setAdapter(adapter);
-        widgetArrayList.addAll(mFormData.getContent());
         adapter.notifyDataSetChanged();
 
         ((Button) findViewById(R.id.act_visit_confirm_button)).setOnClickListener(v -> {
-            //for (Widget widget : widgetArrayList) {
-                //Log.d("",);
-            //}
+            recyclerView.clearFocus();//call onFocusChange (loose) which update answers
+
+            mBackgroundThread.execute(() -> {
+                ArrayList<String> answerArrayList = adapter.getAnswers();
+
+                ArrayList<WidgetAnswer> widgetAnswer = new ArrayList<>();
+                for (int i = 0; i < answerArrayList.size(); ++i) {
+                    widgetAnswer.add(new WidgetAnswer(widgetArrayList.get(i).get_id(), answerArrayList.get(i)));
+                }
+
+                String answerData = new Gson().toJson(new FormAnswer(widgetAnswer));
+                Log.d("recyclerViewResult", answerData);
+
+                //add here send request
+                FormApiService apiInterface = Api.getClient().create(FormApiService.class);
+            });
+
             onBackPressed();
         });
     }
