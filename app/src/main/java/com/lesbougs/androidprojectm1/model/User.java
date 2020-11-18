@@ -6,9 +6,15 @@ import java.util.List;
 public class User {
     public String _id;
     public String username;
-    public String password;
     public Date creationDate;
-    public List<Form> forms;
+    public List<String> forms;
+
+    public User( String _id,String username,Date creationDate,List<String> forms){
+        this._id = _id;
+        this.username = username;
+        this.creationDate = creationDate;
+        this.forms = forms;
+    }
 
     public String getId() { return _id; }
 
@@ -16,15 +22,11 @@ public class User {
         return username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public Date getCreationDate() {
         return creationDate;
     }
 
-    public List<Form> getForms() {
+    public List<String> getForms() {
         return forms;
     }
 }

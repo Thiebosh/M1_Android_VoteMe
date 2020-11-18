@@ -22,6 +22,7 @@ import com.lesbougs.androidprojectm1.model.User;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -40,6 +41,9 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
     /*
      * Section FragmentSwitcher
      */
+
+
+    User actualUser;
 
     @Override
     public void loadFragment(Fragment fragment, boolean addToBackstack) {//pas encore de cas faux
@@ -130,43 +134,7 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
      */
 
     private void retrofitTest() {
-        FormApiService apiInterface = Api.getClient().create(FormApiService.class);
 
-        Call<JsonObject> call = apiInterface.signIn("pipi","lol");
-
-        call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
-                Log.d("TAG",response.code()+"");
-
-                JsonObject object = response.body();
-
-//                Log.d("TAG", response.headers().toString());
-//                Log.d("TAG", response.headers().get("Set-Cookie").split(";")[0].toString());
-
-
-
-                if (response.code() == 200) {
-                    Log.d("TAG", "y est bon chacal");
-//                    Log.d("TAG", response.headers().get("signature"));
-//                    Log.d("TAG", response.headers().get("headerPayload"));
-                }
-                else {
-                    Log.d("TAG", object.get("message")+"");
-                }
-
-                String displayResponse = "";
-
-
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d("TAG","fait iech");
-                call.cancel();
-            }
-        });
 
     }
 }

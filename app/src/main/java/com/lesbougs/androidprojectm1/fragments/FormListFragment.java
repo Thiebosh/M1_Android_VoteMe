@@ -24,7 +24,7 @@ public class FormListFragment extends Fragment {
     private final String mUsername;
 
     public FormListFragment() { mUsername = null; }
-    public FormListFragment(final String username) {
+    public FormListFragment(final String username,final Object actualUser) {
         mUsername = username;
     }
 
