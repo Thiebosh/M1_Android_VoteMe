@@ -27,6 +27,7 @@
 
 
     <!-- Visitor -->
+    <string name="visitor_button_send">Send answer</string>
 
 
     <!-- Admin -->
