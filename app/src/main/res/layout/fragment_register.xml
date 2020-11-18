@@ -10,7 +10,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="60dp">
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        >
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/frag_reg_username_text_input"
