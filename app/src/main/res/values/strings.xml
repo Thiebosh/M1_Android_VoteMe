@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Android module M1</string>
+    <string name="app_name">Module M1 Android</string>
 
 
     <!-- Global -->
@@ -11,6 +11,10 @@
     <string name="menu_home">Home</string>
     <string name="menu_connect">Login</string>
     <string name="menu_disconnect">Logout</string>
+
+
+    <!-- API -->
+    <string name="api_call">Loading...</string>
 
 
     <!-- Home -->

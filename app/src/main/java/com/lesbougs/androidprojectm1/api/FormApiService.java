@@ -15,6 +15,7 @@ public interface FormApiService {
     Call<JsonObject> signIn(@Field("username") String username,
                             @Field("password") String password);
 
-    @POST("")//envoie le code du formulaire donc pas get
-    Call<JsonObject> getForm(@Field("smallID") String codeField);
+    @FormUrlEncoded
+    @POST("api/forms/getFormBySmallID")//envoie le code du formulaire donc pas get
+    Call<JsonObject> getForm(@Field("smallID") String smallID);
 }

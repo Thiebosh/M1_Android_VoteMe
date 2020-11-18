@@ -4,6 +4,6 @@
     <integer name="username_min_length">2</integer>
     <integer name="password_min_length">3</integer>
 
-    <integer name="form_code_min_length">5</integer>
+    <integer name="form_code_min_length">6</integer>
 
 </resources>

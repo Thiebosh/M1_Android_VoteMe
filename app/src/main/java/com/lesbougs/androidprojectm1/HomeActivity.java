@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -15,20 +14,13 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 import com.lesbougs.androidprojectm1.api.FormApiService;
-import com.lesbougs.androidprojectm1.fragments.FormListFragment;
-import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
-import com.lesbougs.androidprojectm1.interfaces.UserAccess;
+import com.lesbougs.androidprojectm1.interfaces.Constants;
 import com.lesbougs.androidprojectm1.model.Api;
-import com.lesbougs.androidprojectm1.model.Form;
-import com.lesbougs.androidprojectm1.model.User;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,6 +53,8 @@ public class HomeActivity extends AppCompatActivity {
      * Section life cycle
      */
 
+    private final Executor mBackgroundThread = Executors.newSingleThreadExecutor();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,50 +75,47 @@ public class HomeActivity extends AppCompatActivity {
 
             if (isFormCodeInvalid(formCode.length(), formCodeTextField)) return;
 
+            mBackgroundThread.execute(() -> {
+                FormApiService apiInterface = Api.getClient().create(FormApiService.class);
 
-            FormApiService apiInterface = Api.getClient().create(FormApiService.class);
-            Call<JsonObject> call = apiInterface.getForm(formCode);
-            Toast.makeText(HomeActivity.this, "Loading...",Toast.LENGTH_SHORT).show();
-            findViewById(R.id.act_home_form_button).setEnabled(false);
+                Call<JsonObject> call = apiInterface.getForm(formCode);
+                runOnUiThread(()-> {
+                    Toast.makeText(HomeActivity.this, R.string.api_call, Toast.LENGTH_SHORT).show();
+                    findViewById(R.id.act_home_form_button).setEnabled(false);
+                });
 
-            call.enqueue(new Callback<JsonObject>() {
-                @Override
-                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                call.enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        JsonObject object = response.body();
+                        if (response.code() == 200) {
+                            //nettoie pour quand reviendra
+                            runOnUiThread(()-> {
+                                formCodeEditText.getText().clear();
+                                formCodeTextField.setError(null);
+                            });
 
-                    Log.d("TAG", response.code() + "");
+                            //prepare nouvelle activity
+                            Intent intent = new Intent(HomeActivity.this, VisitorActivity.class);
+                            intent.putExtra(Constants.EXTRA_VISITOR_FORM, object.toString());//new Gson().toJson(formInstance);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-                    JsonObject object = response.body();
-
-                    if (response.code() == 200) {
-                        //nettoie pour quand reviendra
-                        formCodeEditText.getText().clear();
-                        formCodeTextField.setError(null);
-
-                        String arrayJSON = object.get("forms").toString();
-                        arrayJSON = arrayJSON.substring(1,arrayJSON.length()-1);
-
-                        //List<String> items = Arrays.asList(arrayJSON.split("\\s*,\\s*"));
-                        Form form = new Form();//object.get("_id").toString(), object.get("username").toString(), new Date(object.get("creationDate").toString()),items);
-
-                        Intent intent = new Intent(HomeActivity.this, VisitorActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-/*
-                        final Bundle formData = new Bundle();
-                        formData.putString(Constants.Login.EXTRA_LOGIN, form);
-                        intent.putExtras(formData);
-*/
-                        startActivity(intent);
-                    } else {
-                        formCodeTextField.setError(object.get("message").toString());
-                        findViewById(R.id.act_home_form_button).setEnabled(true);
+                            //lance activity
+                            runOnUiThread(()-> startActivity(intent));
+                        }
+                        else {
+                            runOnUiThread(()-> {
+                                formCodeTextField.setError(object.get("message").toString());
+                                findViewById(R.id.act_home_form_button).setEnabled(true);
+                            });
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<JsonObject> call, Throwable t) {
-                    Log.d("TAG", "fait iech");
-                    call.cancel();
-                }
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        call.cancel();
+                    }
+                });
             });
         });
     }

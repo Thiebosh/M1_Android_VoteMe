@@ -2,7 +2,6 @@ package com.lesbougs.androidprojectm1.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,10 +23,6 @@ import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.model.Api;
 import com.lesbougs.androidprojectm1.model.User;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -53,7 +48,7 @@ public class LoginFragment extends Fragment {
      * Section life cycle
      */
 
-    private final Executor backgroundThread = Executors.newSingleThreadExecutor();
+    private final Executor mBackgroundThread = Executors.newSingleThreadExecutor();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,19 +97,19 @@ public class LoginFragment extends Fragment {
             final String username = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
 
-            backgroundThread.execute(() -> {
+            mBackgroundThread.execute(() -> {
                 FormApiService apiInterface = Api.getClient().create(FormApiService.class);
 
                 Call<JsonObject> call = apiInterface.signIn(username, password);
                 getActivity().runOnUiThread(()-> {
-                    Toast.makeText(getContext(), "Loading...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.api_call, Toast.LENGTH_SHORT).show();
                     view.findViewById(R.id.frag_log_next_button).setEnabled(false);
                 });
+
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         JsonObject object = response.body();
-
                         if (response.code() == 200) {
                             User actualUser = new User(object.get("_id").toString(),
                                                         object.get("username").toString(),
