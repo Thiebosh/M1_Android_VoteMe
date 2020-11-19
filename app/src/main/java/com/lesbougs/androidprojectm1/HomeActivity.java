@@ -3,8 +3,11 @@ package com.lesbougs.androidprojectm1;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -27,6 +30,25 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
+/*
+    public static final String SHARED_PREFERENCES_FILE_NAME = "appNameSharedPrefs";
+    public static final String PREF_LOGIN = "prefLogin";
+
+    private SharedPreferences getSharedPreferences() {
+        return HomeActivity.this.getSharedPreferences(SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
+    }
+
+    public String getFormCode() {
+        final SharedPreferences prefs = getSharedPreferences();
+        return prefs.getString(PREF_LOGIN, null);
+    }
+
+    public void setFormCode(String login) {
+        final SharedPreferences prefs = getSharedPreferences();
+        prefs.edit().putString(PREF_LOGIN, login).apply();
+    }
+
+ */
 
     /*
      * Section menu
@@ -63,6 +85,14 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        /*
+        String test = getFormCode();
+        if (test != null) {
+            //Log.d("")
+            //mFormCodeEditText.setText(test);
+        }
+         */
+
         mFormCodeTextField = findViewById(R.id.act_home_form_code_text_input);
         mFormCodeEditText = findViewById(R.id.act_home_form_code_edit_text);
         mFormCodeButton = findViewById(R.id.act_home_form_button);
@@ -92,6 +122,8 @@ public class HomeActivity extends AppCompatActivity {
                             Intent intent = new Intent(HomeActivity.this, VisitorActivity.class);
                             intent.putExtra(Constants.EXTRA_VISITOR_FORM, Objects.requireNonNull(object).toString());//new Gson().toJson(formInstance);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                            //setFormCode(formCode);
 
                             //lance activity
                             runOnUiThread(()-> startActivity(intent));

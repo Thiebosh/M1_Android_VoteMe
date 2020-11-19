@@ -113,17 +113,4 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
         super.onPause();
         AdminActivity.this.finish();//revient à l'activité précédente
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Objects.requireNonNull(AdminActivity.this.getSupportActionBar()).setSubtitle(null);
-    }
-
-
-
-    /*
-     * Section private methods
-     */
-
 }

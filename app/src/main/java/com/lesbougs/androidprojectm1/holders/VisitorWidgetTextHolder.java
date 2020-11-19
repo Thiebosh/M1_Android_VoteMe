@@ -1,0 +1,37 @@
+package com.lesbougs.androidprojectm1.holders;
+
+import android.view.View;
+import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.lesbougs.androidprojectm1.R;
+import com.lesbougs.androidprojectm1.model.Widget;
+
+
+public class VisitorWidgetTextHolder extends RecyclerView.ViewHolder {
+
+    private final TextView mTitle;
+    private final TextInputLayout mQuestionTitle;
+    public TextInputEditText mAnswerInput;
+
+    public VisitorWidgetTextHolder(View itemView) {
+        super(itemView);
+
+        mTitle = itemView.findViewById(R.id.item_visitor_widget_text_title);
+        mQuestionTitle = itemView.findViewById(R.id.item_visitor_widget_text_input);
+        mAnswerInput = itemView.findViewById(R.id.item_visitor_widget_edit_text);
+
+        itemView.setOnClickListener(view -> {
+            //handle click event
+            //Log.d("RecyclerView",mAnswerInput.getText().toString());
+        });
+    }
+
+    public void setDetails(Widget widget) {
+        mTitle.setText(widget.getQuestion());
+        mQuestionTitle.setHint(widget.getQuestion());
+    }
+}

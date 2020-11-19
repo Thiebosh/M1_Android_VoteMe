@@ -1,6 +1,7 @@
 package com.lesbougs.androidprojectm1.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -116,57 +117,25 @@ public class LoginFragment extends Fragment {
 
                         List<String> Cookielist = response.headers().values("Set-Cookie");
 
-
                         if (response.code() == 200) {
-                            String headerPayload = (Cookielist.get(0).split(";"))[0];
-                            String signature = (Cookielist.get(1).split(";"))[0];
+                            User actualUser = (new Gson()).fromJson(Objects.requireNonNull(object).toString(), User.class);
 
+                            String headerPayload = Cookielist.get(0);
+                            headerPayload = headerPayload.substring(/*headerPayload.indexOf('=')+1*/0, headerPayload.indexOf(';'));
+                            actualUser.setHeaderPayload(headerPayload);
 
-                            List<Form> allForm = new ArrayList<Form>();
+                            String signature = Cookielist.get(1);
+                            signature = signature.substring(/*signature.indexOf('=')+1*/0, signature.indexOf(';'));
+                            actualUser.setSignature(signature);
 
+                            ((UserAccess) Objects.requireNonNull(getActivity())).setUser(actualUser);//save on activity
 
-                            // String title, boolean isClosed, String smallId, List<Widget> content
-
-                            for (JsonElement form : object.get("forms").getAsJsonArray()) {
-                                List<Widget> allWidget =  new ArrayList<Widget>();
-                                JsonObject tempForm = form.getAsJsonObject();
-                                for (JsonElement widget : tempForm.get("content").getAsJsonArray()) {
-                                    JsonObject temp = widget.getAsJsonObject();
-
-                                    List<Integer> resultPoint = new ArrayList<Integer>();
-                                    List<String> resultTextField =new ArrayList<String>();
-
-                                    for (JsonElement point : temp.get("resultPoint").getAsJsonArray()) {
-                                        resultPoint.add(point.getAsInt());
-                                    }
-
-                                    for (JsonElement textField : temp.get("textFieldResult").getAsJsonArray()) {
-                                        resultTextField.add(textField.getAsString());
-                                    }
-
-
-                                    allWidget.add(new Widget(temp.get("title").toString().substring(1, temp.get("title").toString().length() - 1), temp.get("order").getAsInt(), temp.get("type").getAsInt(), temp.get("textField").toString().substring(1, temp.get("textField").toString().length() - 1), resultTextField, temp.get("maxPoint").getAsInt(), temp.get("minPoint").getAsInt(), resultPoint,temp.get("_id").toString().substring(1, temp.get("_id").toString().length() - 1)));
-                                }
-
-
-                                allForm.add(new Form (tempForm.get("title").toString().substring(1, tempForm.get("title").toString().length() - 1), tempForm.get("isClosed").getAsBoolean(),  tempForm.get("smallId").toString().substring(1, tempForm.get("smallId").toString().length() - 1), allWidget, tempForm.get("_id").toString().substring(1, tempForm.get("_id").toString().length() - 1)));
-
-                            }
-
-
-                            User actualUser = new User(object.get("_id").toString(),
-                                    object.get("username").toString(),
-                                    object.get("creationDate").toString(),
-                                    allForm, signature, headerPayload);
-
-                            ((UserAccess) getActivity()).setUser(actualUser);//save on activity
-
-                            getActivity().runOnUiThread(() -> {
+                            getActivity().runOnUiThread(() ->
                                 ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
-                                        .loadFragment(new FormListFragment(), true);
-                            });
+                                        .loadFragment(new FormListFragment(), true)
+                            );
                         } else {
-                            getActivity().runOnUiThread(() -> {
+                            Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
                                 view.findViewById(R.id.frag_log_next_button).setEnabled(true);
 
                                 assert object != null;

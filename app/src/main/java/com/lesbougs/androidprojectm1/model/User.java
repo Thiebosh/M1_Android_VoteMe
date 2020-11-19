@@ -7,22 +7,25 @@ import java.util.List;
 public class User {
     public String _id;
     public String username;
-    public LocalDateTime creationDate;
-    public List<Form> forms;
+    public String creationDate;
+    public LocalDateTime date;
+    public ArrayList<Form> forms;
+    public int type;
+
     public String signature;
     public String headerPayload;
 
-    public User(String _id, String username, String creationDate,  List<Form> forms,String signature , String headerPayload) {
-        this._id = _id.substring(1, _id.length() - 1);
-        this.signature = signature;
-        this.headerPayload = headerPayload;
-        this.username = username.substring(1, username.length() - 1);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            this.creationDate = LocalDateTime.parse(creationDate.substring(1, creationDate.length() - 2));
-        }
-        this.forms = forms;
+    @Override
+    public String toString() {
+        return "User{" +
+                "_id='" + _id + '\'' +
+                ", username='" + username + '\'' +
+                ", creationDate=" + creationDate +
+                ", forms=" + forms +
+                ", signature='" + signature + '\'' +
+                ", headerPayload='" + headerPayload + '\'' +
+                '}';
     }
-
 
     public String getSignature() { return signature; }
 
@@ -30,11 +33,27 @@ public class User {
 
     public String getId() { return _id; }
 
-    public LocalDateTime getCreationDate() {
+
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public List<Form> getForms() {
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            this.date = LocalDateTime.parse(creationDate.substring(1, creationDate.length() - 2));
+        }
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public ArrayList<Form> getForms() {
         return forms;
     }
 
@@ -54,11 +73,7 @@ public class User {
         this.username = username;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public void setForms(List<Form> forms) {
+    public void setForms(ArrayList<Form> forms) {
         this.forms = forms;
     }
 
@@ -70,18 +85,12 @@ public class User {
         this.headerPayload = headerPayload;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "_id='" + _id + '\'' +
-                ", username='" + username + '\'' +
-                ", creationDate=" + creationDate +
-                ", forms=" + forms +
-                ", signature='" + signature + '\'' +
-                ", headerPayload='" + headerPayload + '\'' +
-                '}';
+    public int getType() {
+        return type;
     }
 
-
+    public void setType(int type) {
+        this.type = type;
+    }
 }
 

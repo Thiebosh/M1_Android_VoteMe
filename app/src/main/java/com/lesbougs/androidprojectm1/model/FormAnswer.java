@@ -3,17 +3,17 @@ package com.lesbougs.androidprojectm1.model;
 import java.util.ArrayList;
 
 public class FormAnswer {
-    private ArrayList<WidgetAnswer> widgetAnswers;
+    private ArrayList<WidgetAnswer> result;
 
     public FormAnswer(ArrayList<WidgetAnswer> widgetAnswers) {
-        this.widgetAnswers = widgetAnswers;
+        this.result = widgetAnswers;
     }
 
     public ArrayList<WidgetAnswer> getWidgetAnswers() {
-        return widgetAnswers;
+        return result;
     }
 
-    public void setWidgetAnswers(ArrayList<WidgetAnswer> widgetAnswers) {
-        this.widgetAnswers = widgetAnswers;
+    public void setResult(ArrayList<WidgetAnswer> widgetAnswers) {
+        this.result = widgetAnswers;
     }
 }

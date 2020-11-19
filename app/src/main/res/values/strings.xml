@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Module M1 Android</string>
+    <string name="app_name">VoteMe</string>
 
 
     <!-- Global -->
@@ -46,8 +46,8 @@
 
     <string name="admin_button_open">Open</string>
     <string name="admin_button_close">Close</string>
-    <string name="admin_button_show_result">Show result</string>
-    <string name="admin_button_create_form">Create form</string>
+    <string name="admin_button_show_result">Results</string>
+    <string name="admin_button_create_form">New form</string>
     <string name="admin_button_back_to_list">Come back to the list</string>
     <string name="admin_title_result_form">Result</string>
 
