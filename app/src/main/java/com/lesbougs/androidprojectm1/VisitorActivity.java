@@ -1,11 +1,15 @@
 package com.lesbougs.androidprojectm1;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.lesbougs.androidprojectm1.adapters.VisitorWidgetAdapter;
 import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.interfaces.Constants;
@@ -27,6 +32,10 @@ import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class VisitorActivity extends AppCompatActivity {
 
     /*
@@ -35,7 +44,6 @@ public class VisitorActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.visitor, menu);
         return true;
     }
@@ -92,20 +100,53 @@ public class VisitorActivity extends AppCompatActivity {
 
                 ArrayList<WidgetAnswer> widgetAnswer = new ArrayList<>();
                 for (int i = 0; i < answerArrayList.size(); ++i) {
+                    if (answerArrayList.get(i).equals("")) {
+                        runOnUiThread(() -> {
+                            ((Button) findViewById(R.id.act_visit_confirm_button)).setEnabled(true);
+                            Toast.makeText(VisitorActivity.this, "champs vides", Toast.LENGTH_SHORT).show();
+                        });
+                        return;
+                    }
                     widgetAnswer.add(new WidgetAnswer(widgetArrayList.get(i).get_id(), answerArrayList.get(i)));
                 }
 
+                //String tmp = new Gson().toJson(new FormAnswer(widgetAnswer), FormAnswer.class);
                 String answerData = new Gson().toJson(new FormAnswer(widgetAnswer));
-                Log.d("recyclerViewResult", answerData);
+                answerData = answerData.substring(10, answerData.length() - 1);
 
-                //add here send request
+
                 FormApiService apiInterface = Api.getClient().create(FormApiService.class);
+
+                Call<JsonObject> call = apiInterface.setFormResult(mFormData.get_id(), new JsonObject()/*answerData*/);
+
+                runOnUiThread(() -> {
+                    Toast.makeText(VisitorActivity.this, R.string.api_call, Toast.LENGTH_SHORT).show();
+                    ((Button) findViewById(R.id.act_visit_confirm_button)).setEnabled(false);
+                });
+
+                call.enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if (response.code() == 200)
+                            runOnUiThread(() -> onBackPressed());//fini : revient à l'écran principal
+                        else {
+                            runOnUiThread(() -> {
+                                String str = response.body().get("message").toString();
+                                Toast.makeText(VisitorActivity.this, str, Toast.LENGTH_SHORT).show();
+                                ((Button) findViewById(R.id.act_visit_confirm_button)).setEnabled(true);
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        call.cancel();
+                    }
+                });
             });
 
-            onBackPressed();
         });
     }
-
 
     @Override
     public void onPause() {
