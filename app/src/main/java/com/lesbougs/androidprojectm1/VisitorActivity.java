@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.lesbougs.androidprojectm1.adapters.VisitorWidgetAdapter;
 import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.interfaces.Constants;
@@ -112,12 +114,14 @@ public class VisitorActivity extends AppCompatActivity {
 
                 //String tmp = new Gson().toJson(new FormAnswer(widgetAnswer), FormAnswer.class);
                 String answerData = new Gson().toJson(new FormAnswer(widgetAnswer));
-                answerData = answerData.substring(10, answerData.length() - 1);
+                answerData = "\""+answerData.substring(10, answerData.length());//retire "result:"
 
+                //JsonElement jelem = (new Gson()).fromJson(answerData, FormAnswer.class);
+                //JsonObject jobj = jelem.getAsJsonObject();
 
                 FormApiService apiInterface = Api.getClient().create(FormApiService.class);
 
-                Call<JsonObject> call = apiInterface.setFormResult(mFormData.get_id(), new JsonObject()/*answerData*/);
+                Call<JsonObject> call = apiInterface.setFormResult(mFormData.get_id(), answerData);
 
                 runOnUiThread(() -> {
                     Toast.makeText(VisitorActivity.this, R.string.api_call, Toast.LENGTH_SHORT).show();
