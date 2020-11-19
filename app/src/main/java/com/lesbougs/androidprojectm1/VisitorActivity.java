@@ -1,6 +1,5 @@
 package com.lesbougs.androidprojectm1;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
-import com.lesbougs.androidprojectm1.adapters.WidgetAdapter;
+import com.lesbougs.androidprojectm1.adapters.VisitorWidgetAdapter;
 import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.interfaces.Constants;
 import com.lesbougs.androidprojectm1.model.Api;
@@ -44,8 +43,7 @@ public class VisitorActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_visitor_backward) {
-            startActivity((new Intent(VisitorActivity.this, HomeActivity.class))
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            VisitorActivity.this.finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -76,12 +74,15 @@ public class VisitorActivity extends AppCompatActivity {
 
         ((TextView) findViewById(R.id.act_visit_title)).setText(mFormData.getTitle());
 
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.act_visit_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(VisitorActivity.this));
+
         ArrayList<Widget> widgetArrayList = new ArrayList<>(mFormData.getContent());
-        WidgetAdapter adapter = new WidgetAdapter(VisitorActivity.this, widgetArrayList);
+        VisitorWidgetAdapter adapter = new VisitorWidgetAdapter(VisitorActivity.this, widgetArrayList);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+
 
         ((Button) findViewById(R.id.act_visit_confirm_button)).setOnClickListener(v -> {
             recyclerView.clearFocus();//call onFocusChange (loose) which update answers

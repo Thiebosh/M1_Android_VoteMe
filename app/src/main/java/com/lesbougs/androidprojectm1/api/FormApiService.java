@@ -18,12 +18,13 @@ public interface FormApiService {
     @GET("api/users/getFormByUserID")
     Call<JsonObject> getFormByUserID(@Header("Cookie") String headerPayload ,
                                      @Header("Cookie") String signature);
+
     @FormUrlEncoded
     @POST("api/forms/changeStateForm")
     Call<JsonObject> closeForm(@Header("Cookie") String headerPayload ,
                                      @Header("Cookie") String signature , @Field("_id") String id , @Field("value") Boolean value);
 
     @FormUrlEncoded
+    @POST("api/forms/getFormBySmallID")
     Call<JsonObject> getForm(@Field("smallID") String smallID);
-
 }

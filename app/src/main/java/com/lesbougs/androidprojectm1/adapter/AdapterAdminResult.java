@@ -88,7 +88,7 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
 
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int listPosition) {
+    public void onBindViewHolder(@NotNull final RecyclerView.ViewHolder holder, final int listPosition) {
 
         Widget object = dataSet.get(listPosition);
         switch (object.type) {
