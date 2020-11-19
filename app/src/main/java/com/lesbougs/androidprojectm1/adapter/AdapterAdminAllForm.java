@@ -20,10 +20,13 @@ import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.fragments.FormListFragment;
 import com.lesbougs.androidprojectm1.fragments.FormResultFragment;
+import com.lesbougs.androidprojectm1.holders.AdapterAdminAllHolder;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.model.Api;
 import com.lesbougs.androidprojectm1.model.User;
 
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -46,39 +49,41 @@ public class AdapterAdminAllForm extends RecyclerView.Adapter {
         this.currentUser = currentUser;
     }
 
+    @NotNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AdapterAdminAllHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyler_view_all_form_created, parent, false);
-        MyViewHolder vh = new MyViewHolder(v); // pass the view to View Holder
+        AdapterAdminAllHolder vh = new AdapterAdminAllHolder(v); // pass the view to View Holder
         return vh;
     }
 
 
-    public void UpdateRecycler(RecyclerView.ViewHolder holder, boolean newValue) {
+    public void UpdateRecycler(AdapterAdminAllHolder holder, boolean newValue) {
         if (newValue) {
-            ((MyViewHolder) holder).buttonClosed.setIcon(context.getResources().getDrawable(R.drawable.ic_baseline_lock_12));
-            ((MyViewHolder) holder).buttonClosed.setBackgroundColor(context.getResources().getColor(R.color.red));
-            ((MyViewHolder) holder).buttonClosed.setText(context.getResources().getText(R.string.admin_button_close));
+           holder.getButtonClosed().setIcon(context.getResources().getDrawable(R.drawable.ic_baseline_lock_12));
+            holder.getButtonClosed().setBackgroundColor(context.getResources().getColor(R.color.red));
+            holder.getButtonClosed().setText(context.getResources().getText(R.string.admin_button_close));
 
         } else {
-            ((MyViewHolder) holder).buttonClosed.setIcon(context.getResources().getDrawable(R.drawable.ic_baseline_lock_open_12));
-            ((MyViewHolder) holder).buttonClosed.setBackgroundColor(context.getResources().getColor(R.color.green));
-            ((MyViewHolder) holder).buttonClosed.setText(context.getResources().getText(R.string.admin_button_open));
+            holder.getButtonClosed().setIcon(context.getResources().getDrawable(R.drawable.ic_baseline_lock_open_12));
+            holder.getButtonClosed().setBackgroundColor(context.getResources().getColor(R.color.green));
+            holder.getButtonClosed().setText(context.getResources().getText(R.string.admin_button_open));
 
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((MyViewHolder) holder).nameForm.setText(currentUser.getForms().get(position).getTitle());
+        AdapterAdminAllHolder finalHolder =(AdapterAdminAllHolder) holder;
+        finalHolder.getNameForm().setText(currentUser.getForms().get(position).getTitle());
 
 
-        UpdateRecycler(holder, currentUser.getForms().get(position).isClosed());
+        UpdateRecycler(finalHolder, currentUser.getForms().get(position).isClosed());
 
 
-        RecyclerView.ViewHolder finalHolder = holder;
 
-        ((MyViewHolder) holder).showResult.setOnClickListener(new View.OnClickListener() {
+
+        finalHolder.getShowResult().setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -90,7 +95,7 @@ public class AdapterAdminAllForm extends RecyclerView.Adapter {
         });
 
 
-        ((MyViewHolder) holder).buttonClosed.setOnClickListener(new View.OnClickListener() {
+        finalHolder.getButtonClosed().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -102,7 +107,7 @@ public class AdapterAdminAllForm extends RecyclerView.Adapter {
                     Call<JsonObject> call = apiInterface.closeForm(currentUser.getHeaderPayload(), currentUser.getSignature(), currentUser.getForms().get(position).get_id(), !currentUser.getForms().get(position).isClosed());
                     call.enqueue(new Callback<JsonObject>() {
                         @Override
-                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        public void onResponse(@NotNull Call<JsonObject> call, @NotNull Response<JsonObject> response) {
 
                             if (response.code() == 200) {
 
@@ -120,6 +125,7 @@ public class AdapterAdminAllForm extends RecyclerView.Adapter {
                                 currentUser.getForms().get(position).setClosed(!currentUser.getForms().get(position).isClosed());
                             } else {
                                 activity.runOnUiThread(() -> {
+                                    assert response.body() != null;
                                     Toast.makeText(context, response.body().get("message").getAsString(), Toast.LENGTH_SHORT).show();
                                 });
                             }
@@ -144,17 +150,5 @@ public class AdapterAdminAllForm extends RecyclerView.Adapter {
         return currentUser.getForms().size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView nameForm;// init the item view's
-        MaterialButton buttonClosed;// init the item view's
-        Button showResult;// init the item view's
 
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            // get the reference of item view's
-            nameForm = (TextView) itemView.findViewById(R.id.textView);
-            buttonClosed = (MaterialButton) itemView.findViewById(R.id.button_closed);
-            showResult = (Button) itemView.findViewById(R.id.button_show_result);
-        }
-    }
 }
