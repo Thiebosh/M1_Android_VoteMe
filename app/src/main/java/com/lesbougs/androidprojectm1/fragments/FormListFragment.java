@@ -18,6 +18,7 @@ import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.interfaces.UserAccess;
 import com.lesbougs.androidprojectm1.model.Form;
 import com.lesbougs.androidprojectm1.model.User;
+import com.lesbougs.androidprojectm1.model.Widget;
 
 import java.util.ArrayList;
 import java.util.Objects;

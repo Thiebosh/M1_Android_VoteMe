@@ -11,18 +11,18 @@ import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.model.Widget;
 
 
-public class VisitorWidgetNumberHolder extends RecyclerView.ViewHolder {
+public class AdminWidgetNumberHolder extends RecyclerView.ViewHolder {
 
     private final TextInputLayout mQuestionTitle;
     private final TextView mLimitNumber;
     public TextInputEditText mAnswerInput;
 
-    public VisitorWidgetNumberHolder(View itemView) {
+    public AdminWidgetNumberHolder(View itemView) {
         super(itemView);
 
-        mQuestionTitle = itemView.findViewById(R.id.item_visitor_widget_number_input);
-        mLimitNumber = itemView.findViewById(R.id.item_visitor_widget_number_limit);
-        mAnswerInput = itemView.findViewById(R.id.item_visitor_widget_edit_number);
+        mQuestionTitle = itemView.findViewById(R.id.item_admin_widget_number_input);
+        mLimitNumber = itemView.findViewById(R.id.item_admin_widget_number_limit);
+        mAnswerInput = itemView.findViewById(R.id.item_admin_widget_edit_number);
 
         itemView.setOnClickListener(view -> {
             //handle click event

@@ -1,7 +1,6 @@
 package com.lesbougs.androidprojectm1.holders;
 
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,18 +10,16 @@ import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.model.Widget;
 
 
-public class VisitorWidgetNumberHolder extends RecyclerView.ViewHolder {
+public class AdminWidgetTextHolder extends RecyclerView.ViewHolder {
 
     private final TextInputLayout mQuestionTitle;
-    private final TextView mLimitNumber;
     public TextInputEditText mAnswerInput;
 
-    public VisitorWidgetNumberHolder(View itemView) {
+    public AdminWidgetTextHolder(View itemView) {
         super(itemView);
 
-        mQuestionTitle = itemView.findViewById(R.id.item_visitor_widget_number_input);
-        mLimitNumber = itemView.findViewById(R.id.item_visitor_widget_number_limit);
-        mAnswerInput = itemView.findViewById(R.id.item_visitor_widget_edit_number);
+        mQuestionTitle = itemView.findViewById(R.id.item_admin_widget_text_input);
+        mAnswerInput = itemView.findViewById(R.id.item_admin_widget_edit_text);
 
         itemView.setOnClickListener(view -> {
             //handle click event
@@ -31,8 +28,6 @@ public class VisitorWidgetNumberHolder extends RecyclerView.ViewHolder {
     }
 
     public void setDetails(Widget widget) {
-        String str = "Entre "+widget.getMinPoint()+" et "+widget.getMaxPoint();
-        mLimitNumber.setText(str);
         mQuestionTitle.setHint(widget.getQuestion());
     }
 }

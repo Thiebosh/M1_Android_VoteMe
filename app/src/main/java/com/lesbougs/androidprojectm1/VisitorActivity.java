@@ -108,6 +108,19 @@ public class VisitorActivity extends AppCompatActivity {
                         });
                         return;
                     }
+                    if (widgetArrayList.get(i).getType() == 1) {
+                        float value = Float.parseFloat(answerArrayList.get(i));
+                        if (value != (int) value ||
+                                value < widgetArrayList.get(i).getMinPoint() ||
+                                value > widgetArrayList.get(i).getMaxPoint()) {
+                            runOnUiThread(() -> {
+                                ((Button) findViewById(R.id.act_visit_confirm_button)).setEnabled(true);
+                                Toast.makeText(VisitorActivity.this, "champs vides", Toast.LENGTH_SHORT).show();
+                            });
+                            return;
+                        }
+                    }
+
                     widgetAnswer.add(new WidgetAnswer(widgetArrayList.get(i).get_id(), answerArrayList.get(i)));
                 }
 
