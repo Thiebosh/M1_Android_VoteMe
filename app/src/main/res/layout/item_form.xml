@@ -17,6 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:textStyle="bold"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_closed"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,10 +29,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="@string/admin_button_close"
             android:textSize="12sp"
-            app:backgroundTint="@color/colorPrimary"
-            app:icon="@drawable/ic_baseline_lock_open_12"
             app:layout_constraintEnd_toStartOf="@+id/button_show_result"
             app:layout_constraintTop_toTopOf="parent" />
 
