@@ -113,7 +113,7 @@ public class VisitorActivity extends AppCompatActivity {
 
                 //String tmp = new Gson().toJson(new FormAnswer(widgetAnswer), FormAnswer.class);
                 String answerData = new Gson().toJson(new FormAnswer(widgetAnswer));
-                answerData = "\""+answerData.substring(10, answerData.length());//retire "result:"
+                answerData = answerData.substring(10, answerData.length()-1);//retire "result:"
 
                 //JsonElement jelem = (new Gson()).fromJson(answerData, FormAnswer.class);
                 //JsonObject jobj = jelem.getAsJsonObject();
