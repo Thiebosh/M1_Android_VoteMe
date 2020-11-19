@@ -32,6 +32,8 @@
 
 
     <!-- Admin -->
+    <string name="admin_remember_ask">Remember me?</string>
+
     <string name="admin_title_form">Your forms</string>
 
     <string name="admin_button_login">Login</string>

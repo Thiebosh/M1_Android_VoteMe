@@ -1,9 +1,7 @@
 package com.lesbougs.androidprojectm1.fragments;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,8 +15,6 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.lesbougs.androidprojectm1.R;
@@ -26,14 +22,8 @@ import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.interfaces.UserAccess;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.model.Api;
-import com.lesbougs.androidprojectm1.model.Form;
 import com.lesbougs.androidprojectm1.model.User;
-import com.lesbougs.androidprojectm1.model.Widget;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executor;
@@ -68,23 +58,21 @@ public class LoginFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         setHasOptionsMenu(true);//active le onPrepareOptionsMenu
-        Context mContext = getContext();
 
         final TextInputLayout usernameTextField = view.findViewById(R.id.frag_log_username_text_input);
         final TextInputEditText usernameEditText = view.findViewById(R.id.frag_log_username_edit_text);
         final TextInputLayout passwordTextField = view.findViewById(R.id.frag_log_password_text_input);
         final TextInputEditText passwordEditText = view.findViewById(R.id.frag_log_password_edit_text);
+
         final CheckBox saveLoginCheckBox = view.findViewById(R.id.frag_log_remember_checkbox);
-        SharedPreferences loginPreferences = mContext.getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        SharedPreferences loginPreferences = getContext().getSharedPreferences("loginPrefs", MODE_PRIVATE);
         SharedPreferences.Editor loginPrefsEditor = loginPreferences.edit();
 
         boolean saveLogin = loginPreferences.getBoolean("saveLogin", false);
-
-        if (saveLogin == true) {
+        if (saveLogin) {
             usernameEditText.setText(loginPreferences.getString("username", ""));
             passwordEditText.setText(loginPreferences.getString("password", ""));
         }
-
 
 
         usernameEditText.setOnFocusChangeListener((v, focus) -> {

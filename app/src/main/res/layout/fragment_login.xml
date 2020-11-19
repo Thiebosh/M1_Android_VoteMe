@@ -12,19 +12,30 @@
         android:layout_gravity="center_vertical"
         android:orientation="vertical">
 
+        <CheckBox
+            android:id="@+id/frag_log_remember_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:checked="true"
+            android:text="@string/admin_remember_ask"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/frag_log_username_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="50dp"
             android:hint="@string/admin_hint_username"
             app:boxStrokeColor="@color/colorSecondary"
             app:hintTextColor="@color/colorSecondaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/frag_log_remember_checkbox">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/frag_log_username_edit_text"
@@ -56,17 +67,6 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
-
-
-        <CheckBox
-            android:id="@+id/frag_log_remember_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Remember me ?"
-            app:layout_constraintBottom_toTopOf="@+id/frag_log_relativeLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frag_log_password_text_input" />
 
         <RelativeLayout
             android:id="@+id/frag_log_relativeLayout"
