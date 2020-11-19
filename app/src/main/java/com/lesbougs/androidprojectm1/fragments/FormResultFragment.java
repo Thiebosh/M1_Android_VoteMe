@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -40,7 +41,6 @@ public class FormResultFragment extends Fragment {
         User current = ((UserAccess) getActivity()).getUser();//get data
 
         View view = inflater.inflate(R.layout.fragment_form_result, container, false);
-
 
         RecyclerView recyclerView = (RecyclerView)  view.findViewById(R.id.frag_form_result_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
