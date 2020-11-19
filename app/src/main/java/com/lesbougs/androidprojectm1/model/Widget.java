@@ -10,12 +10,15 @@ public class Widget {
     public int order;
     public int type;
     public String textField;
-    public List<String> textFieldResult;
+    public ArrayList<String> textFieldResult;
     public int maxPoint;
     public int minPoint;
-    public List<Integer> resultPoint;
+    public ArrayList<Integer> resultPoint;
+    public int __v;
 
-    public Widget(String title, int order, int type, String textField, List<String> textFieldResult, int maxPoint, int minPoint,  List<Integer> resultPoint, String _id ) {
+/*
+//passe par gson, voir VisitorActivity
+    public Widget(String title, int order, int type, String textField, ArrayList<String> textFieldResult, int maxPoint, int minPoint,  ArrayList<Integer> resultPoint, String _id ) {
         this.title = title;
         this._id = _id;
         this.order = order;
@@ -25,6 +28,23 @@ public class Widget {
         this.maxPoint = maxPoint;
         this.minPoint = minPoint;
         this.resultPoint = resultPoint;
+    }
+
+ */
+
+    @Override
+    public String toString() {
+        return "Widget{" +
+                "title='" + title + '\'' +
+                ", _id='" + _id + '\'' +
+                ", order=" + order +
+                ", type=" + type +
+                ", textField='" + textField + '\'' +
+                ", textFieldResult=" + textFieldResult +
+                ", maxPoint=" + maxPoint +
+                ", minPoint=" + minPoint +
+                ", resultPoint=" + resultPoint +
+                '}';
     }
 
     public String getTitle() {
@@ -67,11 +87,11 @@ public class Widget {
         this.textField = textField;
     }
 
-    public List<String> getTextFieldResult() {
+    public ArrayList<String> getTextFieldResult() {
         return textFieldResult;
     }
 
-    public void setTextFieldResult(List<String> textFieldResult) {
+    public void setTextFieldResult(ArrayList<String> textFieldResult) {
         this.textFieldResult = textFieldResult;
     }
 
@@ -91,26 +111,19 @@ public class Widget {
         this.minPoint = minPoint;
     }
 
-    public List<Integer> getResultPoint() {
+    public ArrayList<Integer> getResultPoint() {
         return resultPoint;
     }
 
-    public void setResultPoint(List<Integer> resultPoint) {
+    public void setResultPoint(ArrayList<Integer> resultPoint) {
         this.resultPoint = resultPoint;
     }
 
-    @Override
-    public String toString() {
-        return "Widget{" +
-                "title='" + title + '\'' +
-                ", _id='" + _id + '\'' +
-                ", order=" + order +
-                ", type=" + type +
-                ", textField='" + textField + '\'' +
-                ", textFieldResult=" + textFieldResult +
-                ", maxPoint=" + maxPoint +
-                ", minPoint=" + minPoint +
-                ", resultPoint=" + resultPoint +
-                '}';
+    public int get__v() {
+        return __v;
+    }
+
+    public void set__v(int __v) {
+        this.__v = __v;
     }
 }

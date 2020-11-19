@@ -17,10 +17,6 @@ import java.util.Objects;
 public class FormCreateFragment extends Fragment {
 
     /*
-     * Section menu
-     */
-
-    /*
      * Section life cycle
      */
 
@@ -36,8 +32,4 @@ public class FormCreateFragment extends Fragment {
 
         return view;
     }
-
-    /*
-     * Section private methods
-     */
 }

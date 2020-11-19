@@ -13,13 +13,13 @@ import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.model.Widget;
 
 
-public class WidgetHolder extends RecyclerView.ViewHolder {
+public class VisitorWidgetHolder extends RecyclerView.ViewHolder {
 
     private final TextView mTitle;
     private final TextInputLayout mQuestionTitle;
     public TextInputEditText mAnswerInput;
 
-    public WidgetHolder(View itemView) {
+    public VisitorWidgetHolder(View itemView) {
         super(itemView);
 
         mTitle = itemView.findViewById(R.id.item_widget_title);
