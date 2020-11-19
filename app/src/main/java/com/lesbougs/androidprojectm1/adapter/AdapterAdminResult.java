@@ -209,6 +209,7 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
                 BarDataSet set = new BarDataSet(entries, "");
                 set.setColor(mContext.getResources().getColor(R.color.colorPrimary));
                 set.setValueTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+                set.setDrawValues(false);
 
                 BarData data = new BarData(set);
                 chart.setData(data);
@@ -224,6 +225,7 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
                 chart.setDrawGridBackground(true);
                 chart.setGridBackgroundColor(Color.rgb(230, 230, 230));
                 chart.getLegend().setEnabled(false);
+
 
 
                 break;
