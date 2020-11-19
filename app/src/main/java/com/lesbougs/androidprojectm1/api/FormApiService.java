@@ -1,7 +1,5 @@
 package com.lesbougs.androidprojectm1.api;
 
-
-
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
@@ -25,6 +23,7 @@ public interface FormApiService {
     Call<JsonObject> closeForm(@Header("Cookie") String headerPayload ,
                                      @Header("Cookie") String signature , @Field("_id") String id , @Field("value") Boolean value);
 
-    @POST("")//envoie le code du formulaire donc pas get
-    Call<JsonObject> getForm(@Field("smallID") String codeField);
+    @FormUrlEncoded
+    Call<JsonObject> getForm(@Field("smallID") String smallID);
+
 }

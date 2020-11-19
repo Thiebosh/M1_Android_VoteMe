@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Android module M1</string>
+    <string name="app_name">Module M1 Android</string>
 
 
     <!-- Global -->
@@ -13,6 +13,10 @@
     <string name="menu_disconnect">Logout</string>
 
 
+    <!-- API -->
+    <string name="api_call">Loading...</string>
+
+
     <!-- Home -->
     <string name="home_hint_form_code">Form code</string>
     <string name="home_use_form">Reply to form</string>
@@ -23,6 +27,7 @@
 
 
     <!-- Visitor -->
+    <string name="visitor_button_send">Send answer</string>
 
 
     <!-- Admin -->

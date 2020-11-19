@@ -1,8 +1,6 @@
 package com.lesbougs.androidprojectm1.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,8 +15,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.lesbougs.androidprojectm1.HomeActivity;
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.interfaces.UserAccess;
@@ -58,17 +56,12 @@ public class LoginFragment extends Fragment {
      * Section life cycle
      */
 
-    private final Executor backgroundThread = Executors.newSingleThreadExecutor();
+    private final Executor mBackgroundThread = Executors.newSingleThreadExecutor();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-
         setHasOptionsMenu(true);//active le onPrepareOptionsMenu
-
-
-        //Toast.makeText(getContext(), AppName.getLogin(), Toast.LENGTH_SHORT).show();
 
         final TextInputLayout usernameTextField = view.findViewById(R.id.frag_log_username_text_input);
         final TextInputEditText usernameEditText = view.findViewById(R.id.frag_log_username_edit_text);
@@ -104,17 +97,18 @@ public class LoginFragment extends Fragment {
             }
             if (!isValid) return;
 
-            final String username = usernameEditText.getText().toString();
-            String password = passwordEditText.getText().toString();
+            mBackgroundThread.execute(() -> {
+                final String username = usernameEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
 
-            backgroundThread.execute(() -> {
                 FormApiService apiInterface = Api.getClient().create(FormApiService.class);
 
                 Call<JsonObject> call = apiInterface.signIn(username, password);
-                getActivity().runOnUiThread(() -> {
-                    Toast.makeText(getContext(), "Loading...", Toast.LENGTH_SHORT).show();
+                Objects.requireNonNull(getActivity()).runOnUiThread(()-> {
+                    Toast.makeText(getContext(), R.string.api_call, Toast.LENGTH_SHORT).show();
                     view.findViewById(R.id.frag_log_next_button).setEnabled(false);
                 });
+
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -175,6 +169,7 @@ public class LoginFragment extends Fragment {
                             getActivity().runOnUiThread(() -> {
                                 view.findViewById(R.id.frag_log_next_button).setEnabled(true);
 
+                                assert object != null;
                                 usernameTextField.setError(object.get("message").toString());
                                 passwordTextField.setError(object.get("message").toString());
                             });
@@ -183,7 +178,6 @@ public class LoginFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<JsonObject> call, Throwable t) {
-                        //Log.d("TAG", "fait iech");
                         call.cancel();
                     }
                 });
@@ -192,11 +186,7 @@ public class LoginFragment extends Fragment {
         });
 
 
-        view.findViewById(R.id.frag_log_cancel_button).setOnClickListener(v -> {
-            //getActivity().onBackPressed();//plus propre mais necessite de ne pas stacker systématiquement
-            startActivity((new Intent(getActivity(), HomeActivity.class))
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        });
+        view.findViewById(R.id.frag_log_cancel_button).setOnClickListener(v -> Objects.requireNonNull(getActivity()).onBackPressed());
 
         /*view.findViewById(R.id.frag_log_sign_button).setOnClickListener(v ->
                 ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
@@ -218,6 +208,4 @@ public class LoginFragment extends Fragment {
     private boolean isPasswordInvalid(final int passwordLength) {
         return passwordLength < Objects.requireNonNull(getContext()).getResources().getInteger((R.integer.password_min_length));
     }
-
-
 }

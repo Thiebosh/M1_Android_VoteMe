@@ -39,7 +39,6 @@ public class RegisterFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register, container, false);
 
         setHasOptionsMenu(true);//active le onPrepareOptionsMenu
@@ -120,15 +119,13 @@ public class RegisterFragment extends Fragment {
         });
 
 
-        view.findViewById(R.id.frag_reg_cancel_button).setOnClickListener(v -> {
-            //getActivity().onBackPressed();//plus propre mais necessite de ne pas stacker systématiquement
-            startActivity((new Intent(getActivity(), HomeActivity.class))
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        });
+        view.findViewById(R.id.frag_reg_cancel_button).setOnClickListener(v ->
+                Objects.requireNonNull(getActivity()).onBackPressed()
+        );
 
         view.findViewById(R.id.frag_reg_login_button).setOnClickListener(v ->
-                ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
-                    .loadFragment(new LoginFragment(), false)
+            ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
+                .loadFragment(new LoginFragment(), false)
         );
 
         return view;

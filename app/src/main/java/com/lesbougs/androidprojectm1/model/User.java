@@ -1,8 +1,7 @@
 package com.lesbougs.androidprojectm1.model;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayList;
 
 public class User {
     public String _id;
@@ -30,11 +29,7 @@ public class User {
 
     public String getId() { return _id; }
 
-    public String getUserName() {
-        return username;
-    }
-
-    public LocalDateTime getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 

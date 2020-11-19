@@ -2,13 +2,16 @@ package com.lesbougs.androidprojectm1.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.ArrayList;
+
 
 public class Form {
+
+    public String _id;
+    public String smallId;
     public String title;
     public boolean isClosed;
-    public String smallId;
     public List<Widget> content;
-    public String _id;
 
 
     public Form(String title, boolean isClosed, String smallId, List<Widget> content , String _id) {

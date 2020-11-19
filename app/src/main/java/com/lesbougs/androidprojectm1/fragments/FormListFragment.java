@@ -48,9 +48,9 @@ public class FormListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_form_list, container, false);
 
-        User current = ((UserAccess) getActivity()).getUser();//get data
+        User current = ((UserAccess) Objects.requireNonNull(getActivity())).getUser();//get data
 
-        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setSubtitle(current.getUserName());
+        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setSubtitle(current.getUsername());
 
 
         RecyclerView recyclerView = (RecyclerView)  view.findViewById(R.id.recyclerViewAdminResult);
