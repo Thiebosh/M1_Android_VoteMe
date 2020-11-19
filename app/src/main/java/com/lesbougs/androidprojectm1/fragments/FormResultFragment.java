@@ -7,15 +7,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.adapter.AdapterAdminResult;
+import com.lesbougs.androidprojectm1.adapters.AdminFormAdapter;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.interfaces.UserAccess;
+import com.lesbougs.androidprojectm1.model.Form;
 import com.lesbougs.androidprojectm1.model.User;
 import com.lesbougs.androidprojectm1.model.Widget;
 
@@ -24,45 +25,46 @@ import java.util.Objects;
 
 public class FormResultFragment extends Fragment {
 
-    ArrayList<Widget> widget;
+    ArrayList<Widget> mWidget;
 
     public FormResultFragment(ArrayList<Widget> widget) {
-        this.widget=widget;
+        this.mWidget = widget;
     }
-
-    /*
-     * Section menu
-     */
 
     /*
      * Section life cycle
      */
 
-
-
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_form_result, container, false);
-
         User current = ((UserAccess) getActivity()).getUser();//get data
 
-        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setSubtitle(current.getUsername());
+        View view = inflater.inflate(R.layout.fragment_form_result, container, false);
 
-        /*
-        RecyclerView recyclerView = (RecyclerView)  view.findViewById(R.id.recyclerViewAdminResult);
+
+        RecyclerView recyclerView = (RecyclerView)  view.findViewById(R.id.frag_form_result_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
 
 
-        AdapterAdminResult customAdapter = new AdapterAdminResult(widget,getContext());
+        AdapterAdminResult customAdapter = new AdapterAdminResult(mWidget,getContext());
         recyclerView.setAdapter(customAdapter);
 
-         */
 
+        /*
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.frag_form_result_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        ArrayList<Widget> formArrayList = new ArrayList<>(mWidget);
+        AdminWidgetResultAdapter adapter = new AdminWidgetResultAdapter(getActivity(),
+                getContext(),
+                formArrayList,
+                currentUser.getHeaderPayload(),
+                currentUser.getSignature());
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        */
 
 
 
@@ -73,11 +75,4 @@ public class FormResultFragment extends Fragment {
 
         return view;
     }
-
-    /*
-     * Section private methods
-     */
-
-
-
 }

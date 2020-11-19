@@ -1,13 +1,11 @@
 package com.lesbougs.androidprojectm1.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,28 +19,12 @@ import com.lesbougs.androidprojectm1.model.User;
 
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class FormListFragment extends Fragment {
 
     /*
-     * Section menu
-     */
-
-    /*
      * Section life cycle
      */
-
-
-    private final Executor backgroundThread = Executors.newSingleThreadExecutor();
-
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d("TAG", "bonjour");
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,8 +33,7 @@ public class FormListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_form_list, container, false);
         Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setSubtitle(currentUser.getUsername());
 
-
-        RecyclerView recyclerView = (RecyclerView)  view.findViewById(R.id.recyclerViewAdminResult);
+        RecyclerView recyclerView = (RecyclerView)  view.findViewById(R.id.frag_form_list_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         ArrayList<Form> formArrayList = new ArrayList<>(currentUser.getForms());
@@ -66,8 +47,4 @@ public class FormListFragment extends Fragment {
 
         return view;
     }
-
-    /*
-     * Section private methods
-     */
 }
