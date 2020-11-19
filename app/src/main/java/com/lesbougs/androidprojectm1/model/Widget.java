@@ -68,7 +68,8 @@ public class Widget {
     }
 
     public int getMaxPoint() {
-
+        return this.maxPoint;
+    }
     public void setMaxPoint(int maxPoint) {
         this.maxPoint = maxPoint;
     }

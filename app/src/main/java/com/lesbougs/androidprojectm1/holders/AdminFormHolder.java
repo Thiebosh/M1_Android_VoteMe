@@ -2,6 +2,7 @@ package com.lesbougs.androidprojectm1.holders;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
