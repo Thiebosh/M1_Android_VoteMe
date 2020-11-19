@@ -13,12 +13,15 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.model.Widget;
@@ -148,7 +151,7 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
                         countMap.put(key, 1);
                     }
                 }
-                Log.d("TAG",countMap+"");
+
 
                 Double average = 0.0;
                 int totalValue = 0;
@@ -158,8 +161,6 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
                         entries.add(new BarEntry(i, countMap.get(i)));
                         average += i * countMap.get(i);
                         totalValue += countMap.get(i);
-                    } else {
-                        //entries.add(new BarEntry(i, 0));
                     }
                 }
 
@@ -170,7 +171,16 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
 
                 DecimalFormat df = new DecimalFormat("##.##");
                 df.setRoundingMode(RoundingMode.CEILING);
-                averageText.setText("Mean : " + df.format(average.doubleValue()));
+
+                if(totalValue == 0){
+                    averageText.setText("Mean : No result");
+                }
+                else {
+                    averageText.setText("Mean : " + df.format(average.doubleValue()));
+                }
+
+
+
 
                 YAxis leftAxis = chart.getAxis(YAxis.AxisDependency.LEFT);
                 YAxis rightAxis = chart.getAxisRight();
@@ -179,8 +189,10 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
 
                 leftAxis.setDrawGridLines(false);
                 leftAxis.setAxisLineColor(mContext.getResources().getColor(R.color.colorPrimary));
-                //leftAxis.setLabelCount(3);
 
+                //leftAxis.setLabelCount(3);
+                xAxis.setAxisMinimum(object.getMinPoint());
+                xAxis.setAxisMaximum(object.getMaxPoint());
                 xAxis.setTextSize(10f);
                 xAxis.setDrawAxisLine(true);
                 xAxis.setDrawGridLines(false);
