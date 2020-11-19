@@ -15,10 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.adapters.AdminWidgetAdapter;
 import com.lesbougs.androidprojectm1.adapters.VisitorWidgetAdapter;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
+import com.lesbougs.androidprojectm1.model.FormAnswer;
 import com.lesbougs.androidprojectm1.model.Widget;
 
 import java.util.ArrayList;
@@ -69,6 +71,8 @@ public class FormCreateFragment extends Fragment {
             w.setType(1);
             mWidgetArrayList.add(w);
             adapter.notifyItemInserted(mWidgetArrayList.size() - 1);
+
+            //String json = new Gson().toJson(adapter.getAnswers());
         });
 
 
