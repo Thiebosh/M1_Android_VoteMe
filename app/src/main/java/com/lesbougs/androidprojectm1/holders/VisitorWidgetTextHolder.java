@@ -31,7 +31,7 @@ public class VisitorWidgetTextHolder extends RecyclerView.ViewHolder {
     }
 
     public void setDetails(Widget widget) {
-        mTitle.setText(widget.getTitle());
+        mTitle.setText(widget.getQuestion());
         mQuestionTitle.setHint(widget.getQuestion());
     }
 }

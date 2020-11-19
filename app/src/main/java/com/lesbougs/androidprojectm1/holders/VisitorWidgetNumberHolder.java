@@ -31,8 +31,7 @@ public class VisitorWidgetNumberHolder extends RecyclerView.ViewHolder {
     }
 
     public void setDetails(Widget widget) {
-        String str = widget.getTitle()+" : entre 0 et "+widget.getMaxPoint();
-        mTitle.setText(str);
-        mQuestionTitle.setHint(widget.getQuestion());
+        mTitle.setText(widget.getQuestion());
+        mQuestionTitle.setHint("Entre 0 et "+widget.getMaxPoint());
     }
 }

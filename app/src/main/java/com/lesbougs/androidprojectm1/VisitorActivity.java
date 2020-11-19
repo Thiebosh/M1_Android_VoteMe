@@ -1,8 +1,5 @@
 package com.lesbougs.androidprojectm1;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -74,6 +71,7 @@ public class VisitorActivity extends AppCompatActivity {
                 //toast d'erreur?
                 VisitorActivity.this.finish();
             }
+
             mFormData = (new Gson()).fromJson(Objects.requireNonNull(extras).getString(Constants.EXTRA_VISITOR_FORM), Form.class);
         });
 
@@ -86,7 +84,7 @@ public class VisitorActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.act_visit_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(VisitorActivity.this));
 
-        ArrayList<Widget> widgetArrayList = new ArrayList<>(mFormData.getContent());
+        ArrayList<Widget> widgetArrayList = new ArrayList<>(mFormData.getWidget());
         VisitorWidgetAdapter adapter = new VisitorWidgetAdapter(VisitorActivity.this, widgetArrayList);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -112,12 +110,14 @@ public class VisitorActivity extends AppCompatActivity {
 
                 //String tmp = new Gson().toJson(new FormAnswer(widgetAnswer), FormAnswer.class);
                 String answerData = new Gson().toJson(new FormAnswer(widgetAnswer));
-                answerData = answerData.substring(10, answerData.length() - 1);
+                answerData = "\""+answerData.substring(10, answerData.length());//retire "result:"
 
+                //JsonElement jelem = (new Gson()).fromJson(answerData, FormAnswer.class);
+                //JsonObject jobj = jelem.getAsJsonObject();
 
                 FormApiService apiInterface = Api.getClient().create(FormApiService.class);
 
-                Call<JsonObject> call = apiInterface.setFormResult(mFormData.get_id(), new JsonObject()/*answerData*/);
+                Call<JsonObject> call = apiInterface.setFormResult(mFormData.get_id(), answerData);
 
                 runOnUiThread(() -> {
                     Toast.makeText(VisitorActivity.this, R.string.api_call, Toast.LENGTH_SHORT).show();
