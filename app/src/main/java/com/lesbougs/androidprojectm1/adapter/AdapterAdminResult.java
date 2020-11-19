@@ -111,7 +111,7 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
                     }
                 }
 
-                ((Type0) holder).questionTextField.setText(object.textField);
+                ((Type0) holder).questionTextField.setText(object.getQuestion());
 
                 ((Type0) holder).textField.setText(allResult);
                 ((Type0) holder).textField.setOnClickListener(new View.OnClickListener() {
@@ -132,7 +132,7 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
                 });
                 break;
             case 1:
-                ((Type1) holder).titleTextField.setText(object.title);
+                ((Type1) holder).titleTextField.setText(object.getQuestion());
 
                 ArrayList<BarEntry> entries = new ArrayList<>();
 

@@ -2,7 +2,6 @@ package com.lesbougs.androidprojectm1.holders;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,7 +19,6 @@ import com.lesbougs.androidprojectm1.model.Api;
 import com.lesbougs.androidprojectm1.model.Form;
 
 import java.util.Objects;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import retrofit2.Call;
@@ -53,7 +51,7 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
 
         mShowResult.setOnClickListener(view -> activity.runOnUiThread(() ->
             ((FragmentSwitcher) Objects.requireNonNull(activity))
-                .loadFragment(new FormResultFragment(form.getContent()), true)
+                .loadFragment(new FormResultFragment(form.getWidget()), true)
         ));
 
         UpdateRecycler(context, form.isClosed());

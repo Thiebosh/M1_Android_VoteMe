@@ -1,8 +1,5 @@
 package com.lesbougs.androidprojectm1;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,9 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.lesbougs.androidprojectm1.adapters.VisitorWidgetAdapter;
 import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.interfaces.Constants;
@@ -76,6 +71,7 @@ public class VisitorActivity extends AppCompatActivity {
                 //toast d'erreur?
                 VisitorActivity.this.finish();
             }
+
             mFormData = (new Gson()).fromJson(Objects.requireNonNull(extras).getString(Constants.EXTRA_VISITOR_FORM), Form.class);
         });
 
@@ -88,7 +84,7 @@ public class VisitorActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.act_visit_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(VisitorActivity.this));
 
-        ArrayList<Widget> widgetArrayList = new ArrayList<>(mFormData.getContent());
+        ArrayList<Widget> widgetArrayList = new ArrayList<>(mFormData.getWidget());
         VisitorWidgetAdapter adapter = new VisitorWidgetAdapter(VisitorActivity.this, widgetArrayList);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();

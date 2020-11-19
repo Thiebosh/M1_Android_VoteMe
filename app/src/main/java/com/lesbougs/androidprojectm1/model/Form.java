@@ -9,7 +9,7 @@ public class Form {
     public String smallId;
     public String title;
     public boolean isClosed;
-    public ArrayList<Widget> content;
+    public ArrayList<Widget> widget;
 
     @Override
     public String toString() {
@@ -17,7 +17,7 @@ public class Form {
                 "title='" + title + '\'' +
                 ", isClosed=" + isClosed +
                 ", smallId='" + smallId + '\'' +
-                ", content=" + content +
+                ", content=" + widget +
                 ", _id='" + _id + '\'' +
                 '}';
     }
@@ -54,11 +54,11 @@ public class Form {
         isClosed = closed;
     }
 
-    public ArrayList<Widget> getContent() {
-        return content;
+    public ArrayList<Widget> getWidget() {
+        return widget;
     }
 
-    public void setContent(ArrayList<Widget> content) {
-        this.content = content;
+    public void setWidget(ArrayList<Widget> widget) {
+        this.widget = widget;
     }
 }
