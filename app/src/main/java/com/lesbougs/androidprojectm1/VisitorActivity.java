@@ -76,7 +76,10 @@ public class VisitorActivity extends AppCompatActivity {
         });
 
         setContentView(R.layout.activity_visitor);
-        Objects.requireNonNull(VisitorActivity.this.getSupportActionBar()).setSubtitle(mFormData.getSmallId());
+
+        assert VisitorActivity.this.getSupportActionBar() != null;
+        String str = "Form code : "+mFormData.getSmallId();
+        VisitorActivity.this.getSupportActionBar().setTitle(str);
 
         ((TextView) findViewById(R.id.act_visit_title)).setText(mFormData.getTitle());
 

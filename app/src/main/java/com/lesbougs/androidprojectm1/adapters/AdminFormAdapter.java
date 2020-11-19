@@ -35,7 +35,7 @@ public class AdminFormAdapter extends RecyclerView.Adapter<AdminFormHolder> {
     @NonNull
     @Override
     public AdminFormHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_form, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.recyler_view_all_form_created, parent, false);
         return new AdminFormHolder(view);
     }
 

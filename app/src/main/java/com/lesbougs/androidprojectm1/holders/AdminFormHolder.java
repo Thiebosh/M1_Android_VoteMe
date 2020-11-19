@@ -2,6 +2,7 @@ package com.lesbougs.androidprojectm1.holders;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,15 +30,17 @@ import retrofit2.Response;
 public class AdminFormHolder extends RecyclerView.ViewHolder {
 
     private final TextView mNameForm;
+    private final TextView textViewCodeForm;
     private final MaterialButton mButtonClosed;
     private final Button mShowResult;
 
     public AdminFormHolder(View itemView) {
         super(itemView);
 
-        mNameForm = (TextView) itemView.findViewById(R.id.textView);
+        mNameForm = (TextView) itemView.findViewById(R.id.textViewNameForm);
         mButtonClosed = (MaterialButton) itemView.findViewById(R.id.button_closed);
         mShowResult = (Button) itemView.findViewById(R.id.button_show_result);
+        textViewCodeForm = (TextView) itemView.findViewById(R.id.textViewCodeForm);
 
         itemView.setOnClickListener(view -> {
             //handle click event
@@ -47,7 +50,10 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
 
     public void setDetails(Form form, Activity activity, Context context, String userPayload, String userSignature) {
         mNameForm.setText(form.getTitle());
+        String code = "Code : " + form.getSmallId();
 
+        Log.d("TAG",code);
+        textViewCodeForm.setText(code);
 
         mShowResult.setOnClickListener(view -> activity.runOnUiThread(() ->
             ((FragmentSwitcher) Objects.requireNonNull(activity))

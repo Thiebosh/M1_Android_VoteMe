@@ -50,10 +50,13 @@
     <string name="admin_button_create_form">New form</string>
     <string name="admin_button_back_to_list">Come back to the list</string>
     <string name="admin_title_result_form">Result</string>
-
+    <string name="admin_button_save_form">Save form</string>
+    <string name="admin_button_add_form">Add form</string>
+    <string name="admin_auto_complete_type_of_widget"> Choose your type of widget</string>
 
     <string name="admin_wrong_username">Incorrect username.</string>
     <string name="admin_wrong_password">Incorrect password.</string>
+
 
 
 </resources>
