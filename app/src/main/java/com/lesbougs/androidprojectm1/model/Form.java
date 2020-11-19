@@ -14,7 +14,8 @@ public class Form {
     public int __v;
     public ArrayList<Widget> content;
 
-
+/*
+//passe par gson, voir VisitorActivity
     public Form(String title, boolean isClosed, String smallId, ArrayList<Widget> content , String _id) {
         this.title = title;
         this._id = _id;
@@ -22,6 +23,8 @@ public class Form {
         this.smallId = smallId;
         this.content = content;
     }
+
+ */
 
     @Override
     public String toString() {

@@ -15,7 +15,6 @@ public class NameApp extends Application {
     public void onCreate(){
         super.onCreate();
 
-        // Keep a reference to the application context
         sContext = getApplicationContext();
     }
 

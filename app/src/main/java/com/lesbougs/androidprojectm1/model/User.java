@@ -16,6 +16,8 @@ public class User {
     public String signature;
     public String headerPayload;
 
+/*
+//passe par gson, voir VisitorActivity
     public User(String _id, String username, String creationDate,  ArrayList<Form> forms,String signature , String headerPayload) {
         this._id = _id.substring(1, _id.length() - 1);
         this.signature = signature;
@@ -26,6 +28,8 @@ public class User {
         }
         this.forms = forms;
     }
+
+ */
 
     @Override
     public String toString() {

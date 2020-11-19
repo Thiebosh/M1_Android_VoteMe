@@ -119,11 +119,4 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
         super.onDestroy();
         Objects.requireNonNull(AdminActivity.this.getSupportActionBar()).setSubtitle(null);
     }
-
-
-
-    /*
-     * Section private methods
-     */
-
 }

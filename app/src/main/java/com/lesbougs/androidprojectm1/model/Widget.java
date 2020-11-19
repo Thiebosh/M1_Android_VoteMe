@@ -16,6 +16,8 @@ public class Widget {
     public ArrayList<Integer> resultPoint;
     public int __v;
 
+/*
+//passe par gson, voir VisitorActivity
     public Widget(String title, int order, int type, String textField, ArrayList<String> textFieldResult, int maxPoint, int minPoint,  ArrayList<Integer> resultPoint, String _id ) {
         this.title = title;
         this._id = _id;
@@ -27,6 +29,8 @@ public class Widget {
         this.minPoint = minPoint;
         this.resultPoint = resultPoint;
     }
+
+ */
 
     @Override
     public String toString() {
