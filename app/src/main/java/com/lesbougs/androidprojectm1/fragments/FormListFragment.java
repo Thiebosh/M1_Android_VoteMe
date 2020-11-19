@@ -41,7 +41,6 @@ public class FormListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("TAG", "bonjour");
     }
 
     @Override

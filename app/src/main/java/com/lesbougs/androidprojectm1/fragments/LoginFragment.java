@@ -144,7 +144,7 @@ public class LoginFragment extends Fragment {
                                         resultTextField.add(textField.getAsString());
                                     }
 
-                                    Log.d("TAG", temp.get("_id").toString().substring(1, temp.get("_id").toString().length() - 1));
+
                                     allWidget.add(new Widget(temp.get("title").toString().substring(1, temp.get("title").toString().length() - 1), temp.get("order").getAsInt(), temp.get("type").getAsInt(), temp.get("textField").toString().substring(1, temp.get("textField").toString().length() - 1), resultTextField, temp.get("maxPoint").getAsInt(), temp.get("minPoint").getAsInt(), resultPoint,temp.get("_id").toString().substring(1, temp.get("_id").toString().length() - 1)));
                                 }
 

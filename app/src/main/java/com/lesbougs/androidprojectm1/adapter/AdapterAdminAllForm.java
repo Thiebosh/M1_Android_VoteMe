@@ -44,7 +44,6 @@ public class AdapterAdminAllForm extends RecyclerView.Adapter {
         this.context = context;
         this.activity = activity;
         this.currentUser = currentUser;
-        Log.i("TAG", currentUser.toString() + "");
     }
 
     @Override
@@ -71,7 +70,6 @@ public class AdapterAdminAllForm extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        holder = (MyViewHolder) holder;
         ((MyViewHolder) holder).nameForm.setText(currentUser.getForms().get(position).getTitle());
 
 
@@ -102,11 +100,9 @@ public class AdapterAdminAllForm extends RecyclerView.Adapter {
                     FormApiService apiInterface = Api.getClient().create(FormApiService.class);
 
                     Call<JsonObject> call = apiInterface.closeForm(currentUser.getHeaderPayload(), currentUser.getSignature(), currentUser.getForms().get(position).get_id(), !currentUser.getForms().get(position).isClosed());
-
                     call.enqueue(new Callback<JsonObject>() {
                         @Override
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
 
                             if (response.code() == 200) {
 
@@ -131,7 +127,6 @@ public class AdapterAdminAllForm extends RecyclerView.Adapter {
 
                         @Override
                         public void onFailure(Call<JsonObject> call, Throwable t) {
-                            //Log.d("TAG", "fait iech");
                             call.cancel();
                         }
                     });
