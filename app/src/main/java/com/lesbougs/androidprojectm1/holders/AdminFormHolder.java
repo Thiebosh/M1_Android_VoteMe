@@ -101,10 +101,12 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
         if (newValue) {
             mButtonClosed.setIcon(context.getDrawable(R.drawable.ic_baseline_lock_12));
             mButtonClosed.setBackgroundColor(context.getColor(R.color.red));
+            mButtonClosed.setText(context.getResources().getText(R.string.admin_button_close));
         }
         else {
             mButtonClosed.setIcon(context.getDrawable(R.drawable.ic_baseline_lock_open_12));
             mButtonClosed.setBackgroundColor(context.getColor(R.color.green));
+            mButtonClosed.setText(context.getResources().getText(R.string.admin_button_open));
         }
     }
 }
