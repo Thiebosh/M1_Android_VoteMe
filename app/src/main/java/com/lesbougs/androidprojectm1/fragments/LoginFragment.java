@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.lesbougs.androidprojectm1.HomeActivity;
 import com.lesbougs.androidprojectm1.R;
@@ -22,9 +24,12 @@ import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.interfaces.UserAccess;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.model.Api;
+import com.lesbougs.androidprojectm1.model.Form;
 import com.lesbougs.androidprojectm1.model.User;
+import com.lesbougs.androidprojectm1.model.Widget;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -106,7 +111,7 @@ public class LoginFragment extends Fragment {
                 FormApiService apiInterface = Api.getClient().create(FormApiService.class);
 
                 Call<JsonObject> call = apiInterface.signIn(username, password);
-                getActivity().runOnUiThread(()-> {
+                getActivity().runOnUiThread(() -> {
                     Toast.makeText(getContext(), "Loading...", Toast.LENGTH_SHORT).show();
                     view.findViewById(R.id.frag_log_next_button).setEnabled(false);
                 });
@@ -115,20 +120,59 @@ public class LoginFragment extends Fragment {
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         JsonObject object = response.body();
 
+                        List<String> Cookielist = response.headers().values("Set-Cookie");
+
+
                         if (response.code() == 200) {
+                            String headerPayload = (Cookielist.get(0).split(";"))[0];
+                            String signature = (Cookielist.get(1).split(";"))[0];
+
+
+                            List<Form> allForm = new ArrayList<Form>();
+
+
+                            // String title, boolean isClosed, String smallId, List<Widget> content
+
+                            for (JsonElement form : object.get("forms").getAsJsonArray()) {
+                                List<Widget> allWidget =  new ArrayList<Widget>();
+                                JsonObject tempForm = form.getAsJsonObject();
+                                for (JsonElement widget : tempForm.get("content").getAsJsonArray()) {
+                                    JsonObject temp = widget.getAsJsonObject();
+
+                                    List<Integer> resultPoint = new ArrayList<Integer>();
+                                    List<String> resultTextField =new ArrayList<String>();
+
+                                    for (JsonElement point : temp.get("resultPoint").getAsJsonArray()) {
+                                        resultPoint.add(point.getAsInt());
+                                    }
+
+                                    for (JsonElement textField : temp.get("textFieldResult").getAsJsonArray()) {
+                                        resultTextField.add(textField.getAsString());
+                                    }
+
+                                    Log.d("TAG", temp.get("_id").toString().substring(1, temp.get("_id").toString().length() - 1));
+                                    allWidget.add(new Widget(temp.get("title").toString().substring(1, temp.get("title").toString().length() - 1), temp.get("order").getAsInt(), temp.get("type").getAsInt(), temp.get("textField").toString().substring(1, temp.get("textField").toString().length() - 1), resultTextField, temp.get("maxPoint").getAsInt(), temp.get("minPoint").getAsInt(), resultPoint,temp.get("_id").toString().substring(1, temp.get("_id").toString().length() - 1)));
+                                }
+
+
+                                allForm.add(new Form (tempForm.get("title").toString().substring(1, tempForm.get("title").toString().length() - 1), tempForm.get("isClosed").getAsBoolean(),  tempForm.get("smallId").toString().substring(1, tempForm.get("smallId").toString().length() - 1), allWidget, tempForm.get("_id").toString().substring(1, tempForm.get("_id").toString().length() - 1)));
+
+                            }
+
+
                             User actualUser = new User(object.get("_id").toString(),
-                                                        object.get("username").toString(),
-                                                        object.get("creationDate").toString(),
-                                                        object.get("forms").toString());
+                                    object.get("username").toString(),
+                                    object.get("creationDate").toString(),
+                                    allForm, signature, headerPayload);
 
                             ((UserAccess) getActivity()).setUser(actualUser);//save on activity
 
-                            getActivity().runOnUiThread(()-> {
+                            getActivity().runOnUiThread(() -> {
                                 ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
                                         .loadFragment(new FormListFragment(), true);
                             });
                         } else {
-                            getActivity().runOnUiThread(()-> {
+                            getActivity().runOnUiThread(() -> {
                                 view.findViewById(R.id.frag_log_next_button).setEnabled(true);
 
                                 usernameTextField.setError(object.get("message").toString());

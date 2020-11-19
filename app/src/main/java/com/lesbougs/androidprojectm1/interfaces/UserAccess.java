@@ -10,6 +10,9 @@ import java.util.Stack;
  * needs to implement onBackPressed()
  */
 public interface UserAccess {
+
+
+
     User getUser();
     void setUser(User user);
 }

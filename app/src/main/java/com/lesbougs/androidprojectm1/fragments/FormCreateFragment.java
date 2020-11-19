@@ -14,7 +14,7 @@ import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 
 import java.util.Objects;
 
-public class FormEditFragment extends Fragment {
+public class FormCreateFragment extends Fragment {
 
     /*
      * Section menu

@@ -7,6 +7,8 @@ import com.google.gson.JsonObject;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface FormApiService {
@@ -14,6 +16,14 @@ public interface FormApiService {
     @POST("api/users/login")
     Call<JsonObject> signIn(@Field("username") String username,
                             @Field("password") String password);
+
+    @GET("api/users/getFormByUserID")
+    Call<JsonObject> getFormByUserID(@Header("Cookie") String headerPayload ,
+                                     @Header("Cookie") String signature);
+    @FormUrlEncoded
+    @POST("api/forms/closeForm")
+    Call<JsonObject> closeForm(@Header("Cookie") String headerPayload ,
+                                     @Header("Cookie") String signature , @Field("_id") String id , @Field("value") Boolean value);
 
     @POST("")//envoie le code du formulaire donc pas get
     Call<JsonObject> getForm(@Field("smallID") String codeField);

@@ -88,6 +88,7 @@ public class AdminActivity extends AppCompatActivity implements FragmentSwitcher
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         //un seul menu pour tous les fragments : définit tous les cas ici et affiche / masque dans les fragments
         if (item.getItemId() == R.id.menu_admin_logout) {
+            current = null;
             AdminActivity.this.finish();//revient à l'activité précédente
             return true;
         }

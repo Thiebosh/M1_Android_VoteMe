@@ -104,7 +104,7 @@ public class HomeActivity extends AppCompatActivity {
                         arrayJSON = arrayJSON.substring(1,arrayJSON.length()-1);
 
                         //List<String> items = Arrays.asList(arrayJSON.split("\\s*,\\s*"));
-                        Form form = new Form();//object.get("_id").toString(), object.get("username").toString(), new Date(object.get("creationDate").toString()),items);
+                        //Form form = new Form();//object.get("_id").toString(), object.get("username").toString(), new Date(object.get("creationDate").toString()),items);
 
                         Intent intent = new Intent(HomeActivity.this, VisitorActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

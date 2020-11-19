@@ -26,6 +26,8 @@
 
 
     <!-- Admin -->
+    <string name="admin_title_form">Your forms</string>
+
     <string name="admin_button_login">Login</string>
     <string name="admin_button_sign">Register</string>
 
@@ -37,7 +39,16 @@
     <string name="admin_error_password">Password too short.</string>
     <string name="admin_error_confirm_password">Difference between passwords</string>
 
+    <string name="admin_button_open">Open</string>
+    <string name="admin_button_close">Close</string>
+    <string name="admin_button_show_result">Show result</string>
+    <string name="admin_button_create_form">Create form</string>
+    <string name="admin_button_back_to_list">Come back to the list</string>
+
+
+
     <string name="admin_wrong_username">Incorrect username.</string>
     <string name="admin_wrong_password">Incorrect password.</string>
+
 
 </resources>
