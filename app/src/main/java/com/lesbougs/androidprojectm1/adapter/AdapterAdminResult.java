@@ -1,7 +1,6 @@
 package com.lesbougs.androidprojectm1.adapter;
 
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.mikephil.charting.charts.BarChart;
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.model.Widget;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -52,6 +53,7 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
         this.mContext = context;
     }
 
+    //@NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -69,7 +71,7 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
 
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int listPosition) {
+    public void onBindViewHolder(@NotNull final RecyclerView.ViewHolder holder, final int listPosition) {
 
         Widget object = dataSet.get(listPosition);
         Log.d("TAG",object.toString());

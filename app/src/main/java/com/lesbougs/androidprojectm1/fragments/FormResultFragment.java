@@ -13,11 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lesbougs.androidprojectm1.R;
-import com.lesbougs.androidprojectm1.adapter.AdapterAdminAllForm;
 import com.lesbougs.androidprojectm1.adapter.AdapterAdminResult;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.interfaces.UserAccess;
-import com.lesbougs.androidprojectm1.model.Form;
 import com.lesbougs.androidprojectm1.model.User;
 import com.lesbougs.androidprojectm1.model.Widget;
 
@@ -50,9 +48,9 @@ public class FormResultFragment extends Fragment {
 
         User current = ((UserAccess) getActivity()).getUser();//get data
 
-        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setSubtitle(current.getUserName());
+        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setSubtitle(current.getUsername());
 
-
+        /*
         RecyclerView recyclerView = (RecyclerView)  view.findViewById(R.id.recyclerViewAdminResult);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -61,6 +59,8 @@ public class FormResultFragment extends Fragment {
 
         AdapterAdminResult customAdapter = new AdapterAdminResult(widget,getContext());
         recyclerView.setAdapter(customAdapter);
+
+         */
 
 
 

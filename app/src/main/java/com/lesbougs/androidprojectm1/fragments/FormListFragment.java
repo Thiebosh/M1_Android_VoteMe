@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lesbougs.androidprojectm1.R;
-import com.lesbougs.androidprojectm1.adapter.AdapterAdminAllForm;
+import com.lesbougs.androidprojectm1.adapters.AdminFormAdapter;
 import com.lesbougs.androidprojectm1.interfaces.UserAccess;
 import com.lesbougs.androidprojectm1.model.Form;
 import com.lesbougs.androidprojectm1.model.User;
@@ -46,32 +46,23 @@ public class FormListFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        User currentUser = ((UserAccess) Objects.requireNonNull(getActivity())).getUser();//get data
+
         View view = inflater.inflate(R.layout.fragment_form_list, container, false);
-
-        User current = ((UserAccess) Objects.requireNonNull(getActivity())).getUser();//get data
-
-        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setSubtitle(current.getUsername());
+        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setSubtitle(currentUser.getUsername());
 
 
         RecyclerView recyclerView = (RecyclerView)  view.findViewById(R.id.recyclerViewAdminResult);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
-        ArrayList<String> allNameForm = new ArrayList<>();
-        ArrayList<Boolean> allClosed = new ArrayList<>();
-        for (Form elem : current.getForms()){
-            allNameForm.add(elem.getTitle());
-            allClosed.add(elem.isClosed());
-        }
-
-
-
-        AdapterAdminAllForm customAdapter = new AdapterAdminAllForm(getContext(),getActivity(),current);
-        recyclerView.setAdapter(customAdapter);
-
-
-
+        ArrayList<Form> formArrayList = new ArrayList<>(currentUser.getForms());
+        AdminFormAdapter adapter = new AdminFormAdapter(getActivity(),
+                                                        getContext(),
+                                                        formArrayList,
+                                                        currentUser.getHeaderPayload(),
+                                                        currentUser.getSignature());
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         return view;
     }
