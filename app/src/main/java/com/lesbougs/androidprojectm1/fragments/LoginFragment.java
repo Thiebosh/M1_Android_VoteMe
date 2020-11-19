@@ -1,5 +1,7 @@
 package com.lesbougs.androidprojectm1.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,6 +43,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class LoginFragment extends Fragment {
 
@@ -63,11 +68,24 @@ public class LoginFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         setHasOptionsMenu(true);//active le onPrepareOptionsMenu
+        Context mContext = getContext();
 
         final TextInputLayout usernameTextField = view.findViewById(R.id.frag_log_username_text_input);
         final TextInputEditText usernameEditText = view.findViewById(R.id.frag_log_username_edit_text);
         final TextInputLayout passwordTextField = view.findViewById(R.id.frag_log_password_text_input);
         final TextInputEditText passwordEditText = view.findViewById(R.id.frag_log_password_edit_text);
+        final CheckBox saveLoginCheckBox = view.findViewById(R.id.frag_log_remember_checkbox);
+        SharedPreferences loginPreferences = mContext.getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor loginPrefsEditor = loginPreferences.edit();
+
+        boolean saveLogin = loginPreferences.getBoolean("saveLogin", false);
+
+        if (saveLogin == true) {
+            usernameEditText.setText(loginPreferences.getString("username", ""));
+            passwordEditText.setText(loginPreferences.getString("password", ""));
+        }
+
+
 
         usernameEditText.setOnFocusChangeListener((v, focus) -> {
             String msg = null;
@@ -97,6 +115,18 @@ public class LoginFragment extends Fragment {
                 passwordTextField.setError(getString(R.string.admin_error_password));
             }
             if (!isValid) return;
+
+            String savedUsername = usernameEditText.getText().toString();
+            String savedPassword = passwordEditText.getText().toString();
+
+            if (saveLoginCheckBox.isChecked()) {
+                loginPrefsEditor.putBoolean("saveLogin", true);
+                loginPrefsEditor.putString("username", savedUsername);
+                loginPrefsEditor.putString("password", savedPassword);
+            } else {
+                loginPrefsEditor.clear();
+            }
+            loginPrefsEditor.commit();
 
             mBackgroundThread.execute(() -> {
                 final String username = usernameEditText.getText().toString();
