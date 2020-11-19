@@ -1,7 +1,5 @@
 package com.lesbougs.androidprojectm1.model;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.ArrayList;
 
 
@@ -11,20 +9,7 @@ public class Form {
     public String smallId;
     public String title;
     public boolean isClosed;
-    public int __v;
     public ArrayList<Widget> content;
-
-/*
-//passe par gson, voir VisitorActivity
-    public Form(String title, boolean isClosed, String smallId, ArrayList<Widget> content , String _id) {
-        this.title = title;
-        this._id = _id;
-        this.isClosed = isClosed;
-        this.smallId = smallId;
-        this.content = content;
-    }
-
- */
 
     @Override
     public String toString() {
@@ -67,14 +52,6 @@ public class Form {
 
     public void setClosed(boolean closed) {
         isClosed = closed;
-    }
-
-    public int get__v() {
-        return __v;
-    }
-
-    public void set__v(int __v) {
-        this.__v = __v;
     }
 
     public ArrayList<Widget> getContent() {

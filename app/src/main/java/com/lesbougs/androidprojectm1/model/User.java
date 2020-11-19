@@ -11,25 +11,9 @@ public class User {
     public LocalDateTime date;
     public ArrayList<Form> forms;
     public int type;
-    public int __v;
 
     public String signature;
     public String headerPayload;
-
-/*
-//passe par gson, voir VisitorActivity
-    public User(String _id, String username, String creationDate,  ArrayList<Form> forms,String signature , String headerPayload) {
-        this._id = _id.substring(1, _id.length() - 1);
-        this.signature = signature;
-        this.headerPayload = headerPayload;
-        this.username = username.substring(1, username.length() - 1);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            this.date = LocalDateTime.parse(creationDate.substring(1, creationDate.length() - 2));
-        }
-        this.forms = forms;
-    }
-
- */
 
     @Override
     public String toString() {
@@ -107,14 +91,6 @@ public class User {
 
     public void setType(int type) {
         this.type = type;
-    }
-
-    public int get__v() {
-        return __v;
-    }
-
-    public void set__v(int __v) {
-        this.__v = __v;
     }
 }
 

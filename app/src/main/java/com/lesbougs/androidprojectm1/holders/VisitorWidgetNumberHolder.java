@@ -33,6 +33,6 @@ public class VisitorWidgetNumberHolder extends RecyclerView.ViewHolder {
     public void setDetails(Widget widget) {
         String str = widget.getTitle()+" : entre 0 et "+widget.getMaxPoint();
         mTitle.setText(str);
-        mQuestionTitle.setHint(widget.getTextField());
+        mQuestionTitle.setHint(widget.getQuestion());
     }
 }

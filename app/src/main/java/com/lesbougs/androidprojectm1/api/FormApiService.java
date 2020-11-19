@@ -29,6 +29,6 @@ public interface FormApiService {
     Call<JsonObject> getForm(@Field("smallID") String smallID);
 
     @FormUrlEncoded
-    @POST("api/forms/serResult")
-    Call<JsonObject> setFormResult(@Field("_id") String id, @Field("result") String results);
+    @POST("api/forms/setResult")
+    Call<JsonObject> setFormResult(@Field("_id") String id, @Field("result") JsonObject results);
 }
