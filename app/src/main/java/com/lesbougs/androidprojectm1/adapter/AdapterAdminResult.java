@@ -3,6 +3,7 @@ package com.lesbougs.androidprojectm1.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.Debug;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,8 @@ import com.lesbougs.androidprojectm1.model.Widget;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,10 +42,12 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
     public static class Type0 extends RecyclerView.ViewHolder {
 
         TextView textField;
+        TextView questionTextField;
 
         public Type0(View itemView) {
             super(itemView);
             this.textField = (TextView) itemView.findViewById(R.id.textViewResult);
+            this.questionTextField = (TextView) itemView.findViewById(R.id.questionTextView);
         }
     }
 
@@ -50,12 +55,14 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
     public static class Type1 extends RecyclerView.ViewHolder {
 
         TextView textField;
+        TextView titleTextField;
         BarChart barChart;
 
         public Type1(View itemView) {
             super(itemView);
             this.barChart = (BarChart) itemView.findViewById(R.id.barChartResult);
             this.textField = (TextView) itemView.findViewById(R.id.averageResult);
+            this.titleTextField = (TextView) itemView.findViewById(R.id.titleTextView);
         }
     }
 
@@ -104,10 +111,29 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
                     }
                 }
 
+                ((Type0) holder).questionTextField.setText(object.textField);
 
                 ((Type0) holder).textField.setText(allResult);
+                ((Type0) holder).textField.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ViewGroup.LayoutParams params = v.getLayoutParams();
+
+                        if (params.height != ViewGroup.LayoutParams.WRAP_CONTENT) {
+                            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                        }
+                        else {
+                            final float scale = mContext.getResources().getDisplayMetrics().density;
+                            int pixels = (int) (45 * scale + 0.5f);
+                            params.height = pixels;
+                        }
+                        v.requestLayout();
+                    }
+                });
                 break;
             case 1:
+                ((Type1) holder).titleTextField.setText(object.title);
+
                 ArrayList<BarEntry> entries = new ArrayList<>();
 
                 Map<Integer, Integer> countMap = new HashMap<Integer, Integer>();
@@ -122,16 +148,28 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
                     }
                 }
                 Log.d("TAG",countMap+"");
+
+                Double average = 0.0;
+                int totalValue = 0;
+
                 for (int i = object.getMinPoint(); i < object.getMaxPoint(); i++) {
                     if (countMap.containsKey(i)) {
                         entries.add(new BarEntry(i, countMap.get(i)));
+                        average += i * countMap.get(i);
+                        totalValue += countMap.get(i);
                     } else {
-                        entries.add(new BarEntry(i, 0));
+                        //entries.add(new BarEntry(i, 0));
                     }
                 }
 
+                average /= totalValue;
 
                 BarChart chart = ((Type1) holder).barChart;
+                TextView averageText = ((Type1) holder).textField;
+
+                DecimalFormat df = new DecimalFormat("##.##");
+                df.setRoundingMode(RoundingMode.CEILING);
+                averageText.setText("Mean : " + df.format(average.doubleValue()));
 
                 YAxis leftAxis = chart.getAxis(YAxis.AxisDependency.LEFT);
                 YAxis rightAxis = chart.getAxisRight();
@@ -139,10 +177,15 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
 
 
                 leftAxis.setDrawGridLines(false);
+                leftAxis.setAxisLineColor(mContext.getResources().getColor(R.color.colorPrimary));
+                //leftAxis.setLabelCount(3);
 
                 xAxis.setTextSize(10f);
                 xAxis.setDrawAxisLine(true);
                 xAxis.setDrawGridLines(false);
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setAxisLineColor(mContext.getResources().getColor(R.color.colorPrimary));
+                //xAxis.setEnabled(false);
 
 
                 rightAxis.setDrawAxisLine(false);
@@ -151,8 +194,8 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
 
 
                 BarDataSet set = new BarDataSet(entries, "");
-                set.setColor(Color.rgb(155, 155, 155));
-                set.setValueTextColor(Color.rgb(155, 155, 155));
+                set.setColor(mContext.getResources().getColor(R.color.colorPrimary));
+                set.setValueTextColor(mContext.getResources().getColor(R.color.colorPrimary));
 
                 BarData data = new BarData(set);
                 chart.setData(data);
@@ -164,6 +207,10 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
                 chart.animateXY(2000, 2000);
                 chart.setDrawBorders(false);
                 chart.setDrawValueAboveBar(true);
+                chart.getDescription().setEnabled(false);
+                chart.setDrawGridBackground(true);
+                chart.setGridBackgroundColor(Color.rgb(230, 230, 230));
+                chart.getLegend().setEnabled(false);
 
 
                 break;
