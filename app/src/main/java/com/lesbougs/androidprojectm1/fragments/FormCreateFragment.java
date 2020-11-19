@@ -23,14 +23,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.adapters.AdminWidgetAdapter;
 import com.lesbougs.androidprojectm1.adapters.VisitorWidgetAdapter;
+import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.model.Widget;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FormCreateFragment extends Fragment {
 
-
-    private ArrayList<Widget> mWidgetArrayList = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,19 +61,19 @@ public class FormCreateFragment extends Fragment {
                     .loadFragment(new FormListFragment(), true)
         );
 
+
+
+        ArrayList<Widget> mWidgetArrayList = new ArrayList<>();
         AdminWidgetAdapter adapter = new AdminWidgetAdapter(getContext(), mWidgetArrayList);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-
-        ((Button) view.findViewById(R.id.frag_form_edit_saveButton)).setOnClickListener(v -> {
+        ((Button) view.findViewById(R.id.frag_form_create)).setOnClickListener(v -> {
             Widget w = new Widget();
             w.setQuestion("yes!");
             w.setType(1);
             mWidgetArrayList.add(w);
             adapter.notifyItemInserted(mWidgetArrayList.size() - 1);
-            //((FragmentSwitcher) Objects.requireNonNull(getActivity()))
-            //      .loadFragment(new FormListFragment(), true)
         });
 
 
