@@ -28,6 +28,7 @@
 
     <!-- Visitor -->
     <string name="visitor_button_send">Send answer</string>
+    <string name="answer_hint_widget">Your answer</string>
 
 
     <!-- Admin -->

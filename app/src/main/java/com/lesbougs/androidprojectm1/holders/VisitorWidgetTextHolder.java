@@ -13,13 +13,13 @@ import com.lesbougs.androidprojectm1.model.Widget;
 
 public class VisitorWidgetTextHolder extends RecyclerView.ViewHolder {
 
-    private final TextInputLayout mQuestionTitle;
+    private final TextView mQuestionTitle;
     public TextInputEditText mAnswerInput;
 
     public VisitorWidgetTextHolder(View itemView) {
         super(itemView);
 
-        mQuestionTitle = itemView.findViewById(R.id.item_visitor_widget_text_input);
+        mQuestionTitle = itemView.findViewById(R.id.item_visitor_widget_text_title);
         mAnswerInput = itemView.findViewById(R.id.item_visitor_widget_edit_text);
 
         itemView.setOnClickListener(view -> {
@@ -29,6 +29,6 @@ public class VisitorWidgetTextHolder extends RecyclerView.ViewHolder {
     }
 
     public void setDetails(Widget widget) {
-        mQuestionTitle.setHint(widget.getQuestion());
+        mQuestionTitle.setText(widget.getQuestion());
     }
 }
