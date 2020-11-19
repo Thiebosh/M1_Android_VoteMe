@@ -96,6 +96,12 @@ public class HomeActivity extends AppCompatActivity {
                             //lance activity
                             runOnUiThread(()-> startActivity(intent));
                         }
+                        else   if (response.code() == 202) {
+                            runOnUiThread(()-> {
+                                mFormCodeTextField.setError(Objects.requireNonNull(object).get("message").toString());
+                                mFormCodeButton.setEnabled(true);
+                            });
+                        }
                         else {
                             runOnUiThread(()-> {
                                 mFormCodeTextField.setError(Objects.requireNonNull(object).get("message").toString());

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.adapters.AdminFormAdapter;
+import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.interfaces.UserAccess;
 import com.lesbougs.androidprojectm1.model.Form;
 import com.lesbougs.androidprojectm1.model.User;
@@ -44,6 +46,12 @@ public class FormListFragment extends Fragment {
                                                         currentUser.getSignature());
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+
+
+        ((Button) view.findViewById(R.id.buttonCreateForm)).setOnClickListener(v ->
+                ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
+                        .loadFragment(new FormCreateFragment(), true)
+        );
 
         return view;
     }
