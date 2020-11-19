@@ -1,18 +1,13 @@
 package com.lesbougs.androidprojectm1.fragments;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.MultiAutoCompleteTextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -44,12 +39,12 @@ public class FormCreateFragment extends Fragment {
 
                     AutoCompleteTextView prout = (AutoCompleteTextView) dialog.findViewById(R.id.chooseTypeOfWidget);
                     prout.setAdapter(adapterType);
-                    prout.setThreshold(2);
+                    prout.setThreshold(0);
                     dialog.show();
                 });
 
 
-        ((Button) view.findViewById(R.id.frag_form_edit_addButton)).setOnClickListener(v ->
+        ((Button) view.findViewById(R.id.frag_form_come_back)).setOnClickListener(v ->
                 ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
                     .loadFragment(new FormListFragment(), true)
         );

@@ -98,6 +98,7 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
     public void onBindViewHolder(@NotNull final RecyclerView.ViewHolder holder, final int listPosition) {
 
         Widget object = dataSet.get(listPosition);
+        Log.d("TAG",object+"");
         switch (object.type) {
             case 0:
 
