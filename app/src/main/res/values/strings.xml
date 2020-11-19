@@ -49,7 +49,7 @@
     <string name="admin_button_show_result">Show result</string>
     <string name="admin_button_create_form">Create form</string>
     <string name="admin_button_back_to_list">Come back to the list</string>
-
+    <string name="admin_title_result_form">Result</string>
 
 
     <string name="admin_wrong_username">Incorrect username.</string>
