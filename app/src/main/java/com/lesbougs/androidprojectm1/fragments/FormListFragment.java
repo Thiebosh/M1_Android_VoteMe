@@ -33,7 +33,11 @@ public class FormListFragment extends Fragment {
         User currentUser = ((UserAccess) Objects.requireNonNull(getActivity())).getUser();//get data
 
         View view = inflater.inflate(R.layout.fragment_form_list, container, false);
-        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setSubtitle(currentUser.getUsername());
+
+        assert getActivity() != null;
+        assert ((AppCompatActivity) getActivity()).getSupportActionBar() != null;
+        String str = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle()+" - "+currentUser.getUsername();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(str);
 
         RecyclerView recyclerView = (RecyclerView)  view.findViewById(R.id.frag_form_list_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

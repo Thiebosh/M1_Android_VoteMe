@@ -30,5 +30,5 @@ public interface FormApiService {
 
     @FormUrlEncoded
     @POST("api/forms/setResult")
-    Call<JsonObject> setFormResult(@Field("_id") String id, @Field("result") JsonObject results);
+    Call<JsonObject> setFormResult(@Field("_id") String id, @Field("result") String results);
 }
