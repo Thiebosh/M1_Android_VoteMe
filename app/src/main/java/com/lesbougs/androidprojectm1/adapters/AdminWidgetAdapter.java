@@ -59,8 +59,12 @@ public class AdminWidgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(position) == TYPE_TEXT) ((AdminWidgetTextHolder) holder).setDetails(mWidgets.get(position));
-        else if (getItemViewType(position) == TYPE_POINT) ((AdminWidgetNumberHolder) holder).setDetails(mWidgets.get(position));
+        if (getItemViewType(position) == TYPE_TEXT) {
+            ((AdminWidgetTextHolder) holder).setDetails(mWidgets.get(position), this, mWidgets, position);
+        }
+        else if (getItemViewType(position) == TYPE_POINT) {
+            ((AdminWidgetNumberHolder) holder).setDetails(mWidgets.get(position), this, mWidgets, position);
+        }
     }
 
     @Override
