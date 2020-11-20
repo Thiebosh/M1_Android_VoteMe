@@ -2,11 +2,9 @@ package com.lesbougs.androidprojectm1.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -21,28 +19,18 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.lesbougs.androidprojectm1.R;
-import com.lesbougs.androidprojectm1.VisitorActivity;
 import com.lesbougs.androidprojectm1.adapters.AdminWidgetAdapter;
-import com.lesbougs.androidprojectm1.adapters.VisitorWidgetAdapter;
 import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.interfaces.UserAccess;
 import com.lesbougs.androidprojectm1.model.Api;
 import com.lesbougs.androidprojectm1.model.Form;
-import com.lesbougs.androidprojectm1.model.FormAnswer;
 import com.lesbougs.androidprojectm1.model.User;
 import com.lesbougs.androidprojectm1.model.Widget;
-import com.lesbougs.androidprojectm1.model.WidgetAnswer;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -61,7 +49,7 @@ public class FormCreateFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View view = inflater.inflate(R.layout.fragment_form_edit, container, false);
+        View view = inflater.inflate(R.layout.fragment_form_create, container, false);
 
 
         User currentUser = ((UserAccess) Objects.requireNonNull(getActivity())).getUser();//get data
