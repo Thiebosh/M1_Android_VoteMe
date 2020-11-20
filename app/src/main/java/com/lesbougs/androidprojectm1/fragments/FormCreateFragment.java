@@ -2,6 +2,7 @@ package com.lesbougs.androidprojectm1.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +78,7 @@ public class FormCreateFragment extends Fragment {
                 Toast.makeText(getContext(), "No form title!", Toast.LENGTH_SHORT).show();
                 return;
             }
+            //if title déjà pris
 
             if (widgetArrayList.isEmpty()) {
                 Toast.makeText(getContext(), "No widget on form!", Toast.LENGTH_SHORT).show();
@@ -92,34 +94,28 @@ public class FormCreateFragment extends Fragment {
                 for (Widget elem : widgetArrayList) {
                     JsonObject item = new JsonObject();
                     if (elem.getType() == 0) {
-                        /*
-                        if (elem.getQuestion().equals("")) {
+                        if (elem.getQuestion() == null) {
                             getActivity().runOnUiThread(() -> {
                                 Toast.makeText(getContext(), "Empty question field on widget!", Toast.LENGTH_SHORT).show();
-                                return;
                             });
+                            return;
                         }
-
-                         */
                         item.addProperty("type", 0);
                         item.addProperty("question", elem.getQuestion());
                     }
                     else if (elem.getType() == 1) {
-                        /*
-                        if (elem.getQuestion().equals("")) {
+                        if (elem.getQuestion() == null) {
                             getActivity().runOnUiThread(() -> {
                                 Toast.makeText(getContext(), "Empty question field on widget!", Toast.LENGTH_SHORT).show();
-                                return;
                             });
+                            return;
                         }
-                        if (elem.getMinPoint() > elem.getMaxPoint()) {
+                        if (elem.getMinPoint() >= elem.getMaxPoint()) {
                             getActivity().runOnUiThread(() -> {
-                                Toast.makeText(getContext(), "min greater than max on widget!", Toast.LENGTH_SHORT).show();
-                                return;
+                                Toast.makeText(getContext(), "Min not lower than max on widget!", Toast.LENGTH_SHORT).show();
                             });
+                            return;
                         }
-                        
-                         */
                         item.addProperty("type", 1);
                         item.addProperty("question", elem.getQuestion());
                         item.addProperty("maxPoint", elem.getMaxPoint());
