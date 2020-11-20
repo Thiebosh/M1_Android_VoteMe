@@ -59,42 +59,8 @@ public class AdminWidgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-        if (getItemViewType(position) == TYPE_TEXT) {
-            AdminWidgetTextHolder finalHolder = (AdminWidgetTextHolder) holder;
-
-            finalHolder.getmQuestion().setOnFocusChangeListener((v, focus) -> {
-                if (!focus) {
-                    final Editable answer = finalHolder.getmQuestion().getText();
-                    mWidgets.get(position).setQuestion(answer.toString());
-                }
-            });
-        }
-        else if (getItemViewType(position) == TYPE_POINT) {
-            AdminWidgetNumberHolder finalHolder = (AdminWidgetNumberHolder) holder;
-            finalHolder.getmQuestion().setOnFocusChangeListener((v, focus) -> {
-                if (!focus) {
-                    final Editable answer = finalHolder.getmQuestion().getText();
-                    mWidgets.get(position).setQuestion(answer.toString());
-                }
-            });
-
-            finalHolder.getmMinPoint().setOnFocusChangeListener((v, focus) -> {
-                Log.d("testy", "listener 1");
-                if (!focus) {
-                    final Editable answer = finalHolder.getmMinPoint().getText();
-                    mWidgets.get(position).setMinPoint(Integer.parseInt(answer.toString()));
-                }
-            });
-
-            finalHolder.getmMaxPoint().setOnFocusChangeListener((v, focus) -> {
-                Log.d("testy", "listener 2");
-                if (!focus) {
-                    final Editable answer = finalHolder.getmMaxPoint().getText();
-                    mWidgets.get(position).setMaxPoint( Integer.parseInt(answer.toString()) );
-                }
-            });
-        }
+        if (getItemViewType(position) == TYPE_TEXT) ((AdminWidgetTextHolder) holder).setDetails(mWidgets.get(position));
+        else if (getItemViewType(position) == TYPE_POINT) ((AdminWidgetNumberHolder) holder).setDetails(mWidgets.get(position));
     }
 
     @Override
