@@ -21,8 +21,10 @@ import com.lesbougs.androidprojectm1.adapters.AdminFormAdapter;
 import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.fragments.FormResultFragment;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
+import com.lesbougs.androidprojectm1.interfaces.UserAccess;
 import com.lesbougs.androidprojectm1.model.Api;
 import com.lesbougs.androidprojectm1.model.Form;
+import com.lesbougs.androidprojectm1.model.User;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -58,6 +60,7 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
 
     public void setDetails(Activity activity, Context context, String userPayload, String userSignature, ArrayList<Form> forms, int position, AdminFormAdapter adapter) {
         Form form = forms.get(position);
+        User currentUser = ((UserAccess) Objects.requireNonNull(activity)).getUser();//get data
 
         mNameForm.setText(form.getTitle());
         String code = "Code : " + form.getSmallId();
@@ -84,6 +87,8 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
                                     Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show());
 
                             forms.remove(position);
+
+                            currentUser.getForms().remove(position);
 
                             adapter.notifyDataSetChanged();
                         }
