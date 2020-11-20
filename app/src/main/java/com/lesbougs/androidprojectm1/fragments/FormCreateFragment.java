@@ -55,8 +55,7 @@ public class FormCreateFragment extends Fragment {
 
 
     private final Executor mBackgroundThread = Executors.newSingleThreadExecutor();
-    private String actualTypeform;
-    private String title;
+    private String actualTypeform = "";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,73 +87,78 @@ public class FormCreateFragment extends Fragment {
 
             JsonObject json = new JsonObject();
 
-            json.addProperty("title", titleTextField.getText() + "");
+            if(!this.actualTypeform.equals("Text") && !this.actualTypeform.equals("Grade")){
+                Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+                    Toast.makeText(getContext(), "Type form undefined", Toast.LENGTH_SHORT).show();
+                });
+            }
+            else{
+                json.addProperty("title", titleTextField.getText()+"");
 
-            JsonArray array = new JsonArray();
-            for (Widget elem : widgetArrayList) {
-                JsonObject item = new JsonObject();
-                if (elem.getType() == 0) {
-                    item.addProperty("type", 0);
-                    item.addProperty("question", elem.getQuestion());
-                } else if (elem.getType() == 1) {
-                    item.addProperty("type", 1);
-                    item.addProperty("question", elem.getQuestion());
-                    item.addProperty("maxPoint", elem.getMaxPoint());
-                    item.addProperty("minPoint", elem.getMinPoint());
+                JsonArray array = new JsonArray();
+                for (Widget elem : widgetArrayList) {
+                    JsonObject item = new JsonObject();
+                    if (elem.getType() == 0) {
+                        item.addProperty("type", 0);
+                        item.addProperty("question", elem.getQuestion());
+                    } else if (elem.getType() == 1) {
+                        item.addProperty("type", 1);
+                        item.addProperty("question", elem.getQuestion());
+                        item.addProperty("maxPoint", elem.getMaxPoint());
+                        item.addProperty("minPoint", elem.getMinPoint());
+                    }
+                    array.add(item);
                 }
-                array.add(item);
+
+                json.add("arrayWidget", array);
+
+
+                mBackgroundThread.execute(() -> {
+                    String answerData = new Gson().toJson(new Form(widgetArrayList));
+                    FormApiService apiInterface = Api.getClient().create(FormApiService.class);
+
+                    Call<JsonObject> call = apiInterface.createForm(currentUser.getHeaderPayload(), currentUser.getSignature(), (JsonObject) json);
+                    Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+                        Toast.makeText(getContext(), R.string.api_call, Toast.LENGTH_SHORT).show();
+                    });
+
+                    call.enqueue(new Callback<JsonObject>() {
+                        @Override
+                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                            JsonObject object = response.body();
+
+
+                            if (response.code() == 200) {
+                                User actualUser = (new Gson()).fromJson(Objects.requireNonNull(object).toString(), User.class);
+
+                                String headerPayload = currentUser.getHeaderPayload();
+                                actualUser.setHeaderPayload(headerPayload);
+
+                                String signature =currentUser.getSignature();
+                                actualUser.setSignature(headerPayload);
+
+
+                                ((UserAccess) Objects.requireNonNull(getActivity())).setUser(actualUser);
+
+                                Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+                                    Toast.makeText(getContext(),"Form added", Toast.LENGTH_SHORT).show();
+                                });
+
+                            } else {
+                                Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+                                    Toast.makeText(getContext(), object.get("message").toString(), Toast.LENGTH_SHORT).show();
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<JsonObject> call, Throwable t) {
+                            call.cancel();
+                        }
+                    });
+                });
             }
 
-            json.add("arrayWidget", array);
-
-
-            mBackgroundThread.execute(() -> {
-                String answerData = new Gson().toJson(new Form(widgetArrayList));
-                FormApiService apiInterface = Api.getClient().create(FormApiService.class);
-
-                Call<JsonObject> call = apiInterface.createForm(currentUser.getHeaderPayload(), currentUser.getSignature(), (JsonObject) json);
-                Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
-                    Toast.makeText(getContext(), R.string.api_call, Toast.LENGTH_SHORT).show();
-                });
-
-                call.enqueue(new Callback<JsonObject>() {
-                    @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                        JsonObject object = response.body();
-
-
-                        if (response.code() == 200) {
-                            User actualUser = (new Gson()).fromJson(Objects.requireNonNull(object).toString(), User.class);
-
-                            String headerPayload = currentUser.getHeaderPayload();
-                            actualUser.setHeaderPayload(headerPayload);
-
-                            String signature =currentUser.getSignature();
-                            actualUser.setSignature(headerPayload);
-
-                            Log.d("TAG",actualUser+"");
-                            Log.d("TAG",object+"");
-
-                            ((UserAccess) Objects.requireNonNull(getActivity())).setUser(actualUser);
-
-                            Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
-                                Toast.makeText(getContext(),"Form added", Toast.LENGTH_SHORT).show();
-                            });
-
-                        } else {
-                            Log.d("TAG", json.toString());
-                            Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
-                                Toast.makeText(getContext(), object.get("message").toString(), Toast.LENGTH_SHORT).show();
-                            });
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
-                        call.cancel();
-                    }
-                });
-            });
 
 
         });
@@ -195,13 +199,19 @@ public class FormCreateFragment extends Fragment {
 
             AutoCompleteTextView autoComplete = (AutoCompleteTextView) dialog.findViewById(R.id.chooseTypeOfWidget);
             autoComplete.setAdapter(adapterType);
-            autoComplete.setThreshold(0);
+            autoComplete.setThreshold(1);
+
+
 
             autoComplete.setOnItemClickListener((parent, view1, position, id) -> {
                 Object item = parent.getItemAtPosition(position);
                 if (item instanceof String) {
                     this.actualTypeform = (String) item;
                 }
+            });
+
+            autoComplete.setOnFocusChangeListener((View view3, boolean direction)->{
+                autoComplete.showDropDown();
             });
 
             dialog.show();

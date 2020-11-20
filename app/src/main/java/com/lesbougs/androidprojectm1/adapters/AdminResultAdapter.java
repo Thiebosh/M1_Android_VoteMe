@@ -72,7 +72,6 @@ public class AdminResultAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
 
         View view;
-        Log.d("TAG", viewType + "");
 
         switch (viewType) {
             case 0:
@@ -94,7 +93,7 @@ public class AdminResultAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NotNull final RecyclerView.ViewHolder holder, final int listPosition) {
 
         Widget object = dataSet.get(listPosition);
-        Log.d("TAG",object+"");
+
         switch (object.type) {
             case 0:
 
