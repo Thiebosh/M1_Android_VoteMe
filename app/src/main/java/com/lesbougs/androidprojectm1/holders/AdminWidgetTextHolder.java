@@ -12,14 +12,12 @@ import com.lesbougs.androidprojectm1.model.Widget;
 
 public class AdminWidgetTextHolder extends RecyclerView.ViewHolder {
 
-    private final TextInputLayout mQuestionTitle;
-    public TextInputEditText mAnswerInput;
+    private  TextInputEditText mQuestion;
 
     public AdminWidgetTextHolder(View itemView) {
         super(itemView);
 
-        mQuestionTitle = itemView.findViewById(R.id.item_admin_widget_text_input);
-        mAnswerInput = itemView.findViewById(R.id.item_admin_widget_edit_text);
+        mQuestion = itemView.findViewById(R.id.editTextQuestion);
 
         itemView.setOnClickListener(view -> {
             //handle click event
@@ -27,7 +25,12 @@ public class AdminWidgetTextHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void setDetails(Widget widget) {
-        mQuestionTitle.setHint(widget.getQuestion());
+    public TextInputEditText getmQuestion() {
+        return mQuestion;
     }
+
+    public void setmQuestion(TextInputEditText mQuestion) {
+        this.mQuestion = mQuestion;
+    }
+
 }

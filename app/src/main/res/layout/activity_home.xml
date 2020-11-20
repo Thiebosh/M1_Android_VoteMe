@@ -14,7 +14,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/minGradeFormChoose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -34,7 +34,7 @@
             app:hintTextColor="@color/colorSecondaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView">
+            app:layout_constraintTop_toBottomOf="@+id/minGradeFormChoose">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/act_home_form_code_edit_text"

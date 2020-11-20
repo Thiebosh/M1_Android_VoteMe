@@ -11,6 +11,10 @@ public class Form {
     public boolean isClosed;
     public ArrayList<Widget> widget;
 
+    public Form(ArrayList<Widget> widgetAnswers) {
+        this.widget = widgetAnswers;
+    }
+
     @Override
     public String toString() {
         return "Form{" +

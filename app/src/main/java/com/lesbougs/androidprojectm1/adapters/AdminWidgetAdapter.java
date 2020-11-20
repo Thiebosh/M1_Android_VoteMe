@@ -2,6 +2,7 @@ package com.lesbougs.androidprojectm1.adapters;
 
 import android.content.Context;
 import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.holders.AdminWidgetNumberHolder;
 import com.lesbougs.androidprojectm1.holders.AdminWidgetTextHolder;
+import com.lesbougs.androidprojectm1.holders.VisitorWidgetTextHolder;
 import com.lesbougs.androidprojectm1.model.Widget;
 
 import java.util.ArrayList;
@@ -57,26 +59,49 @@ public class AdminWidgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+        Log.d("TAG",holder.toString());
+
         if (getItemViewType(position) == TYPE_TEXT) {
-            ((AdminWidgetTextHolder) holder).setDetails(mWidgets.get(position));
+            AdminWidgetTextHolder finalHolder = (AdminWidgetTextHolder) holder;
 
-            ((AdminWidgetTextHolder) holder).mAnswerInput.setOnFocusChangeListener((v, focus) -> {
+            finalHolder.getmQuestion().setOnFocusChangeListener((v, focus) -> {
                 if (!focus) {
-                    final Editable answer = ((AdminWidgetTextHolder) holder).mAnswerInput.getText();
-                    mAnswers.set(position, answer != null ? answer.toString() : "");
+                    final Editable answer = finalHolder.getmQuestion().getText();
+                    mWidgets.get(position).setQuestion(answer.toString());
                 }
             });
-        }
-        else {
-            ((AdminWidgetNumberHolder) holder).setDetails(mWidgets.get(position));
 
-            ((AdminWidgetNumberHolder) holder).mAnswerInput.setOnFocusChangeListener((v, focus) -> {
+
+
+
+        }
+        else if (getItemViewType(position) == TYPE_POINT) {
+            AdminWidgetNumberHolder finalHolder = (AdminWidgetNumberHolder) holder;
+            finalHolder.getmQuestion().setOnFocusChangeListener((v, focus) -> {
                 if (!focus) {
-                    final Editable answer = ((AdminWidgetNumberHolder) holder).mAnswerInput.getText();
-                    mAnswers.set(position, answer != null ? answer.toString() : "");
+                    final Editable answer = finalHolder.getmQuestion().getText();
+                    mWidgets.get(position).setQuestion(answer.toString());
                 }
             });
+
+            finalHolder.getmMaxPoint().setOnFocusChangeListener((v, focus) -> {
+                if (!focus) {
+                    final Editable answer = finalHolder.getmMaxPoint().getText();
+                    mWidgets.get(position).setMaxPoint( Integer.parseInt(answer.toString()) );
+                }
+            });
+
+            finalHolder.getmMinPoint().setOnFocusChangeListener((v, focus) -> {
+                if (!focus) {
+                    final Editable answer = finalHolder.getmMinPoint().getText();
+                    mWidgets.get(position).setMinPoint(Integer.parseInt(answer.toString()));
+                }
+            });
+
         }
+
+
     }
 
     @Override
