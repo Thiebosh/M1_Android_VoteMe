@@ -57,7 +57,7 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
 
         mShowResult.setOnClickListener(view -> activity.runOnUiThread(() ->
             ((FragmentSwitcher) Objects.requireNonNull(activity))
-                .loadFragment(new FormResultFragment(form.getWidget()), true)
+                .loadFragment(new FormResultFragment(form.getTitle(), form.getWidget()), true)
         ));
 
         UpdateRecycler(context, form.isClosed());
