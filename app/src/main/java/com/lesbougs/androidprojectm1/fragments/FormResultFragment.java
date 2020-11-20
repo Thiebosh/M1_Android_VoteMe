@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.adapters.AdminResultAdapter;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
-import com.lesbougs.androidprojectm1.interfaces.UserAccess;
-import com.lesbougs.androidprojectm1.model.User;
 import com.lesbougs.androidprojectm1.model.Widget;
 
 import java.util.ArrayList;
@@ -24,8 +21,8 @@ import java.util.Objects;
 
 public class FormResultFragment extends Fragment {
 
-    private ArrayList<Widget> mWidget;
-    private String mFormName;
+    private final ArrayList<Widget> mWidget;
+    private final String mFormName;
 
     public FormResultFragment(String formName, ArrayList<Widget> widget) {
         this.mFormName = formName;
@@ -42,7 +39,7 @@ public class FormResultFragment extends Fragment {
 
         ((TextView) view.findViewById(R.id.textViewNameForm)).setText(getString(R.string.admin_title_result_form, mFormName));
 
-        RecyclerView recyclerView = (RecyclerView)  view.findViewById(R.id.frag_form_result_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.frag_form_result_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -50,7 +47,7 @@ public class FormResultFragment extends Fragment {
         recyclerView.setAdapter(customAdapter);
 
 
-        ((Button) view.findViewById(R.id.frag_form_result_returnButton)).setOnClickListener(v ->
+        view.findViewById(R.id.frag_form_result_returnButton).setOnClickListener(v ->
                 ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
                     .loadFragment(new FormListFragment(), true)
         );

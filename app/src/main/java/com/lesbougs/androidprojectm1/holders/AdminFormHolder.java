@@ -1,17 +1,13 @@
 package com.lesbougs.androidprojectm1.holders;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
@@ -25,6 +21,8 @@ import com.lesbougs.androidprojectm1.interfaces.UserAccess;
 import com.lesbougs.androidprojectm1.model.Api;
 import com.lesbougs.androidprojectm1.model.Form;
 import com.lesbougs.androidprojectm1.model.User;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -46,11 +44,11 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
     public AdminFormHolder(View itemView) {
         super(itemView);
 
-        mNameForm = (TextView) itemView.findViewById(R.id.textViewNameForm);
-        mButtonClosed = (MaterialButton) itemView.findViewById(R.id.button_closed);
-        mShowResult = (Button) itemView.findViewById(R.id.button_show_result);
-        textViewCodeForm = (TextView) itemView.findViewById(R.id.textViewCodeForm);
-        mButtonDelete = (MaterialButton) itemView.findViewById(R.id.button_delete);
+        mNameForm = itemView.findViewById(R.id.textViewNameForm);
+        mButtonClosed = itemView.findViewById(R.id.button_closed);
+        mShowResult = itemView.findViewById(R.id.button_show_result);
+        textViewCodeForm = itemView.findViewById(R.id.textViewCodeForm);
+        mButtonDelete = itemView.findViewById(R.id.button_delete);
 
         itemView.setOnClickListener(view -> {
             //handle click event
@@ -71,38 +69,36 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
                 .loadFragment(new FormResultFragment(form.getTitle(), form.getWidget()), true)
         ));
 
-        mButtonDelete.setOnClickListener(view -> {
-            (Executors.newSingleThreadExecutor()).execute(() -> {
-                FormApiService apiInterface = Api.getClient().create(FormApiService.class);
+        mButtonDelete.setOnClickListener(view -> (Executors.newSingleThreadExecutor()).execute(() -> {
+            FormApiService apiInterface = Api.getClient().create(FormApiService.class);
 
-                Call<JsonObject> call = apiInterface.deleteForm(userPayload, userSignature, form.get_id());
+            Call<JsonObject> call = apiInterface.deleteForm(userPayload, userSignature, form.get_id());
 
-                call.enqueue(new Callback<JsonObject>() {
-                    @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                        if (response.code() == 200) {
-                            activity.runOnUiThread(() ->
-                                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show());
+            call.enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(@NotNull Call<JsonObject> call, @NotNull Response<JsonObject> response) {
+                    if (response.code() == 200) {
+                        activity.runOnUiThread(() ->
+                                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show());
 
-                            forms.remove(position);
+                        forms.remove(position);
 
-                            currentUser.getForms().remove(position);
+                        currentUser.getForms().remove(position);
 
-                            adapter.notifyDataSetChanged();
-                        }
-                        else {
-                            activity.runOnUiThread(() ->
-                                    Toast.makeText(context, Objects.requireNonNull(response.body()).get("message").getAsString(), Toast.LENGTH_SHORT).show());
-                        }
+                        adapter.notifyDataSetChanged();
                     }
-
-                    @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
-                        call.cancel();
+                    else {
+                        activity.runOnUiThread(() ->
+                                Toast.makeText(context, Objects.requireNonNull(response.body()).get("message").getAsString(), Toast.LENGTH_SHORT).show());
                     }
-                });
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<JsonObject> call, @NotNull Throwable t) {
+                    call.cancel();
+                }
             });
-        });
+        }));
 
         updateAccessDisplay(context, form.isClosed());
 
@@ -115,7 +111,7 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
 
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    public void onResponse(@NotNull Call<JsonObject> call, @NotNull Response<JsonObject> response) {
                         if (response.code() == 200) {
                             form.setClosed(!form.isClosed());
 
@@ -137,7 +133,7 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
                     }
 
                     @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                    public void onFailure(@NotNull Call<JsonObject> call, @NotNull Throwable t) {
                         call.cancel();
                     }
                 });
@@ -145,6 +141,7 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
         });
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     public void updateAccessDisplay(Context context, boolean newValue) {
         if (newValue) {
             mButtonClosed.setIcon(context.getDrawable(R.drawable.ic_baseline_lock_12));

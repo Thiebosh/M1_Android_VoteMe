@@ -42,8 +42,8 @@ public class AdminResultAdapter extends RecyclerView.Adapter {
 
         public Type0(View itemView) {
             super(itemView);
-            this.textField = (TextView) itemView.findViewById(R.id.textViewResult);
-            this.questionTextField = (TextView) itemView.findViewById(R.id.questionTextView);
+            this.textField = itemView.findViewById(R.id.textViewResult);
+            this.questionTextField = itemView.findViewById(R.id.questionTextView);
         }
     }
 
@@ -56,9 +56,9 @@ public class AdminResultAdapter extends RecyclerView.Adapter {
 
         public Type1(View itemView) {
             super(itemView);
-            this.barChart = (BarChart) itemView.findViewById(R.id.barChartResult);
-            this.textField = (TextView) itemView.findViewById(R.id.averageResult);
-            this.titleTextField = (TextView) itemView.findViewById(R.id.titleTextView);
+            this.barChart = itemView.findViewById(R.id.barChartResult);
+            this.textField = itemView.findViewById(R.id.averageResult);
+            this.titleTextField = itemView.findViewById(R.id.titleTextView);
         }
     }
 

@@ -1,8 +1,6 @@
 package com.lesbougs.androidprojectm1.adapters;
 
 import android.content.Context;
-import android.text.Editable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.holders.AdminWidgetNumberHolder;
 import com.lesbougs.androidprojectm1.holders.AdminWidgetTextHolder;
-import com.lesbougs.androidprojectm1.holders.VisitorWidgetTextHolder;
 import com.lesbougs.androidprojectm1.model.Widget;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class AdminWidgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -26,12 +22,10 @@ public class AdminWidgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private final Context mContext;
     private final ArrayList<Widget> mWidgets;
-    private final ArrayList<String> mAnswers;
 
     public AdminWidgetAdapter(Context context, ArrayList<Widget> widgets) {
         this.mContext = context;
         this.mWidgets = widgets;
-        this.mAnswers = new ArrayList<>(Collections.nCopies(widgets.size(), ""));
     }
 
     @Override
@@ -70,9 +64,5 @@ public class AdminWidgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public int getItemCount() {
         return mWidgets.size();
-    }
-
-    public ArrayList<String> getAnswers() {
-        return mAnswers;
     }
 }

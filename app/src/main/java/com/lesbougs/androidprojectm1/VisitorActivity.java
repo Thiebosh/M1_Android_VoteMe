@@ -1,10 +1,8 @@
 package com.lesbougs.androidprojectm1;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +21,8 @@ import com.lesbougs.androidprojectm1.model.Form;
 import com.lesbougs.androidprojectm1.model.FormAnswer;
 import com.lesbougs.androidprojectm1.model.Widget;
 import com.lesbougs.androidprojectm1.model.WidgetAnswer;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -84,7 +84,7 @@ public class VisitorActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.act_visit_title)).setText(mFormData.getTitle());
 
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.act_visit_recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.act_visit_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(VisitorActivity.this));
 
         ArrayList<Widget> widgetArrayList = new ArrayList<>(mFormData.getWidget());
@@ -93,7 +93,7 @@ public class VisitorActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
 
-        ((Button) findViewById(R.id.act_visit_confirm_button)).setOnClickListener(v -> {
+        findViewById(R.id.act_visit_confirm_button).setOnClickListener(v -> {
             recyclerView.clearFocus();//call onFocusChange (loose) which update answers
 
             mBackgroundThread.execute(() -> {
@@ -103,26 +103,26 @@ public class VisitorActivity extends AppCompatActivity {
                 for (int i = 0; i < answerArrayList.size(); ++i) {
                     if (answerArrayList.get(i).equals("")) {
                         runOnUiThread(() -> {
-                            ((Button) findViewById(R.id.act_visit_confirm_button)).setEnabled(true);
+                            findViewById(R.id.act_visit_confirm_button).setEnabled(true);
                             Toast.makeText(VisitorActivity.this, "Empty fields remaining", Toast.LENGTH_SHORT).show();
                         });
                         return;
                     }
                     if (widgetArrayList.get(i).getType() == 1) {
-                        int value = 0;
+                        int value;
                         try {
                             value = Integer.parseInt(answerArrayList.get(i));
                         }
                         catch (Exception ignore) {
                             runOnUiThread(() -> {
-                                ((Button) findViewById(R.id.act_visit_confirm_button)).setEnabled(true);
+                                findViewById(R.id.act_visit_confirm_button).setEnabled(true);
                                 Toast.makeText(VisitorActivity.this, "Non numeric values", Toast.LENGTH_SHORT).show();
                             });
                             return;
                         }
                         if (value < widgetArrayList.get(i).getMinPoint() || value > widgetArrayList.get(i).getMaxPoint()) {
                             runOnUiThread(() -> {
-                                ((Button) findViewById(R.id.act_visit_confirm_button)).setEnabled(true);
+                                findViewById(R.id.act_visit_confirm_button).setEnabled(true);
                                 Toast.makeText(VisitorActivity.this, "Incorrect numeric values", Toast.LENGTH_SHORT).show();
                             });
                             return;
@@ -132,12 +132,8 @@ public class VisitorActivity extends AppCompatActivity {
                     widgetAnswer.add(new WidgetAnswer(widgetArrayList.get(i).get_id(), answerArrayList.get(i)));
                 }
 
-                //String tmp = new Gson().toJson(new FormAnswer(widgetAnswer), FormAnswer.class);
                 String answerData = new Gson().toJson(new FormAnswer(widgetAnswer));
                 answerData = answerData.substring(10, answerData.length()-1);//retire "result:"
-
-                //JsonElement jelem = (new Gson()).fromJson(answerData, FormAnswer.class);
-                //JsonObject jobj = jelem.getAsJsonObject();
 
                 FormApiService apiInterface = Api.getClient().create(FormApiService.class);
 
@@ -145,12 +141,12 @@ public class VisitorActivity extends AppCompatActivity {
 
                 runOnUiThread(() -> {
                     Toast.makeText(VisitorActivity.this, R.string.api_call, Toast.LENGTH_SHORT).show();
-                    ((Button) findViewById(R.id.act_visit_confirm_button)).setEnabled(false);
+                    findViewById(R.id.act_visit_confirm_button).setEnabled(false);
                 });
 
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    public void onResponse(@NotNull Call<JsonObject> call, @NotNull Response<JsonObject> response) {
                         if (response.code() == 200)
                             runOnUiThread(() -> {
                                 Toast.makeText(VisitorActivity.this, "Successfully send answer", Toast.LENGTH_SHORT).show();
@@ -158,15 +154,16 @@ public class VisitorActivity extends AppCompatActivity {
                             });//fini : revient à l'écran principal
                         else {
                             runOnUiThread(() -> {
+                                assert response.body() != null;
                                 String str = response.body().get("message").toString();
                                 Toast.makeText(VisitorActivity.this, str, Toast.LENGTH_SHORT).show();
-                                ((Button) findViewById(R.id.act_visit_confirm_button)).setEnabled(true);
+                                findViewById(R.id.act_visit_confirm_button).setEnabled(true);
                             });
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                    public void onFailure(@NotNull Call<JsonObject> call, @NotNull Throwable t) {
                         call.cancel();
                     }
                 });

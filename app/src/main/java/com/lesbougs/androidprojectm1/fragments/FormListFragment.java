@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +17,6 @@ import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.interfaces.UserAccess;
 import com.lesbougs.androidprojectm1.model.Form;
 import com.lesbougs.androidprojectm1.model.User;
-import com.lesbougs.androidprojectm1.model.Widget;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -38,9 +36,9 @@ public class FormListFragment extends Fragment {
         assert getActivity() != null;
         assert ((AppCompatActivity) getActivity()).getSupportActionBar() != null;
         String str = "Welcome "+currentUser.getUsername()+"!";
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(str);
+        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setTitle(str);
 
-        RecyclerView recyclerView = (RecyclerView)  view.findViewById(R.id.frag_form_list_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.frag_form_list_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         ArrayList<Form> formArrayList = new ArrayList<>(currentUser.getForms());
@@ -53,7 +51,7 @@ public class FormListFragment extends Fragment {
         adapter.notifyDataSetChanged();
 
 
-        ((Button) view.findViewById(R.id.buttonCreateForm)).setOnClickListener(v ->
+        view.findViewById(R.id.buttonCreateForm).setOnClickListener(v ->
                 ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
                         .loadFragment(new FormCreateFragment(), true)
         );

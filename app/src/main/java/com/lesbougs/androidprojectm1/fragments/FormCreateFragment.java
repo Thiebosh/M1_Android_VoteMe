@@ -2,7 +2,6 @@ package com.lesbougs.androidprojectm1.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -44,21 +42,16 @@ import retrofit2.Response;
 
 public class FormCreateFragment extends Fragment {
 
-
     private final Executor mBackgroundThread = Executors.newSingleThreadExecutor();
     private String mActualWidgetType = "";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_form_create, container, false);
-
 
         User currentUser = ((UserAccess) Objects.requireNonNull(getActivity())).getUser();//get data
 
-
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewAllFormAdded);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewAllFormAdded);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         ArrayList<Widget> widgetArrayList = new ArrayList<>();
@@ -66,16 +59,16 @@ public class FormCreateFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-        Button buttonSave = (Button) view.findViewById(R.id.frag_form_edit_save);
+        Button buttonSave = view.findViewById(R.id.frag_form_edit_save);
 
 
-        TextInputEditText titleTextField = (TextInputEditText) view.findViewById(R.id.edititleForm);
+        TextInputEditText titleTextField = view.findViewById(R.id.edititleForm);
 
 
         buttonSave.setOnClickListener((view1) -> {
             recyclerView.clearFocus();
 
-            if (titleTextField.getText().toString().equals("")) {
+            if (Objects.requireNonNull(titleTextField.getText()).toString().equals("")) {
                 Toast.makeText(getContext(), "No form title!", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -103,9 +96,8 @@ public class FormCreateFragment extends Fragment {
                     JsonObject item = new JsonObject();
                     if (elem.getType() == 0) {
                         if (elem.getQuestion() == null) {
-                            getActivity().runOnUiThread(() -> {
-                                Toast.makeText(getContext(), "Empty question field on widget!", Toast.LENGTH_SHORT).show();
-                            });
+                            getActivity().runOnUiThread(() ->
+                                    Toast.makeText(getContext(), "Empty question field on widget!", Toast.LENGTH_SHORT).show());
                             return;
                         }
                         item.addProperty("type", 0);
@@ -113,15 +105,13 @@ public class FormCreateFragment extends Fragment {
                     }
                     else if (elem.getType() == 1) {
                         if (elem.getQuestion() == null) {
-                            getActivity().runOnUiThread(() -> {
-                                Toast.makeText(getContext(), "Empty question field on widget!", Toast.LENGTH_SHORT).show();
-                            });
+                            getActivity().runOnUiThread(() ->
+                                Toast.makeText(getContext(), "Empty question field on widget!", Toast.LENGTH_SHORT).show());
                             return;
                         }
                         if (elem.getMinPoint() >= elem.getMaxPoint()) {
-                            getActivity().runOnUiThread(() -> {
-                                Toast.makeText(getContext(), "Min not lower than max on widget!", Toast.LENGTH_SHORT).show();
-                            });
+                            getActivity().runOnUiThread(() ->
+                                Toast.makeText(getContext(), "Min not lower than max on widget!", Toast.LENGTH_SHORT).show());
                             return;
                         }
                         item.addProperty("type", 1);
@@ -135,10 +125,9 @@ public class FormCreateFragment extends Fragment {
 
                 FormApiService apiInterface = Api.getClient().create(FormApiService.class);
 
-                Call<JsonObject> call = apiInterface.createForm(currentUser.getHeaderPayload(), currentUser.getSignature(), (JsonObject) json);
-                Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
-                    Toast.makeText(getContext(), R.string.api_call, Toast.LENGTH_SHORT).show();
-                });
+                Call<JsonObject> call = apiInterface.createForm(currentUser.getHeaderPayload(), currentUser.getSignature(), json);
+                Objects.requireNonNull(getActivity()).runOnUiThread(() ->
+                    Toast.makeText(getContext(), R.string.api_call, Toast.LENGTH_SHORT).show());
 
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
@@ -164,6 +153,7 @@ public class FormCreateFragment extends Fragment {
                         }
                         else {
                             Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+                                assert object != null;
                                 Toast.makeText(getContext(), object.get("message").toString(), Toast.LENGTH_SHORT).show();
                             });
                         }
@@ -177,15 +167,15 @@ public class FormCreateFragment extends Fragment {
             });
         });
 
-        ((FloatingActionButton) view.findViewById(R.id.floatingActionButton)).setOnClickListener(v -> {
+        view.findViewById(R.id.floatingActionButton).setOnClickListener(v -> {
             String[] type = {"Grade", "Text"};
             final Dialog dialog = new Dialog(getContext());
             dialog.setContentView(R.layout.item_pop_create_form);
             ArrayAdapter adapterType = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, type);
 
 
-            Button buttonAddForm = (Button) dialog.findViewById(R.id.buttonAddForm);
-            Button buttonCancel = (Button) dialog.findViewById(R.id.buttonCancel);
+            Button buttonAddForm = dialog.findViewById(R.id.buttonAddForm);
+            Button buttonCancel = dialog.findViewById(R.id.buttonCancel);
 
             buttonAddForm.setOnClickListener((view1) -> {
                 Widget w = new Widget();
@@ -208,7 +198,7 @@ public class FormCreateFragment extends Fragment {
 
             buttonCancel.setOnClickListener((view1) -> dialog.dismiss());
 
-            AutoCompleteTextView autoComplete = (AutoCompleteTextView) dialog.findViewById(R.id.chooseTypeOfWidget);
+            AutoCompleteTextView autoComplete = dialog.findViewById(R.id.chooseTypeOfWidget);
             autoComplete.setAdapter(adapterType);
             autoComplete.setThreshold(1);
 
@@ -223,7 +213,7 @@ public class FormCreateFragment extends Fragment {
         });
 
 
-        ((Button) view.findViewById(R.id.frag_form_come_back)).setOnClickListener(v ->
+        view.findViewById(R.id.frag_form_come_back).setOnClickListener(v ->
                 ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
                         .loadFragment(new FormListFragment(), true)
         );

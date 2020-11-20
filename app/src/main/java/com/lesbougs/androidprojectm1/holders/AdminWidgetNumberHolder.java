@@ -2,14 +2,11 @@ package com.lesbougs.androidprojectm1.holders;
 
 import android.text.Editable;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.adapters.AdminWidgetAdapter;
 import com.lesbougs.androidprojectm1.model.Widget;

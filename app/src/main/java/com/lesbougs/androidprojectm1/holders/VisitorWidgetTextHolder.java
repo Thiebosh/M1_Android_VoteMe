@@ -6,7 +6,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.model.Widget;
 

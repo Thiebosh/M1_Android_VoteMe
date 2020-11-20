@@ -3,11 +3,8 @@ package com.lesbougs.androidprojectm1;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -20,7 +17,8 @@ import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.interfaces.Constants;
 import com.lesbougs.androidprojectm1.model.Api;
 
-import java.time.LocalDateTime;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -30,25 +28,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
-/*
-    public static final String SHARED_PREFERENCES_FILE_NAME = "appNameSharedPrefs";
-    public static final String PREF_LOGIN = "prefLogin";
-
-    private SharedPreferences getSharedPreferences() {
-        return HomeActivity.this.getSharedPreferences(SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
-    }
-
-    public String getFormCode() {
-        final SharedPreferences prefs = getSharedPreferences();
-        return prefs.getString(PREF_LOGIN, null);
-    }
-
-    public void setFormCode(String login) {
-        final SharedPreferences prefs = getSharedPreferences();
-        prefs.edit().putString(PREF_LOGIN, login).apply();
-    }
-
- */
 
     /*
      * Section menu
@@ -85,21 +64,13 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        /*
-        String test = getFormCode();
-        if (test != null) {
-            //Log.d("")
-            //mFormCodeEditText.setText(test);
-        }
-         */
-
         mFormCodeTextField = findViewById(R.id.act_home_form_code_text_input);
         mFormCodeEditText = findViewById(R.id.act_home_form_code_edit_text);
         mFormCodeButton = findViewById(R.id.act_home_form_button);
 
         mFormCodeEditText.setOnFocusChangeListener((v, focus) -> mFormCodeTextField.setError(null));
 
-        ((Button) findViewById(R.id.act_home_form_button)).setOnClickListener(v -> {
+        findViewById(R.id.act_home_form_button).setOnClickListener(v -> {
             final String formCode = Objects.requireNonNull(mFormCodeEditText.getText()).toString();
 
             if (isFormCodeInvalid(formCode.length(), mFormCodeTextField)) return;
@@ -115,7 +86,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    public void onResponse(@NotNull Call<JsonObject> call, @NotNull Response<JsonObject> response) {
                         JsonObject object = response.body();
                         if (response.code() == 200) {
                             //prepare nouvelle activity
@@ -143,7 +114,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                    public void onFailure(@NotNull Call<JsonObject> call, @NotNull Throwable t) {
                         call.cancel();
                     }
                 });

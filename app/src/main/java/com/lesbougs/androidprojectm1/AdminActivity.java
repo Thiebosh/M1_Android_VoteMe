@@ -8,16 +8,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.fragments.LoginFragment;
 import com.lesbougs.androidprojectm1.interfaces.UserAccess;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.model.User;
 
-import java.util.Objects;
 import java.util.Stack;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 
 public class AdminActivity extends AppCompatActivity implements FragmentSwitcher, UserAccess {

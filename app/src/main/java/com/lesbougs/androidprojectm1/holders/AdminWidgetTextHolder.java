@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.adapters.AdminWidgetAdapter;
 import com.lesbougs.androidprojectm1.model.Widget;
@@ -37,6 +36,7 @@ public class AdminWidgetTextHolder extends RecyclerView.ViewHolder {
             if (!focus) {
                 final Editable answer = mQuestion.getText();
                 try {
+                    assert answer != null;
                     widget.setQuestion(answer.toString());
                 }
                 catch (Exception ignore) {

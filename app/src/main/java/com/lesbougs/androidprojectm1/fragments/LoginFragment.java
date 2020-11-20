@@ -24,6 +24,8 @@ import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.model.Api;
 import com.lesbougs.androidprojectm1.model.User;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executor;
@@ -65,7 +67,7 @@ public class LoginFragment extends Fragment {
         final TextInputEditText passwordEditText = view.findViewById(R.id.frag_log_password_edit_text);
 
         final CheckBox saveLoginCheckBox = view.findViewById(R.id.frag_log_remember_checkbox);
-        SharedPreferences loginPreferences = getContext().getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        SharedPreferences loginPreferences = Objects.requireNonNull(getContext()).getSharedPreferences("loginPrefs", MODE_PRIVATE);
         SharedPreferences.Editor loginPrefsEditor = loginPreferences.edit();
 
         boolean saveLogin = loginPreferences.getBoolean("saveLogin", false);
@@ -118,7 +120,7 @@ public class LoginFragment extends Fragment {
 
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    public void onResponse(@NotNull Call<JsonObject> call, @NotNull Response<JsonObject> response) {
                         JsonObject object = response.body();
 
                         List<String> Cookielist = response.headers().values("Set-Cookie");
@@ -146,7 +148,7 @@ public class LoginFragment extends Fragment {
                             } else {
                                 loginPrefsEditor.clear();
                             }
-                            loginPrefsEditor.commit();
+                            loginPrefsEditor.apply();
 
                             getActivity().runOnUiThread(() ->
                                 ((FragmentSwitcher) Objects.requireNonNull(getActivity()))
@@ -164,7 +166,7 @@ public class LoginFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                    public void onFailure(@NotNull Call<JsonObject> call, @NotNull Throwable t) {
                         call.cancel();
                     }
                 });
