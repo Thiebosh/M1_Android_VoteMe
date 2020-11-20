@@ -13,11 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lesbougs.androidprojectm1.R;
-import com.lesbougs.androidprojectm1.adapter.AdapterAdminResult;
-import com.lesbougs.androidprojectm1.adapters.AdminFormAdapter;
+import com.lesbougs.androidprojectm1.adapters.AdminResultAdapter;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.interfaces.UserAccess;
-import com.lesbougs.androidprojectm1.model.Form;
 import com.lesbougs.androidprojectm1.model.User;
 import com.lesbougs.androidprojectm1.model.Widget;
 
@@ -26,9 +24,11 @@ import java.util.Objects;
 
 public class FormResultFragment extends Fragment {
 
-    ArrayList<Widget> mWidget;
+    private ArrayList<Widget> mWidget;
+    private String mFormName;
 
-    public FormResultFragment(ArrayList<Widget> widget) {
+    public FormResultFragment(String formName, ArrayList<Widget> widget) {
+        this.mFormName = formName;
         this.mWidget = widget;
     }
 
@@ -38,34 +38,16 @@ public class FormResultFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        User current = ((UserAccess) getActivity()).getUser();//get data
-
         View view = inflater.inflate(R.layout.fragment_form_result, container, false);
+
+        ((TextView) view.findViewById(R.id.textViewNameForm)).setText(getString(R.string.admin_title_result_form, mFormName));
 
         RecyclerView recyclerView = (RecyclerView)  view.findViewById(R.id.frag_form_result_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-
-
-        AdapterAdminResult customAdapter = new AdapterAdminResult(mWidget,getContext());
+        AdminResultAdapter customAdapter = new AdminResultAdapter(mWidget,getContext());
         recyclerView.setAdapter(customAdapter);
-
-
-        /*
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.frag_form_result_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        ArrayList<Widget> formArrayList = new ArrayList<>(mWidget);
-        AdminWidgetResultAdapter adapter = new AdminWidgetResultAdapter(getActivity(),
-                getContext(),
-                formArrayList,
-                currentUser.getHeaderPayload(),
-                currentUser.getSignature());
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        */
-
 
 
         ((Button) view.findViewById(R.id.frag_form_result_returnButton)).setOnClickListener(v ->
