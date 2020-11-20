@@ -135,7 +135,7 @@ public class FormCreateFragment extends Fragment {
                                 actualUser.setHeaderPayload(headerPayload);
 
                                 String signature =currentUser.getSignature();
-                                actualUser.setSignature(headerPayload);
+                                actualUser.setSignature(signature);
 
 
                                 ((UserAccess) Objects.requireNonNull(getActivity())).setUser(actualUser);
