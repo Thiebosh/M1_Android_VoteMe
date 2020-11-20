@@ -4,21 +4,29 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.JsonObject;
 import com.lesbougs.androidprojectm1.R;
+import com.lesbougs.androidprojectm1.adapters.AdminFormAdapter;
 import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.fragments.FormResultFragment;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
+import com.lesbougs.androidprojectm1.interfaces.UserAccess;
 import com.lesbougs.androidprojectm1.model.Api;
 import com.lesbougs.androidprojectm1.model.Form;
+import com.lesbougs.androidprojectm1.model.User;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 
@@ -33,6 +41,7 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
     private final TextView textViewCodeForm;
     private final MaterialButton mButtonClosed;
     private final Button mShowResult;
+    private final MaterialButton mButtonDelete;
 
     public AdminFormHolder(View itemView) {
         super(itemView);
@@ -41,6 +50,7 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
         mButtonClosed = (MaterialButton) itemView.findViewById(R.id.button_closed);
         mShowResult = (Button) itemView.findViewById(R.id.button_show_result);
         textViewCodeForm = (TextView) itemView.findViewById(R.id.textViewCodeForm);
+        mButtonDelete = (MaterialButton) itemView.findViewById(R.id.button_delete);
 
         itemView.setOnClickListener(view -> {
             //handle click event
@@ -48,7 +58,10 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void setDetails(Form form, Activity activity, Context context, String userPayload, String userSignature) {
+    public void setDetails(Activity activity, Context context, String userPayload, String userSignature, ArrayList<Form> forms, int position, AdminFormAdapter adapter) {
+        Form form = forms.get(position);
+        User currentUser = ((UserAccess) Objects.requireNonNull(activity)).getUser();//get data
+
         mNameForm.setText(form.getTitle());
         String code = "Code : " + form.getSmallId();
 
@@ -60,7 +73,40 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
                 .loadFragment(new FormResultFragment(form.getTitle(), form.getWidget()), true)
         ));
 
-        UpdateRecycler(context, form.isClosed());
+        mButtonDelete.setOnClickListener(view -> {
+            (Executors.newSingleThreadExecutor()).execute(() -> {
+                FormApiService apiInterface = Api.getClient().create(FormApiService.class);
+
+                Call<JsonObject> call = apiInterface.deleteForm(userPayload, userSignature, form.get_id());
+
+                call.enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if (response.code() == 200) {
+                            activity.runOnUiThread(() ->
+                                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show());
+
+                            forms.remove(position);
+
+                            currentUser.getForms().remove(position);
+
+                            adapter.notifyDataSetChanged();
+                        }
+                        else {
+                            activity.runOnUiThread(() ->
+                                    Toast.makeText(context, Objects.requireNonNull(response.body()).get("message").getAsString(), Toast.LENGTH_SHORT).show());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        call.cancel();
+                    }
+                });
+            });
+        });
+
+        updateAccessDisplay(context, form.isClosed());
 
         mButtonClosed.setOnClickListener(view -> {
             //call next fragment with data transfer
@@ -84,7 +130,7 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
                                     Toast.makeText(context, "Form is open", Toast.LENGTH_SHORT).show());
                             }
 
-                            UpdateRecycler(context, form.isClosed());
+                            updateAccessDisplay(context, form.isClosed());
                         }
                         else {
                             activity.runOnUiThread(() ->
@@ -101,7 +147,7 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void UpdateRecycler(Context context, boolean newValue) {
+    public void updateAccessDisplay(Context context, boolean newValue) {
         if (newValue) {
             mButtonClosed.setIcon(context.getDrawable(R.drawable.ic_baseline_lock_12));
             mButtonClosed.setBackgroundColor(context.getColor(R.color.red));

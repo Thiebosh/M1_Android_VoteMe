@@ -41,7 +41,7 @@ public class AdminFormAdapter extends RecyclerView.Adapter<AdminFormHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull AdminFormHolder holder, int position) {
-        holder.setDetails(mForms.get(position), mActivity, mContext, mUserPayload, mUserSignature);
+        holder.setDetails(mActivity, mContext, mUserPayload, mUserSignature, mForms, position, this);
     }
 
     @Override
