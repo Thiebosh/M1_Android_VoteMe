@@ -27,6 +27,7 @@ import com.lesbougs.androidprojectm1.api.FormApiService;
 import com.lesbougs.androidprojectm1.interfaces.FragmentSwitcher;
 import com.lesbougs.androidprojectm1.interfaces.UserAccess;
 import com.lesbougs.androidprojectm1.model.Api;
+import com.lesbougs.androidprojectm1.model.Form;
 import com.lesbougs.androidprojectm1.model.User;
 import com.lesbougs.androidprojectm1.model.Widget;
 
@@ -78,7 +79,14 @@ public class FormCreateFragment extends Fragment {
                 Toast.makeText(getContext(), "No form title!", Toast.LENGTH_SHORT).show();
                 return;
             }
-            //if title déjà pris
+            else {
+                for(Form form : currentUser.getForms()) {
+                    if (form.getTitle().equals(titleTextField.getText().toString())) {
+                        Toast.makeText(getContext(), "Already used form title!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+            }
 
             if (widgetArrayList.isEmpty()) {
                 Toast.makeText(getContext(), "No widget on form!", Toast.LENGTH_SHORT).show();
