@@ -37,7 +37,7 @@ public class FormListFragment extends Fragment {
 
         assert getActivity() != null;
         assert ((AppCompatActivity) getActivity()).getSupportActionBar() != null;
-        String str = "VoteMe - "+currentUser.getUsername();
+        String str = "Welcome "+currentUser.getUsername()+"!";
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(str);
 
         RecyclerView recyclerView = (RecyclerView)  view.findViewById(R.id.frag_form_list_recycler_view);

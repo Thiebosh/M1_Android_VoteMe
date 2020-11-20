@@ -104,18 +104,6 @@ public class LoginFragment extends Fragment {
             }
             if (!isValid) return;
 
-            String savedUsername = usernameEditText.getText().toString();
-            String savedPassword = passwordEditText.getText().toString();
-
-            if (saveLoginCheckBox.isChecked()) {
-                loginPrefsEditor.putBoolean("saveLogin", true);
-                loginPrefsEditor.putString("username", savedUsername);
-                loginPrefsEditor.putString("password", savedPassword);
-            } else {
-                loginPrefsEditor.clear();
-            }
-            loginPrefsEditor.commit();
-
             mBackgroundThread.execute(() -> {
                 final String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
@@ -147,6 +135,18 @@ public class LoginFragment extends Fragment {
                             actualUser.setSignature(signature);
 
                             ((UserAccess) Objects.requireNonNull(getActivity())).setUser(actualUser);//save on activity
+
+                            String savedUsername = usernameEditText.getText().toString();
+                            String savedPassword = passwordEditText.getText().toString();
+
+                            if (saveLoginCheckBox.isChecked()) {
+                                loginPrefsEditor.putBoolean("saveLogin", true);
+                                loginPrefsEditor.putString("username", savedUsername);
+                                loginPrefsEditor.putString("password", savedPassword);
+                            } else {
+                                loginPrefsEditor.clear();
+                            }
+                            loginPrefsEditor.commit();
 
                             getActivity().runOnUiThread(() ->
                                 ((FragmentSwitcher) Objects.requireNonNull(getActivity()))

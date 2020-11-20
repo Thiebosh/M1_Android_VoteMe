@@ -69,6 +69,8 @@ public class VisitorWidgetAdapter extends RecyclerView.Adapter<RecyclerView.View
             });
         }
         else {
+            ((VisitorWidgetNumberHolder) holder).setDetails(mWidgets.get(position));
+
             ((VisitorWidgetNumberHolder) holder).mAnswerInput.setOnFocusChangeListener((v, focus) -> {
                 if (!focus) {
                     final Editable answer = ((VisitorWidgetNumberHolder) holder).mAnswerInput.getText();
