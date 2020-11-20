@@ -51,7 +51,7 @@
     <string name="admin_button_close">Close</string>
     <string name="admin_button_show_result">Results</string>
     <string name="admin_button_create_form">New form</string>
-    <string name="admin_button_back_to_list">Come back to the list</string>
+    <string name="admin_button_back_to_list">Back to list</string>
     <string name="admin_title_result_form">Answers to form <xliff:g id="form_name">%1$s</xliff:g></string>
     <string name="admin_button_save_form">Save form</string>
     <string name="admin_button_add_form">Add form</string>

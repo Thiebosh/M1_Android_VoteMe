@@ -81,13 +81,6 @@
             app:layout_constraintTop_toBottomOf="@+id/frag_log_password_text_input">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/frag_log_next_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="@string/button_next" />
-
-            <com.google.android.material.button.MaterialButton
                 android:id="@+id/frag_log_cancel_button"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
@@ -95,6 +88,14 @@
                 android:layout_marginEnd="12dp"
                 android:layout_toStartOf="@id/frag_log_next_button"
                 android:text="@string/button_cancel" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/frag_log_next_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="@string/button_next" />
+
         </RelativeLayout>
 
 
