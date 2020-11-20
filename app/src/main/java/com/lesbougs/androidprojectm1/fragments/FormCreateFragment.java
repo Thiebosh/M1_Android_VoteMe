@@ -137,8 +137,6 @@ public class FormCreateFragment extends Fragment {
                                 String signature =currentUser.getSignature();
                                 actualUser.setSignature(headerPayload);
 
-                                Log.d("TAG",actualUser+"");
-                                Log.d("TAG",object+"");
 
                                 ((UserAccess) Objects.requireNonNull(getActivity())).setUser(actualUser);
 
@@ -147,7 +145,6 @@ public class FormCreateFragment extends Fragment {
                                 });
 
                             } else {
-                                Log.d("TAG", json.toString());
                                 Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
                                     Toast.makeText(getContext(), object.get("message").toString(), Toast.LENGTH_SHORT).show();
                                 });
