@@ -14,8 +14,8 @@ import com.lesbougs.androidprojectm1.model.Widget;
 
 public class AdminWidgetNumberHolder extends RecyclerView.ViewHolder {
 
-    private  TextInputEditText mQuestion;
-    private  TextInputEditText mMaxPoint;
+    private TextInputEditText mQuestion;
+    private TextInputEditText mMaxPoint;
     private TextInputEditText mMinPoint;
 
     public AdminWidgetNumberHolder(View itemView) {
@@ -24,7 +24,6 @@ public class AdminWidgetNumberHolder extends RecyclerView.ViewHolder {
         mQuestion = itemView.findViewById(R.id.editTextQuestion);
         mMaxPoint = itemView.findViewById(R.id.editTextNumberMaxGrade);
         mMinPoint = itemView.findViewById(R.id.editTextNumberMinGrade);
-
     }
 
     public TextInputEditText getmQuestion() {

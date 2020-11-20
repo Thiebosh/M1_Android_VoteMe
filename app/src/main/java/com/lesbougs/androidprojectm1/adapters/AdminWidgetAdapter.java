@@ -60,8 +60,6 @@ public class AdminWidgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        Log.d("TAG",holder.toString());
-
         if (getItemViewType(position) == TYPE_TEXT) {
             AdminWidgetTextHolder finalHolder = (AdminWidgetTextHolder) holder;
 
@@ -71,10 +69,6 @@ public class AdminWidgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     mWidgets.get(position).setQuestion(answer.toString());
                 }
             });
-
-
-
-
         }
         else if (getItemViewType(position) == TYPE_POINT) {
             AdminWidgetNumberHolder finalHolder = (AdminWidgetNumberHolder) holder;
@@ -85,23 +79,22 @@ public class AdminWidgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
             });
 
-            finalHolder.getmMaxPoint().setOnFocusChangeListener((v, focus) -> {
-                if (!focus) {
-                    final Editable answer = finalHolder.getmMaxPoint().getText();
-                    mWidgets.get(position).setMaxPoint( Integer.parseInt(answer.toString()) );
-                }
-            });
-
             finalHolder.getmMinPoint().setOnFocusChangeListener((v, focus) -> {
+                Log.d("testy", "listener 1");
                 if (!focus) {
                     final Editable answer = finalHolder.getmMinPoint().getText();
                     mWidgets.get(position).setMinPoint(Integer.parseInt(answer.toString()));
                 }
             });
 
+            finalHolder.getmMaxPoint().setOnFocusChangeListener((v, focus) -> {
+                Log.d("testy", "listener 2");
+                if (!focus) {
+                    final Editable answer = finalHolder.getmMaxPoint().getText();
+                    mWidgets.get(position).setMaxPoint( Integer.parseInt(answer.toString()) );
+                }
+            });
         }
-
-
     }
 
     @Override
