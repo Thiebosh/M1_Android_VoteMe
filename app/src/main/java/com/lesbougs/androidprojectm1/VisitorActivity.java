@@ -104,18 +104,26 @@ public class VisitorActivity extends AppCompatActivity {
                     if (answerArrayList.get(i).equals("")) {
                         runOnUiThread(() -> {
                             ((Button) findViewById(R.id.act_visit_confirm_button)).setEnabled(true);
-                            Toast.makeText(VisitorActivity.this, "champs vides", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(VisitorActivity.this, "Empty fields remaining", Toast.LENGTH_SHORT).show();
                         });
                         return;
                     }
                     if (widgetArrayList.get(i).getType() == 1) {
-                        float value = Float.parseFloat(answerArrayList.get(i));
-                        if (value != (int) value ||
-                                value < widgetArrayList.get(i).getMinPoint() ||
-                                value > widgetArrayList.get(i).getMaxPoint()) {
+                        int value = 0;
+                        try {
+                            value = Integer.parseInt(answerArrayList.get(i));
+                        }
+                        catch (Exception ignore) {
                             runOnUiThread(() -> {
                                 ((Button) findViewById(R.id.act_visit_confirm_button)).setEnabled(true);
-                                Toast.makeText(VisitorActivity.this, "champs vides", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(VisitorActivity.this, "Non numeric values", Toast.LENGTH_SHORT).show();
+                            });
+                            return;
+                        }
+                        if (value < widgetArrayList.get(i).getMinPoint() || value > widgetArrayList.get(i).getMaxPoint()) {
+                            runOnUiThread(() -> {
+                                ((Button) findViewById(R.id.act_visit_confirm_button)).setEnabled(true);
+                                Toast.makeText(VisitorActivity.this, "Incorrect numeric values", Toast.LENGTH_SHORT).show();
                             });
                             return;
                         }
@@ -144,7 +152,10 @@ public class VisitorActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         if (response.code() == 200)
-                            runOnUiThread(() -> onBackPressed());//fini : revient à l'écran principal
+                            runOnUiThread(() -> {
+                                Toast.makeText(VisitorActivity.this, "Successfully send answer", Toast.LENGTH_SHORT).show();
+                                onBackPressed();
+                            });//fini : revient à l'écran principal
                         else {
                             runOnUiThread(() -> {
                                 String str = response.body().get("message").toString();
