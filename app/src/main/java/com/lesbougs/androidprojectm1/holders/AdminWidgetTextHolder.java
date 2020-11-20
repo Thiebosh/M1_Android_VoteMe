@@ -1,5 +1,6 @@
 package com.lesbougs.androidprojectm1.holders;
 
+import android.text.Editable;
 import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,12 +26,17 @@ public class AdminWidgetTextHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public TextInputEditText getmQuestion() {
-        return mQuestion;
-    }
+    public void setDetails(Widget widget) {
+        mQuestion.setOnFocusChangeListener((v, focus) -> {
+            if (!focus) {
+                final Editable answer = mQuestion.getText();
+                try {
+                    widget.setQuestion(answer.toString());
+                }
+                catch (Exception ignore) {
 
-    public void setmQuestion(TextInputEditText mQuestion) {
-        this.mQuestion = mQuestion;
+                }
+            }
+        });
     }
-
 }

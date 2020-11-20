@@ -57,6 +57,7 @@ public class VisitorWidgetAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        //pas dans set details car touche à mAnswers
         if (getItemViewType(position) == TYPE_TEXT) {
             ((VisitorWidgetTextHolder) holder).setDetails(mWidgets.get(position));
 
@@ -68,8 +69,6 @@ public class VisitorWidgetAdapter extends RecyclerView.Adapter<RecyclerView.View
             });
         }
         else {
-            ((VisitorWidgetNumberHolder) holder).setDetails(mWidgets.get(position));
-
             ((VisitorWidgetNumberHolder) holder).mAnswerInput.setOnFocusChangeListener((v, focus) -> {
                 if (!focus) {
                     final Editable answer = ((VisitorWidgetNumberHolder) holder).mAnswerInput.getText();
