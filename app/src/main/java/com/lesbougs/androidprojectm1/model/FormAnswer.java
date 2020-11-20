@@ -9,6 +9,7 @@ public class FormAnswer {
         this.result = widgetAnswers;
     }
 
+
     public ArrayList<WidgetAnswer> getWidgetAnswers() {
         return result;
     }

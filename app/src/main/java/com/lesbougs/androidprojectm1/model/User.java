@@ -15,6 +15,17 @@ public class User {
     public String signature;
     public String headerPayload;
 
+    public User(String _id, String username, String creationDate, LocalDateTime date, ArrayList<Form> forms, int type, String signature, String headerPayload) {
+        this._id = _id;
+        this.username = username;
+        this.creationDate = creationDate;
+        this.date = date;
+        this.forms = forms;
+        this.type = type;
+        this.signature = signature;
+        this.headerPayload = headerPayload;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -32,6 +43,8 @@ public class User {
     public String getHeaderPayload() { return headerPayload; }
 
     public String getId() { return _id; }
+
+
 
 
     public String getCreationDate() {

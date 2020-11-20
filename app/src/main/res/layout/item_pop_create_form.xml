@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView2"
+        android:id="@+id/recyclerViewPopup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toBottomOf="@+id/chooseTypeOfWidget">
@@ -25,24 +25,24 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_cancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView2" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewPopup" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonAddForm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/admin_button_add_form"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView2" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewPopup" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
