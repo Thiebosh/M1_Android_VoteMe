@@ -64,8 +64,6 @@ public class AdminFormHolder extends RecyclerView.ViewHolder {
 
         mNameForm.setText(form.getTitle());
         String code = "Code : " + form.getSmallId();
-
-        Log.d("TAG",code);
         textViewCodeForm.setText(code);
 
         mShowResult.setOnClickListener(view -> activity.runOnUiThread(() ->
