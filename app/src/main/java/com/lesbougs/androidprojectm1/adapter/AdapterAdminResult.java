@@ -2,8 +2,6 @@ package com.lesbougs.androidprojectm1.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.media.MediaPlayer;
-import android.os.Debug;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +11,11 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.lesbougs.androidprojectm1.R;
 import com.lesbougs.androidprojectm1.model.Widget;
 
@@ -83,10 +76,10 @@ public class AdapterAdminResult extends RecyclerView.Adapter {
 
         switch (viewType) {
             case 0:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_result_type_0, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_result_widget_text, parent, false);
                 return new Type0(view);
             case 1:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_result_type_1, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_result_widget_number, parent, false);
                 return new Type1(view);
         }
         return null;
