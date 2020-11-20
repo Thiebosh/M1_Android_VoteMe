@@ -60,6 +60,7 @@ public class AdminWidgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
+        Log.d("TAG",holder.toString());
 
         if (getItemViewType(position) == TYPE_TEXT) {
             AdminWidgetTextHolder finalHolder = (AdminWidgetTextHolder) holder;

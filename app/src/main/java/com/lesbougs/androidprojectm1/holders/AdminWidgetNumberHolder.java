@@ -22,8 +22,8 @@ public class AdminWidgetNumberHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         mQuestion = itemView.findViewById(R.id.editTextQuestion);
-        mMaxPoint = itemView.findViewById(R.id.editTextNumberMinGrade);
-        mMinPoint = itemView.findViewById(R.id.editTextNumberMaxGrade);
+        mMaxPoint = itemView.findViewById(R.id.editTextNumberMaxGrade);
+        mMinPoint = itemView.findViewById(R.id.editTextNumberMinGrade);
 
     }
 
